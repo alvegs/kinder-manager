@@ -83,5 +83,8 @@
 8. Shadows: 
     - Minimal use of shadows 
     - Mainly hover effect on big buttons 
+
+Link to the app layout in figma
+https://www.figma.com/file/65ghgrP9VWHMPuJJWldxGi/Kinder-Manager?node-id=0%3A1
     
 
