@@ -15,7 +15,7 @@
     - The main purpose with the app: 
         - Have an overview of children in the kindergarten
         - Register children as they come / leave for the day 
-        - Register abscense of leave (e.g. if someone sick) 
+        - Register absence of leave (e.g. if someone sick) 
         - Group children by department 
     
     - Order of importance for different elements: 
