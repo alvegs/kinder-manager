@@ -87,4 +87,3 @@
 Link to the app layout in figma
 https://www.figma.com/file/65ghgrP9VWHMPuJJWldxGi/Kinder-Manager?node-id=0%3A1
     
-
