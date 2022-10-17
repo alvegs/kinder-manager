@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Default button to use in the app
+/// Default button to use in the app.
 class CustomRaisedButton extends StatelessWidget {
   final Widget child;
   final Color backgroundColor;
