@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="no.ntnu.mobiledevelopement.group11.kindermanager2">
+    package="no.ntnu.mobiledevelopement.group11.kindermanager">
    <application
-        android:label="kindermanager2"
+        android:label="kindermanager"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
