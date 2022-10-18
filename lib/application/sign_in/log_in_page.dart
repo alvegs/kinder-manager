@@ -1,16 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kindermanager/application/sign_in/email_log_in_form.dart';
 import 'package:kindermanager/application/sign_in/email_sign_in_form.dart';
 
 import '../../common_widgets/custom_raised_button.dart';
 
-class SignInPage extends StatelessWidget {
+class LogInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Sign up page"),
+        title: const Text("Log in page"),
       ),
       body: _buildContent(),
     );
@@ -24,15 +25,15 @@ class SignInPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           const Text(
-            "Sign up",
+            "KM",
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 32.0,
+              fontSize: 80.0,
               fontWeight: FontWeight.w600,
             ),
           ),
           const Text(
-            "Create an account",
+            "Welcome to Kinder!",
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 16.0,
@@ -45,7 +46,7 @@ class SignInPage extends StatelessWidget {
           ),
 
           //ToDo: Implement sign up form...
-          EmailSignInForm(),
+          EmailLogInForm(),
 
           const SizedBox(
             height: 20.0,

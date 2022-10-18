@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import '../../common_widgets/form_submit_button.dart';
 
-class EmailSignInForm extends StatefulWidget{
-  @override _EmailSignInFormState createState() => _EmailSignInFormState();
+class EmailLogInForm extends StatefulWidget{
+  @override _EmailLogInFormState createState() => _EmailLogInFormState();
 }
 
-class _EmailSignInFormState extends State<EmailSignInForm> {
+class _EmailLogInFormState extends State<EmailLogInForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
 
   void _submit() {
     //ToDo: Print email and password
     print("email: ${_emailController.text} ");
     print("Password: ${_passwordController.text} ");
-    print("Confirm Password: ${_confirmPasswordController.text} ");
   }
 
   List<Widget> _buildChildern() {
@@ -31,15 +29,6 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         controller: _passwordController,
         decoration: const InputDecoration(
             labelText: "Password", hintText: "Enter password"),
-        obscureText: true,
-      ),
-      const SizedBox(
-        height: 50.0,
-      ),
-      TextField(
-        controller: _confirmPasswordController,
-        decoration: const InputDecoration(
-            labelText: "Confirm password", hintText: "Confirm password"),
         obscureText: true,
       ),
       const SizedBox(
