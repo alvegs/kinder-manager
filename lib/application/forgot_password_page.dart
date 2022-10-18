@@ -53,6 +53,7 @@ class ForgotPasswordPage extends StatelessWidget {
             ),
             CustomRaisedButton(
               onPressed: () {},
+              height: 52,
               backgroundColor: Colors.green,
               child: Text(
                 "Send",
