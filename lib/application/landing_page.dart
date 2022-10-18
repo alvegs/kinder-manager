@@ -9,6 +9,8 @@ class LandingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// todo check whether the user is logged in return HomePage,
+    /// todo otherwise return this scaffold.
     return Scaffold(
       appBar: AppBar(
         title: const Text("Kinder Manager"),
