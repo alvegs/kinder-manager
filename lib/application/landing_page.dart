@@ -56,6 +56,7 @@ class LandingPage extends StatelessWidget {
 
             /// Button displaying log in
             CustomRaisedButton(
+              height: 52,
                 backgroundColor: Colors.lightGreen,
                 onPressed: () {},
                 child: const Text(
@@ -70,6 +71,7 @@ class LandingPage extends StatelessWidget {
 
             /// Button displaying sign up.
             CustomRaisedButton(
+              height: 52,
                 onPressed: () {},
                 backgroundColor: Colors.lightGreen,
                 child: const Text(

@@ -24,7 +24,7 @@ class SectionDisplay extends StatelessWidget {
         ),
       ),
       onTap: () {
-       print("Pressed section : " + this.title);
+        print("Pressed section : " + this.title);
       },
     );
   }
