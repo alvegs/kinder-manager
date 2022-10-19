@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kindermanager/common_widgets/section_display.dart';
+import 'package:provider/provider.dart';
+
+import '../services/auth.dart';
 
 /// Homepage will be displayed after login,
 /// user will have options to select a section or
@@ -43,7 +46,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisSpacing: 20,
           crossAxisCount: 2,
           children: const <Widget>[
-            /// todo should update to read from dummy data.
+            /// todo should update to read from firebase cloud.
             /// Custom Section widget is used to display sections.
             SectionDisplay(title: "Red", color: Colors.redAccent),
             SectionDisplay(title: "Grey", color: Colors.black12),
@@ -58,9 +61,9 @@ class _HomePageState extends State<HomePage> {
       /// Bottom navigation bar with admin and logout options.
       bottomNavigationBar: BottomNavigationBar(
         elevation: 10,
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           /// Admin icon item
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             /// todo find a better icon to admin access !
             icon: Icon(Icons.settings_applications_sharp),
             label: 'Admin',
@@ -68,7 +71,18 @@ class _HomePageState extends State<HomePage> {
 
           /// Logout icon item
           BottomNavigationBarItem(
-            icon: Icon(Icons.logout),
+            icon: IconButton(
+              onPressed: () {
+                final auth = Provider.of<Auth>(
+                  context,
+                  listen: false,
+                );
+
+                /// todo display a dialog box before signing out the user.
+                auth.signOut();
+              },
+              icon: const Icon(Icons.settings_applications_sharp),
+            ),
             label: 'Logout',
           ),
         ],

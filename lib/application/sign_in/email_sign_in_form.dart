@@ -1,21 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:kindermanager/application/sign_in/log_in_page.dart';
+import 'package:kindermanager/application/sign_in/sign_in_page.dart';
 import 'package:kindermanager/common_widgets/custom_raised_button.dart';
+import 'package:kindermanager/main.dart';
+import 'package:provider/provider.dart';
 import '../../common_widgets/form_submit_button.dart';
+import '../../services/auth.dart';
 
-class EmailSignInForm extends StatefulWidget{
-  @override _EmailSignInFormState createState() => _EmailSignInFormState();
+/// Widget with text fields and submit button to
+/// create a new user.
+class EmailSignInForm extends StatefulWidget {
+  @override
+  _EmailSignInFormState createState() => _EmailSignInFormState();
 }
 
 class _EmailSignInFormState extends State<EmailSignInForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
-  void _submit() {
+  /// Creates a new user with given email and password.
+  void _submit() async {
     //ToDo: Print email and password
     print("email: ${_emailController.text} ");
     print("Password: ${_passwordController.text} ");
     print("Confirm Password: ${_confirmPasswordController.text} ");
+
+    final auth = Provider.of<Auth>(
+      context,
+      listen: false,
+    );
+
+    ///todo check whether both passwords are same.
+    ///todo implement email confirmation.
+    await auth.createUserWithEmail(
+        _emailController.text, _passwordController.text);
+    auth.signOut();
+    Navigator.of(context).pop();
   }
 
   List<Widget> _buildChildern() {
@@ -50,15 +72,21 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         onPressed: _submit,
         backgroundColor: Colors.green,
         height: 52.0,
-        child: const Text(
-            'Sign up'
-        ),
+        child: const Text('Sign up'),
       ),
       const SizedBox(
         height: 16.0,
       ),
+
+      /// Navigates to the LogInPage when pressed.
       TextButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (context) => LogInPage(),
+              ),
+            );
+          },
           child: const Text("Already have an account? Log in!")),
     ];
   }
