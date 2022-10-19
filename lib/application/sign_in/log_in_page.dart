@@ -9,10 +9,10 @@ class LogInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(
-      appBar: AppBar(
+     return Scaffold(
+      /* appBar: AppBar(
         title: const Text("Log in page"),
-      ),
+      ),*/
       body: _buildContent(),
     );
   }
