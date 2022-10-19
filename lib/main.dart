@@ -4,7 +4,7 @@ import 'package:kindermanager/application/email_confirmation_page.dart';
 import 'package:kindermanager/application/forgot_password_page.dart';
 import 'package:kindermanager/application/landing_page.dart';
 import 'package:kindermanager/application/section_start_page.dart';
-import 'package:kindermanager/application/sign_in/email_sign_in_form.dart';
+
 import 'package:kindermanager/application/sign_in/sign_in_page.dart';
 
 import 'application/home_page.dart';
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.lightGreen,
       ),
-      home:  HomePage(),
+      home: SignInPage(),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kindermanager/common_widgets/custom_raised_button.dart';
 import '../../common_widgets/form_submit_button.dart';
 
 class EmailSignInForm extends StatefulWidget{
@@ -45,9 +46,13 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       const SizedBox(
         height: 64.0,
       ),
-      FormSubmitButton(
+      CustomRaisedButton(
         onPressed: _submit,
-        text: 'Sign up!',
+        backgroundColor: Colors.green,
+        height: 52.0,
+        child: const Text(
+            'Sign up'
+        ),
       ),
       const SizedBox(
         height: 16.0,
