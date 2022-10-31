@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kindermanager/common_widgets/custom_raised_button.dart';
+import 'package:kindermanager/common_widgets/custom_button.dart';
 
 /// This page is for confirming your email address after signing up
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'custom_raised_button.dart';
+import 'custom_button.dart';
 
 /// Custom widget to display a section in home page.
 class SectionDisplay extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../common_widgets/custom_raised_button.dart';
+import '../common_widgets/custom_button.dart';
 
 /// Displays a page with count and overview options.
 class SectionStartPage extends StatefulWidget {

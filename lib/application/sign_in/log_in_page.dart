@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kindermanager/application/sign_in/email_log_in_form.dart';
 import 'package:kindermanager/application/sign_in/email_sign_in_form.dart';
 
-import '../../common_widgets/custom_raised_button.dart';
+import '../../common_widgets/custom_button.dart';
 
 class LogInPage extends StatelessWidget {
   @override

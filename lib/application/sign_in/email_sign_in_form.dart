@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kindermanager/application/sign_in/log_in_page.dart';
 import 'package:kindermanager/application/sign_in/sign_in_page.dart';
-import 'package:kindermanager/common_widgets/custom_raised_button.dart';
+import 'package:kindermanager/common_widgets/custom_button.dart';
 import 'package:kindermanager/main.dart';
 import 'package:provider/provider.dart';
-import '../../common_widgets/form_submit_button.dart';
+
 import '../../services/auth.dart';
 
 /// Widget with text fields and submit button to
