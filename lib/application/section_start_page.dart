@@ -4,7 +4,8 @@ import '../common_widgets/custom_raised_button.dart';
 
 /// Displays a page with count and overview options.
 class SectionStartPage extends StatefulWidget {
-  const SectionStartPage({Key? key}) : super(key: key);
+  final String title;
+  const SectionStartPage({Key? key, required this.title}) : super(key: key);
 
   @override
   State<SectionStartPage> createState() => _SectionStartPageState();
@@ -26,7 +27,7 @@ class _SectionStartPageState extends State<SectionStartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Section"),
+        title: Text(widget.title),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

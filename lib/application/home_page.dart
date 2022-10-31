@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kindermanager/common_widgets/section_display.dart';
+import 'package:kindermanager/application/section_start_page.dart';
+import 'package:kindermanager/common_widgets/section_display_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../services/auth.dart';
@@ -26,34 +27,64 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  /// Moves to Section start page.
+  void _onSectionPressed(String title) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (context) => SectionStartPage(title: title),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
         title: const Text("Sections"),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 30.0),
+            child: GestureDetector(
+              onTap: () {
+                // todo make simple account info page.
+              },
+              child: const Icon(
+                Icons.account_box_rounded,
+                size: 35.0,
+              ),
+            ),
+          ),
+        ],
       ),
 
       /// Centers the content of the page.
-      body: Center(
-        /// Displays the content in gridview.
+      body: Padding(
+        padding: const EdgeInsets.only(top: 50, right: 15, left: 15),
         child: GridView.count(
           /// Gridview specifications.
           shrinkWrap: true,
-          primary: false,
-          padding: const EdgeInsets.all(50),
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 20,
           crossAxisCount: 2,
-          children: const <Widget>[
-            /// todo should update to read from firebase cloud.
+          children: <Widget>[
             /// Custom Section widget is used to display sections.
-            SectionDisplay(title: "Red", color: Colors.redAccent),
-            SectionDisplay(title: "Grey", color: Colors.black12),
-            SectionDisplay(title: "Pink", color: Colors.pinkAccent),
-            SectionDisplay(title: "Blue", color: Colors.blue),
-            SectionDisplay(title: "Indigo", color: Colors.indigoAccent),
-            SectionDisplay(title: "Teal", color: Colors.teal),
+            SectionDisplay(
+                title: "Section 1",
+                onPressed: () => _onSectionPressed("Section 1")),
+            SectionDisplay(
+                title: "Section 2",
+                onPressed: () => _onSectionPressed("Section 2")),
+            SectionDisplay(
+                title: "Section 3",
+                onPressed: () => _onSectionPressed("Section 3")),
+            SectionDisplay(
+                title: "Section 4",
+                onPressed: () => _onSectionPressed("Section 4")),
+            SectionDisplay(
+                title: "Section 5",
+                onPressed: () => _onSectionPressed("Section 5")),
+            SectionDisplay(
+                title: "Section 6",
+                onPressed: () => _onSectionPressed("Section 6")),
           ],
         ),
       ),
@@ -64,9 +95,8 @@ class _HomePageState extends State<HomePage> {
         items: <BottomNavigationBarItem>[
           /// Admin icon item
           const BottomNavigationBarItem(
-            /// todo find a better icon to admin access !
-            icon: Icon(Icons.settings_applications_sharp),
-            label: 'Admin',
+            icon: Icon(Icons.add_box),
+            label: 'New section',
           ),
 
           /// Logout icon item
@@ -77,7 +107,6 @@ class _HomePageState extends State<HomePage> {
                   context,
                   listen: false,
                 );
-
                 /// todo display a dialog box before signing out the user.
                 auth.signOut();
               },
