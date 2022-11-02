@@ -3,7 +3,6 @@ import 'package:kindermanager/application/section_start_page.dart';
 import 'package:kindermanager/common_widgets/section_display_widget.dart';
 import 'package:kindermanager/services/firebase_database.dart';
 import 'package:provider/provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../model/section.dart';
 import '../services/auth.dart';
@@ -19,25 +18,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  /// Key to validate the form.
+  final formKey = GlobalKey<FormState>();
+
+  /// Initial value of section name.
+  String sectionName = " ";
+
   /// Keeps track of the selected bottom icon.
   int _selectedIndex = 0;
-
-  /// Updates the selected index
-  /// when clicked on the bottom icon.
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  /// Moves to Section start page.
-  void _onSectionPressed(String title) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (context) => SectionStartPage(title: title),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +59,9 @@ class _HomePageState extends State<HomePage> {
             if (snapshot.hasData) {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
+
+                /// Returns custom Section display widget to display sections.
+                /// Text widget with empty message when sections are empty.
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                       maxCrossAxisExtent: 200,
@@ -92,17 +83,54 @@ class _HomePageState extends State<HomePage> {
             return const Center(child: Text("Sections is empty!"));
           }),
 
-      /// Bottom navigation bar with admin and logout options.
+      /// Bottom navigation bar with add new section and logout options.
       bottomNavigationBar: BottomNavigationBar(
         elevation: 10,
         items: <BottomNavigationBarItem>[
-          /// Admin icon item
+          /// Adding a new section icon to bottom navigation bar.
           BottomNavigationBarItem(
-            icon: IconButton(onPressed: () {}, icon: const Icon(Icons.add_box)),
+            icon: IconButton(
+                onPressed: () {
+                  final database =
+                      Provider.of<FirebaseDatabase>(context, listen: false);
+
+                  /// Creating a bottom model sheet to add a new section
+                  showModalBottomSheet<void>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Container(
+                        height: 200,
+                        color: Colors.lime,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              const Text('Add new section'),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              createForm(),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              ElevatedButton(
+                                  child: const Text('Add section'),
+                                  onPressed: () {
+                                    _onSave(database);
+                                  }),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+                icon: const Icon(Icons.add_box)),
             label: 'New section',
           ),
 
-          /// Logout icon item
+          /// Adding Logout icon item to bottom navigation bar
           BottomNavigationBarItem(
             icon: IconButton(
               onPressed: () {
@@ -124,6 +152,61 @@ class _HomePageState extends State<HomePage> {
         onTap: _onItemTapped,
         selectedFontSize: 16,
         iconSize: 24,
+      ),
+    );
+  }
+
+  /// Creating a form to display in bottom sheet model
+  Widget createForm() {
+    return Form(
+      key: formKey,
+      child: Column(children: [
+        TextFormField(
+          decoration: const InputDecoration(labelText: "Section name"),
+          validator: (value) {
+            if (value!.isEmpty) {
+              return "Please enter a valid section name";
+            }
+            return null;
+          },
+          onSaved: (value) => sectionName = value!,
+        ),
+      ]),
+    );
+  }
+
+  /// Validating the form
+  bool _validateAndSaveForm() {
+    final form = formKey.currentState;
+    if (form != null && form.validate()) {
+      form.save();
+      return true;
+    }
+    return false;
+  }
+
+  /// Updates the selected index
+  /// when clicked on the bottom icon.
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  /// Validating and saving new section to the firestore.
+  Future<void> _onSave(FirebaseDatabase database) async {
+    if (_validateAndSaveForm()) {
+      final section = Section(name: sectionName);
+      await database.createSection(section);
+      Navigator.pop(context);
+    }
+  }
+
+  /// Moves to selected Section start page.
+  void _onSectionPressed(String title) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (context) => SectionStartPage(title: title),
       ),
     );
   }

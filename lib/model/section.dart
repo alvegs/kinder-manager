@@ -14,7 +14,7 @@ class Section {
 
   Map<String, dynamic> toMap() {
     return {
-      "name": name,
+      "section name": name,
     };
   }
 }
