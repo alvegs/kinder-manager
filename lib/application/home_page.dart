@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:kindermanager/application/section_start_page.dart';
 import 'package:kindermanager/common_widgets/section_display_widget.dart';
+import 'package:kindermanager/services/firebase_database.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../model/section.dart';
 import '../services/auth.dart';
 
-/// Homepage will be displayed after login,
-/// user will have options to select a section or
-/// to logout.
+/// Homepage will be displayed after successful login,
+/// user will have options to select a section, create a new section
+/// or to logout.
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -38,8 +41,11 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final database = Provider.of<FirebaseDatabase>(context, listen: false);
     return Scaffold(
       backgroundColor: Colors.grey[100],
+
+      /// Appbar with title and logout icon.
       appBar: AppBar(
         title: const Text("Sections"),
         actions: [
@@ -58,44 +64,41 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
 
-      /// Centers the content of the page.
-      body: Padding(
-        padding: const EdgeInsets.only(top: 50, right: 15, left: 15),
-        child: GridView.count(
-          /// Gridview specifications.
-          shrinkWrap: true,
-          crossAxisCount: 2,
-          children: <Widget>[
-            /// Custom Section widget is used to display sections.
-            SectionDisplay(
-                title: "Section 1",
-                onPressed: () => _onSectionPressed("Section 1")),
-            SectionDisplay(
-                title: "Section 2",
-                onPressed: () => _onSectionPressed("Section 2")),
-            SectionDisplay(
-                title: "Section 3",
-                onPressed: () => _onSectionPressed("Section 3")),
-            SectionDisplay(
-                title: "Section 4",
-                onPressed: () => _onSectionPressed("Section 4")),
-            SectionDisplay(
-                title: "Section 5",
-                onPressed: () => _onSectionPressed("Section 5")),
-            SectionDisplay(
-                title: "Section 6",
-                onPressed: () => _onSectionPressed("Section 6")),
-          ],
-        ),
-      ),
+      /// Main the content of the page - sections.
+      body: StreamBuilder<List<Section>>(
+          stream: database.getSections(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 200,
+                      childAspectRatio: 3 / 2,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 20),
+                  itemCount: snapshot.data?.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return SectionDisplay(
+                      section: snapshot.data![index],
+                      onPressed: () {
+                        _onSectionPressed(snapshot.data![index].name);
+                      },
+                    );
+                  },
+                ),
+              );
+            }
+            return const Center(child: Text("Sections is empty!"));
+          }),
 
       /// Bottom navigation bar with admin and logout options.
       bottomNavigationBar: BottomNavigationBar(
         elevation: 10,
         items: <BottomNavigationBarItem>[
           /// Admin icon item
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.add_box),
+          BottomNavigationBarItem(
+            icon: IconButton(onPressed: () {}, icon: const Icon(Icons.add_box)),
             label: 'New section',
           ),
 
@@ -107,6 +110,7 @@ class _HomePageState extends State<HomePage> {
                   context,
                   listen: false,
                 );
+
                 /// todo display a dialog box before signing out the user.
                 auth.signOut();
               },

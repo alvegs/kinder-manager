@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kindermanager/application/home_page.dart';
 import 'package:kindermanager/application/sign_in/log_in_page.dart';
+import 'package:kindermanager/services/firebase_database.dart';
 import 'package:provider/provider.dart';
 import '../services/auth.dart';
 
@@ -27,7 +28,10 @@ class LandingPage extends StatelessWidget {
           if (user == null) {
             return LogInPage();
           }
-          return const HomePage();
+          return Provider<FirebaseDatabase>(
+            create: (_) => FirebaseDatabase(),
+            child: const HomePage(),
+          );
         });
   }
 }
