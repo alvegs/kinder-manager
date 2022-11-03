@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:kindermanager/application/children_page.dart';
+import 'package:kindermanager/services/firebase_database.dart';
+import 'package:provider/provider.dart';
 
 import '../common_widgets/custom_button.dart';
+import '../model/section.dart';
 
 /// Displays a page with count and overview options.
 class SectionStartPage extends StatefulWidget {
-  final String title;
-  const SectionStartPage({Key? key, required this.title}) : super(key: key);
+  final Section section;
+
+  const SectionStartPage({Key? key, required this.section}) : super(key: key);
 
   @override
   State<SectionStartPage> createState() => _SectionStartPageState();
@@ -27,7 +32,7 @@ class _SectionStartPageState extends State<SectionStartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.section.name),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -57,7 +62,15 @@ class _SectionStartPageState extends State<SectionStartPage> {
           CustomRaisedButton(
             height: 100,
             backgroundColor: Colors.lightGreen[300],
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (context) => Provider<FirebaseDatabase>(
+                    create: (_) => FirebaseDatabase(),
+                    child: ChildrenPage( section: widget.section,)),
+                ),
+              );
+            },
             child: const Text(
               "Overview",
               style: TextStyle(fontSize: 24),

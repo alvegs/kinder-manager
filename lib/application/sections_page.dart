@@ -10,14 +10,14 @@ import '../services/auth.dart';
 /// Homepage will be displayed after successful login,
 /// user will have options to select a section, create a new section
 /// or to logout.
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class SectionsPage extends StatefulWidget {
+  const SectionsPage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<SectionsPage> createState() => _SectionsPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _SectionsPageState extends State<SectionsPage> {
   /// Key to validate the form.
   final formKey = GlobalKey<FormState>();
 
@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                     return SectionDisplay(
                       section: snapshot.data![index],
                       onPressed: () {
-                        _onSectionPressed(snapshot.data![index].name);
+                        _onSectionPressed(snapshot.data![index]);
                       },
                     );
                   },
@@ -196,17 +196,17 @@ class _HomePageState extends State<HomePage> {
   /// Validating and saving new section to the firestore.
   Future<void> _onSave(FirebaseDatabase database) async {
     if (_validateAndSaveForm()) {
-      final section = Section(name: sectionName);
+      final section = Section(name: sectionName, id: '');
       await database.createSection(section);
       Navigator.pop(context);
     }
   }
 
   /// Moves to selected Section start page.
-  void _onSectionPressed(String title) {
+  void _onSectionPressed(Section section) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (context) => SectionStartPage(title: title),
+        builder: (context) => SectionStartPage(section: section),
       ),
     );
   }

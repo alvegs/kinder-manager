@@ -9,7 +9,7 @@ import 'package:kindermanager/application/sign_in/log_in_page.dart';
 import 'package:kindermanager/application/sign_in/sign_in_page.dart';
 import 'package:kindermanager/services/auth.dart';
 
-import 'application/home_page.dart';
+import 'application/sections_page.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {

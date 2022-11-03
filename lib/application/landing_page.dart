@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:kindermanager/application/home_page.dart';
+import 'package:kindermanager/application/sections_page.dart';
 import 'package:kindermanager/application/sign_in/log_in_page.dart';
 import 'package:kindermanager/services/firebase_database.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +30,7 @@ class LandingPage extends StatelessWidget {
           }
           return Provider<FirebaseDatabase>(
             create: (_) => FirebaseDatabase(),
-            child: const HomePage(),
+            child: const SectionsPage(),
           );
         });
   }
