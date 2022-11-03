@@ -57,27 +57,24 @@ class _SectionsPageState extends State<SectionsPage> {
           stream: database.getSections(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-
-                /// Returns custom Section display widget to display sections.
-                /// Text widget with empty message when sections are empty.
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 200,
-                      childAspectRatio: 3 / 2,
-                      crossAxisSpacing: 20,
-                      mainAxisSpacing: 20),
-                  itemCount: snapshot.data?.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return SectionDisplay(
-                      section: snapshot.data![index],
-                      onPressed: () {
-                        _onSectionPressed(snapshot.data![index]);
-                      },
-                    );
-                  },
+              return GridView.builder(
+                padding: const EdgeInsets.only(
+                  top: 40,
                 ),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+
+                ),
+                itemCount: snapshot.data?.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return SectionDisplay(
+                    imageUrl: "assets/images/kindergarten.webp",
+                    section: snapshot.data![index],
+                    onPressed: () {
+                      _onSectionPressed(snapshot.data![index]);
+                    },
+                  );
+                },
               );
             }
             return const Center(child: Text("Sections is empty!"));

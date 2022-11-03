@@ -24,6 +24,22 @@ class FirebaseDatabase {
             ).toList());
   }
 
+  /// Returns a list of children as streams
+  Stream<List<Child>> getChildren(String docId) {
+    return database
+        .collection("sections/$docId/children")
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map(
+              (snapshot) {
+                final data = snapshot.data();
+                return Child(
+                  id: data[snapshot.id],
+                  name: data["name"],
+                );
+              },
+            ).toList());
+  }
+
   /// Creates a new section.
   /// section : section to be added.
   Future<void> createSection(Section section) async {

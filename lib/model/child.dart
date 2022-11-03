@@ -3,7 +3,7 @@ class Child {
   final String name;
 
   /// Creates a instance of Child class.
-  Child({required this.name});
+  Child({required this.name, required id});
 
   Map<String, dynamic> toMap() {
     return {

@@ -7,9 +7,16 @@ import 'custom_button.dart';
 class SectionDisplay extends StatelessWidget {
   final Section section;
   final VoidCallback onPressed;
+  final String imageUrl;
+
   /// title : name of the section.
   /// onPressed : function to be executed when button is pressed
-  const SectionDisplay({Key? key, required this.section, required this.onPressed}) : super(key: key);
+  const SectionDisplay(
+      {Key? key,
+      required this.section,
+      required this.onPressed,
+      required this.imageUrl})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,16 +24,22 @@ class SectionDisplay extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text("Image here!"),
+          InkWell(
+              onTap: onPressed,
+              child: Image.asset(
+                imageUrl,
+                height: 110,
+                width: 110,
+                fit: BoxFit.fill,
+              )),
           const SizedBox(
-            height: 10,
+            height: 5,
           ),
-          CustomRaisedButton(
-            onPressed: onPressed,
-            height: 32,
-            backgroundColor: Colors.green[200],
-            child: Text(section.name),
-          ),
+          Text(section.name,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+              )),
         ],
       ),
     );
