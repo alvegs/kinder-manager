@@ -5,9 +5,14 @@ import '../model/child.dart';
 import '../model/section.dart';
 import '../services/firebase_database.dart';
 
+/// Displays children from the chosen Section and provides
+/// functionalities for Creating, Reading, Updating and Deleting
+/// a child.
 class ChildrenPage extends StatefulWidget {
   final Section section;
 
+  /// Creates an instance of Child
+  /// section : section from which children will be displayed
   const ChildrenPage({Key? key, required this.section}) : super(key: key);
 
   @override
@@ -16,7 +21,6 @@ class ChildrenPage extends StatefulWidget {
 
 class _ChildrenPageState extends State<ChildrenPage> {
   final formKey = GlobalKey<FormState>();
-
   String childName = " ";
 
   @override
@@ -32,7 +36,7 @@ class _ChildrenPageState extends State<ChildrenPage> {
             child: GestureDetector(
               onTap: () {
                 final database =
-                    Provider.of<FirebaseDatabase>(context, listen: false);
+                Provider.of<FirebaseDatabase>(context, listen: false);
 
                 /// Creating a bottom model sheet to add a new section
                 showModalBottomSheet<void>(
@@ -74,17 +78,18 @@ class _ChildrenPageState extends State<ChildrenPage> {
           ),
         ],
       ),
+
+      /// Builds the content of the children page.
       body: StreamBuilder<List<Child>>(
           stream: database.getChildren(widget.section.id),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              print(snapshot.data);
               return GridView.builder(
-                padding: EdgeInsets.only(top: 40),
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 200,
-                    childAspectRatio: 3 / 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 20),
+                padding: const EdgeInsets.only(top: 50),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                ),
                 itemCount: snapshot.data?.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Column(
@@ -94,13 +99,21 @@ class _ChildrenPageState extends State<ChildrenPage> {
                         onTap: () {
                           //todo implement managing by using status enum
                         },
+                        onLongPress: () =>
+                            _editChild(
+                              widget.section,
+                              snapshot.data![index].id,
+                              database,
+                            ),
                         child: Image.asset(
                           "assets/images/cartoon.jpeg",
                           height: 75,
                           width: 75,
                         ),
                       ),
-                      const SizedBox(height: 10,),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       Text(
                         snapshot.data![index].name,
                         style: const TextStyle(
@@ -111,7 +124,7 @@ class _ChildrenPageState extends State<ChildrenPage> {
                 },
               );
             }
-            return const Center(child: Text("No child in the section!"));
+            return const Center(child: Text("No child in this section!"));
           }),
     );
   }
@@ -149,8 +162,70 @@ class _ChildrenPageState extends State<ChildrenPage> {
   Future<void> _onSave(FirebaseDatabase database) async {
     if (_validateAndSaveForm()) {
       final child = Child(name: childName, id: "");
-      //await database.createChild(child,"2022-11-02T23:12:59.091974");
       await database.createChild(child, widget.section.id);
+      Navigator.pop(context);
+    }
+  }
+
+  void _editChild(Section section, String childDocId, FirebaseDatabase database) {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: 200,
+          color: Colors.lime,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                const Text(
+                  'Edit section',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+
+                /// Textfield to enter the section name.
+                createForm(),
+                const SizedBox(
+                  height: 20,
+                ),
+
+                /// Aligning buttons side by side.
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                        child: const Text('Delete'),
+                        onPressed: () {
+
+                        }),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    ElevatedButton(
+                        child: const Text('Edit'),
+                        onPressed: () {
+                          _onEdit(database, section, childDocId);
+                        }),
+                  ],
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  /// Validating and editing a existing section.
+  Future<void> _onEdit(FirebaseDatabase database, Section section,
+      String childDocId,) async {
+    if (_validateAndSaveForm()) {
+      final child = Child(id: childDocId, name: childName);
+      await database.editChild(section, child);
       Navigator.pop(context);
     }
   }

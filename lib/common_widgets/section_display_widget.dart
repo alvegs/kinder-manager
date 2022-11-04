@@ -7,16 +7,18 @@ import 'custom_button.dart';
 class SectionDisplay extends StatelessWidget {
   final Section section;
   final VoidCallback onPressed;
+  final VoidCallback onLongPressed;
   final String imageUrl;
 
   /// title : name of the section.
   /// onPressed : function to be executed when button is pressed
-  const SectionDisplay(
-      {Key? key,
-      required this.section,
-      required this.onPressed,
-      required this.imageUrl})
-      : super(key: key);
+  const SectionDisplay({
+    Key? key,
+    required this.section,
+    required this.onPressed,
+    required this.imageUrl,
+    required this.onLongPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,7 @@ class SectionDisplay extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           InkWell(
+              onLongPress: onLongPressed,
               onTap: onPressed,
               child: Image.asset(
                 imageUrl,

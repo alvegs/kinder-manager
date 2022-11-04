@@ -33,7 +33,7 @@ class FirebaseDatabase {
               (snapshot) {
                 final data = snapshot.data();
                 return Child(
-                  id: data[snapshot.id],
+                  id: snapshot.id,
                   name: data["name"],
                 );
               },
@@ -45,6 +45,22 @@ class FirebaseDatabase {
   Future<void> createSection(Section section) async {
     final String uniqueDocId = DateTime.now().toIso8601String();
     _setData(data: section.toMap(), path: "sections/$uniqueDocId/");
+  }
+
+  /// Edits a existing section.
+  /// section : section to be edited.
+  Future<void> editSection(Section section) async {
+    _setData(data: section.toMap(), path: "sections/${section.id}/");
+  }
+
+  /// Edits a existing section.
+  /// section : section to be edited.
+  Future<void> editChild(Section section, Child child) async {
+    print(section.name);
+    print("child name is : ${child.name}");
+    _setData(
+        data: child.toMap(),
+        path: "sections/${section.id}/children/${child.id}/");
   }
 
   /// Adds given data to the firebase cloud.
@@ -60,8 +76,25 @@ class FirebaseDatabase {
   /// child : child to be added
   /// docId : id of the section
   Future<void> createChild(Child child, String docId) async {
+    print(child.name);
     final String uniqueDocId = DateTime.now().toIso8601String();
     _setData(
-        data: child.toMap(), path: "sections/$docId/children/$uniqueDocId ");
+        data: child.toMap(), path: "sections/$docId/children/$uniqueDocId");
+  }
+
+  /// Deletes the given section.
+  /// section : section to be deleted.
+  Future<void> deleteSection(Section section) async {
+    final documentRef =
+        FirebaseFirestore.instance.doc("sections/${section.id}");
+    await documentRef.delete();
+  }
+
+  /// Deletes the given section.
+  /// section : section to be deleted.
+  Future<void> deleteChild(Section section, Child child) async {
+    final documentRef = FirebaseFirestore.instance
+        .doc("sections/${section.id}/children/${child.id}");
+    await documentRef.delete();
   }
 }

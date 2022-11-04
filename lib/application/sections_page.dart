@@ -63,7 +63,6 @@ class _SectionsPageState extends State<SectionsPage> {
                 ),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-
                 ),
                 itemCount: snapshot.data?.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -73,6 +72,8 @@ class _SectionsPageState extends State<SectionsPage> {
                     onPressed: () {
                       _onSectionPressed(snapshot.data![index]);
                     },
+                    onLongPressed: () =>
+                        _sectionEdit(snapshot.data![index].id, database),
                   );
                 },
               );
@@ -199,12 +200,82 @@ class _SectionsPageState extends State<SectionsPage> {
     }
   }
 
+  /// Validating and editing a existing section.
+  Future<void> _onEdit(FirebaseDatabase database, String docId) async {
+    if (_validateAndSaveForm()) {
+      final section = Section(name: sectionName, id: docId);
+      await database.editSection(section);
+      Navigator.pop(context);
+    }
+  }
+
+  /// Deletes the selected section.
+  Future<void> _onDelete(FirebaseDatabase database, String docId) async {
+    final section = Section(name: sectionName, id: docId);
+    await database.deleteSection(section);
+  }
+
   /// Moves to selected Section start page.
   void _onSectionPressed(Section section) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (context) => SectionStartPage(section: section),
       ),
+    );
+  }
+
+  /// Edits a existing section and updates the new values
+  void _sectionEdit(String docId, FirebaseDatabase database) {
+    /// Creating a bottom model sheet to edit a section
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: 200,
+          color: Colors.lime,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                const Text(
+                  'Edit section',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+
+                /// Textfield to enter the section name.
+                createForm(),
+                const SizedBox(
+                  height: 20,
+                ),
+
+                /// Aligning buttons side by side.
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                        child: const Text('Delete '),
+                        onPressed: () {
+                          _onDelete(database, docId);
+                        }),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    ElevatedButton(
+                        child: const Text('Edit '),
+                        onPressed: () {
+                          _onEdit(database, docId);
+                        }),
+                  ],
+                )
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
