@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../model/child.dart';
@@ -19,6 +21,7 @@ class FirebaseDatabase {
                 return Section(
                   id: snapshot.id,
                   name: data["section name"],
+                  imageFile: data["image file"],
                 );
               },
             ).toList());
@@ -56,8 +59,6 @@ class FirebaseDatabase {
   /// Edits a existing section.
   /// section : section to be edited.
   Future<void> editChild(Section section, Child child) async {
-    print(section.name);
-    print("child name is : ${child.name}");
     _setData(
         data: child.toMap(),
         path: "sections/${section.id}/children/${child.id}/");

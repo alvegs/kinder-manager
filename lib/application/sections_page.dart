@@ -1,4 +1,9 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:kindermanager/application/section_start_page.dart';
 import 'package:kindermanager/common_widgets/section_display_widget.dart';
 import 'package:kindermanager/services/firebase_database.dart';
@@ -26,6 +31,13 @@ class _SectionsPageState extends State<SectionsPage> {
 
   /// Keeps track of the selected bottom icon.
   int _selectedIndex = 0;
+
+  final imagePicker = ImagePicker();
+  final fireStore = FirebaseStorage.instance.ref();
+  File? image;
+  String imageUrl = "https://firebasestorage.googleapis.com/v0/b/kinder-manager.appspot.com/o/images%2Fjames%20webb%201.sep.jpeg?alt=media&token=e3c495af-e2a0-4165-ab46-2154014c6ad6";
+  bool isLoading = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +79,6 @@ class _SectionsPageState extends State<SectionsPage> {
                 itemCount: snapshot.data?.length,
                 itemBuilder: (BuildContext context, int index) {
                   return SectionDisplay(
-                    imageUrl: "assets/images/kindergarten.webp",
                     section: snapshot.data![index],
                     onPressed: () {
                       _onSectionPressed(snapshot.data![index]);
@@ -112,11 +123,26 @@ class _SectionsPageState extends State<SectionsPage> {
                               const SizedBox(
                                 height: 20,
                               ),
-                              ElevatedButton(
-                                  child: const Text('Add section'),
-                                  onPressed: () {
-                                    _onSave(database);
-                                  }),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ElevatedButton(
+                                      child: const Text('Add image'),
+                                      onPressed: () {
+                                        pickImage();
+                                      }),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  isLoading
+                                      ? const CircularProgressIndicator()
+                                      : ElevatedButton(
+                                          child: const Text('Add section'),
+                                          onPressed: () {
+                                            _onSave(database);
+                                          }),
+                                ],
+                              ),
                             ],
                           ),
                         ),
@@ -194,7 +220,12 @@ class _SectionsPageState extends State<SectionsPage> {
   /// Validating and saving new section to the firestore.
   Future<void> _onSave(FirebaseDatabase database) async {
     if (_validateAndSaveForm()) {
-      final section = Section(name: sectionName, id: '');
+      final uniqueImageName = DateTime.now().millisecondsSinceEpoch.toString();
+      final ref = fireStore.child("images").child(uniqueImageName);
+      await ref.putFile(image!);
+      // todo check for null and display alert dialog box
+      imageUrl = await ref.getDownloadURL();
+      final section = Section(imageFile: imageUrl, name: sectionName, id: '');
       await database.createSection(section);
       Navigator.pop(context);
     }
@@ -203,7 +234,8 @@ class _SectionsPageState extends State<SectionsPage> {
   /// Validating and editing a existing section.
   Future<void> _onEdit(FirebaseDatabase database, String docId) async {
     if (_validateAndSaveForm()) {
-      final section = Section(name: sectionName, id: docId);
+      final section =
+          Section(name: sectionName, id: docId, imageFile: imageUrl);
       await database.editSection(section);
       Navigator.pop(context);
     }
@@ -211,7 +243,7 @@ class _SectionsPageState extends State<SectionsPage> {
 
   /// Deletes the selected section.
   Future<void> _onDelete(FirebaseDatabase database, String docId) async {
-    final section = Section(name: sectionName, id: docId);
+    final section = Section(name: sectionName, id: docId, imageFile: imageUrl);
     await database.deleteSection(section);
   }
 
@@ -278,4 +310,24 @@ class _SectionsPageState extends State<SectionsPage> {
       },
     );
   }
+
+  /// Picks image from the gallery.
+  Future<void> pickImage() async {
+    try {
+      final image = await imagePicker.pickImage(
+          source: ImageSource.gallery, imageQuality: 5);
+      if (image == null) return;
+      setState(() {
+        isLoading = true;
+        this.image = File(image.path);
+      });
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+//todo remove last selected image from gallery to avoid duplicate images.
 }

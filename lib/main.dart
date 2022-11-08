@@ -7,6 +7,7 @@ import 'package:kindermanager/application/section_start_page.dart';
 import 'package:kindermanager/application/sign_in/log_in_page.dart';
 
 import 'package:kindermanager/application/sign_in/sign_in_page.dart';
+import 'package:kindermanager/imageTest.dart';
 import 'package:kindermanager/services/auth.dart';
 
 import 'application/sections_page.dart';

@@ -1,14 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../model/section.dart';
-import 'custom_button.dart';
 
 /// Custom widget to display a section in home page.
 class SectionDisplay extends StatelessWidget {
   final Section section;
   final VoidCallback onPressed;
   final VoidCallback onLongPressed;
-  final String imageUrl;
 
   /// title : name of the section.
   /// onPressed : function to be executed when button is pressed
@@ -16,8 +17,8 @@ class SectionDisplay extends StatelessWidget {
     Key? key,
     required this.section,
     required this.onPressed,
-    required this.imageUrl,
     required this.onLongPressed,
+
   }) : super(key: key);
 
   @override
@@ -29,8 +30,8 @@ class SectionDisplay extends StatelessWidget {
           InkWell(
               onLongPress: onLongPressed,
               onTap: onPressed,
-              child: Image.asset(
-                imageUrl,
+              child: Image.network(
+                section.imageFile,
                 height: 110,
                 width: 110,
                 fit: BoxFit.fill,
