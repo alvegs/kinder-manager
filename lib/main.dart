@@ -1,21 +1,15 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:kindermanager/application/sign_in/email_confirmation_page.dart';
-import 'package:kindermanager/application/sign_in/forgot_password_page.dart';
 import 'package:kindermanager/application/landing_page.dart';
-import 'package:kindermanager/application/section_start_page.dart';
-import 'package:kindermanager/application/sign_in/log_in_page.dart';
-
-import 'package:kindermanager/application/sign_in/sign_in_page.dart';
-import 'package:kindermanager/imageTest.dart';
 import 'package:kindermanager/services/auth.dart';
-
-import 'application/sections_page.dart';
 import 'package:provider/provider.dart';
+import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
