@@ -1,4 +1,4 @@
-# kindermanager2
+# kindermanager
 
 KinderManager - A new way to manage and organize the chilldren in the kindergarden
 

@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "no.ntnu.mobiledevelopement.group11" "\0"
-            VALUE "FileDescription", "kindermanager2" "\0"
+            VALUE "FileDescription", "kindermanager" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "kindermanager2" "\0"
+            VALUE "InternalName", "kindermanager" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2022 no.ntnu.mobiledevelopement.group11. All rights reserved." "\0"
-            VALUE "OriginalFilename", "kindermanager2.exe" "\0"
-            VALUE "ProductName", "kindermanager2" "\0"
+            VALUE "OriginalFilename", "kindermanager.exe" "\0"
+            VALUE "ProductName", "kindermanager" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

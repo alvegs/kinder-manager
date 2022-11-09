@@ -1,6 +1,6 @@
 {
-    "name": "kindermanager2",
-    "short_name": "kindermanager2",
+    "name": "kindermanager",
+    "short_name": "kindermanager",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
