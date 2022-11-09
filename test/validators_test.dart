@@ -31,7 +31,11 @@ void main() {
 /// -------------------------------------     EMAIL VALIDATOR TESTS IS BELOW THIS LINE ------------------
   test('empty email', () {
     final validator = NonEmptyEmailValidator();
-    expect(validator.isValid('ÆØÅ'), false);
+    expect(validator.isValid(' '), false);
+  });
+  test('testing nordic letters', () {
+    final validator = NonEmptyEmailValidator();
+    expect(validator.isValid(' ØÆÅØ'), false);
   });
 
   test('missing @ in email', () {
@@ -56,7 +60,51 @@ void main() {
 
   test('check valid email', () {
     final validator = NonEmptyEmailValidator();
-    expect(validator.isValid('test@test.no'), true);
+    expect(validator.isValid('test.test@test.no'), true);
+  });
+
+  test('check valid emai2l', () {
+    final validator = NonEmptyEmailValidator();
+    expect(validator.isValid('test+test@test.no'), true);
+  });
+
+  test('check valid email3', () {
+    final validator = NonEmptyEmailValidator();
+    expect(validator.isValid('test@test.com'), true);
+  });
+
+  test('check valid email4', () {
+    final validator = NonEmptyEmailValidator();
+    expect(validator.isValid('test@test.no.ui'), true);
+  });
+
+  test('check valid email5', () {
+    final validator = NonEmptyEmailValidator();
+    expect(validator.isValid('.no @.no .no'), false);
+  });
+  test('check valid email6', () {
+    final validator = NonEmptyEmailValidator();
+    expect(validator.isValid('hesten.er.best@@hest.no.no'), false);
+  });
+  test('check valid email7', () {
+    final validator = NonEmptyEmailValidator();
+    expect(validator.isValid('test.test.no'), false);
+  });
+  test('check valid email8', () {
+    final validator = NonEmptyEmailValidator();
+    expect(validator.isValid('asd@@@@asd.no'), false);
+  });
+  test('check valid email9', () {
+    final validator = NonEmptyEmailValidator();
+    expect(validator.isValid('asd@asd.ui.op.co.no'), true);
+  });
+  test('check valid email10', () {
+    final validator = NonEmptyEmailValidator();
+    expect(validator.isValid('test1.test2.test3.test4@test1.test2.test3.test4.test5.test6.no'), true);
+  });
+  test('check valid email11', () {
+    final validator = NonEmptyEmailValidator();
+    expect(validator.isValid('test1.test2.test3.test4@test.no.uk'), true);
   });
 
 }
