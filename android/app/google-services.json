@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "497549181695",
+    "project_id": "kinder-manager",
+    "storage_bucket": "kinder-manager.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:497549181695:android:a7fa4c8fad687357c602ca",
+        "android_client_info": {
+          "package_name": "no.ntnu.mobiledevelopement.group11.kindermanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "497549181695-r2qr6o60smmkbu4midsh1tud6t57qolh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAu6Ssb_ji9a5EbjxwKP9P68Atteutz41k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "497549181695-r2qr6o60smmkbu4midsh1tud6t57qolh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "497549181695-haejqcv741od85k22jmva5s5letaubis.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "no.ntnu.mobiledevelopement.group11.kindermanager"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
