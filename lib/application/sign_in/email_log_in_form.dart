@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kindermanager/application/sign_in/sign_in_page.dart';
 import 'package:kindermanager/common_widgets/custom_button.dart';
@@ -5,6 +6,8 @@ import 'package:provider/provider.dart';
 import '../../services/auth.dart';
 
 class EmailLogInForm extends StatefulWidget {
+  const EmailLogInForm({super.key});
+
   @override
   _EmailLogInFormState createState() => _EmailLogInFormState();
 }
@@ -15,8 +18,12 @@ class _EmailLogInFormState extends State<EmailLogInForm> {
 
   void _submit() async {
     //ToDo: Print email and password
-    print("email: ${_emailController.text} ");
-    print("Password: ${_passwordController.text} ");
+    if (kDebugMode) {
+      print("email: ${_emailController.text} ");
+    }
+    if (kDebugMode) {
+      print("Password: ${_passwordController.text} ");
+    }
 
     final auth = Provider.of<Auth>(
       context,
@@ -28,7 +35,7 @@ class _EmailLogInFormState extends State<EmailLogInForm> {
     );
   }
 
-  List<Widget> _buildChildern() {
+  List<Widget> _buildChildren() {
     return [
       TextField(
         controller: _emailController,
@@ -60,7 +67,7 @@ class _EmailLogInFormState extends State<EmailLogInForm> {
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute<void>(
-                builder: (context) => SignInPage(),
+                builder: (context) => const SignInPage(),
               ),
             );
           },
@@ -76,7 +83,7 @@ class _EmailLogInFormState extends State<EmailLogInForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
-        children: _buildChildern(),
+        children: _buildChildren(),
       ),
     );
   }

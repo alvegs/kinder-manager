@@ -1,6 +1,5 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 import '../model/child.dart';
 import '../model/section.dart';
@@ -77,7 +76,9 @@ class FirebaseDatabase {
   /// child : child to be added
   /// docId : id of the section
   Future<void> createChild(Child child, String docId) async {
-    print(child.name);
+    if (kDebugMode) {
+      print(child.name);
+    }
     final String uniqueDocId = DateTime.now().toIso8601String();
     _setData(
         data: child.toMap(), path: "sections/$docId/children/$uniqueDocId");

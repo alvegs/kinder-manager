@@ -26,7 +26,7 @@ class LandingPage extends StatelessWidget {
         builder: (context, snapshot) {
           final User? user = snapshot.data;
           if (user == null) {
-            return LogInPage();
+            return const LogInPage();
           }
           return Provider<FirebaseDatabase>(
             create: (_) => FirebaseDatabase(),

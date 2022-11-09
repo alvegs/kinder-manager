@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+
+//import 'package:image_picker/image_picker.dart';
 
 import '../model/section.dart';
 
@@ -23,7 +22,7 @@ class SectionDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Container( //TODO: Avoid unnecessary containers!
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

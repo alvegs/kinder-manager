@@ -1,8 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kindermanager/application/sign_in/log_in_page.dart';
-import 'package:kindermanager/application/sign_in/sign_in_page.dart';
 import 'package:kindermanager/common_widgets/custom_button.dart';
-import 'package:kindermanager/main.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/auth.dart';
@@ -10,6 +9,8 @@ import '../../services/auth.dart';
 /// Widget with text fields and submit button to
 /// create a new user.
 class EmailSignInForm extends StatefulWidget {
+  const EmailSignInForm({super.key});
+
   @override
   _EmailSignInFormState createState() => _EmailSignInFormState();
 }
@@ -23,9 +24,15 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
   /// Creates a new user with given email and password.
   void _submit() async {
     //ToDo: Print email and password
-    print("email: ${_emailController.text} ");
-    print("Password: ${_passwordController.text} ");
-    print("Confirm Password: ${_confirmPasswordController.text} ");
+    if (kDebugMode) {
+      print("email: ${_emailController.text} ");
+    }
+    if (kDebugMode) {
+      print("Password: ${_passwordController.text} ");
+    }
+    if (kDebugMode) {
+      print("Confirm Password: ${_confirmPasswordController.text} ");
+    }
 
     final auth = Provider.of<Auth>(
       context,
@@ -40,7 +47,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
     Navigator.of(context).pop();
   }
 
-  List<Widget> _buildChildern() {
+  List<Widget> _buildChildren() {
     return [
       TextField(
         controller: _emailController,
@@ -83,7 +90,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute<void>(
-                builder: (context) => LogInPage(),
+                builder: (context) => const LogInPage(),
               ),
             );
           },
@@ -99,7 +106,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
-        children: _buildChildern(),
+        children: _buildChildren(),
       ),
     );
   }

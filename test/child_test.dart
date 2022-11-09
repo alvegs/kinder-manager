@@ -8,6 +8,20 @@ void main() {
     String name = 'test';
     String id = '1';
     Child child1 = Child(name: name, id: id);
-    expect(child1 is Child, true);
+    expect(child1, isA<Child>());
+  });
+
+  test('check if child can be created successfully', () {
+    String name = ' ';
+    String id = '1';
+    Child child1 = Child(name: name, id: id);
+    expect(child1, isA<Child>());
+  });
+
+  test('check if child can be created successfully', () {
+    String name = ' a';
+    String id = ' ';
+    Child child1 = Child(name: name, id: id);
+    expect(child1, isA<Child>());
   });
 }

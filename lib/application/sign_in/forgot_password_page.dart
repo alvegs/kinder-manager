@@ -55,7 +55,7 @@ class ForgotPasswordPage extends StatelessWidget {
               onPressed: () {},
               height: 52,
               backgroundColor: Colors.green,
-              child: Text(
+              child: const Text(
                 "Send",
               ),
             ),

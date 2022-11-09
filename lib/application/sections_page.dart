@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -221,10 +222,10 @@ class _SectionsPageState extends State<SectionsPage> {
   Future<void> _onSave(FirebaseDatabase database) async {
     if (_validateAndSaveForm()) {
       final uniqueImageName = DateTime.now().millisecondsSinceEpoch.toString();
-      final ref = fireStore.child("images").child(uniqueImageName);
-      await ref.putFile(image!);
+     final ref = fireStore.child("images").child(uniqueImageName);
+          await ref.putFile(image!);
       // todo check for null and display alert dialog box
-      imageUrl = await ref.getDownloadURL();
+          imageUrl = await ref.getDownloadURL();
       final section = Section(imageFile: imageUrl, name: sectionName, id: '');
       await database.createSection(section);
       Navigator.pop(context);
@@ -278,7 +279,7 @@ class _SectionsPageState extends State<SectionsPage> {
                   height: 20,
                 ),
 
-                /// Textfield to enter the section name.
+                /// Text field to enter the section name.
                 createForm(),
                 const SizedBox(
                   height: 20,
@@ -314,15 +315,17 @@ class _SectionsPageState extends State<SectionsPage> {
   /// Picks image from the gallery.
   Future<void> pickImage() async {
     try {
-      final image = await imagePicker.pickImage(
-          source: ImageSource.gallery, imageQuality: 5);
+         final image = await imagePicker.pickImage(
+            source: ImageSource.gallery, imageQuality: 5);
       if (image == null) return;
       setState(() {
         isLoading = true;
-        this.image = File(image.path);
+              this.image = File(image.path);
       });
     } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
+      if (kDebugMode) {
+        print('Failed to pick image: $e');
+      }
     } finally {
       setState(() {
         isLoading = false;

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +26,9 @@ class _ChildrenPageState extends State<ChildrenPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.section.id);
+    if (kDebugMode) {
+      print(widget.section.id);
+    }
     final database = Provider.of<FirebaseDatabase>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
@@ -84,7 +87,9 @@ class _ChildrenPageState extends State<ChildrenPage> {
           stream: database.getChildren(widget.section.id),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              print(snapshot.data);
+              if (kDebugMode) {
+                print(snapshot.data);
+              }
               return GridView.builder(
                 padding: const EdgeInsets.only(top: 50),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -187,7 +192,7 @@ class _ChildrenPageState extends State<ChildrenPage> {
                   height: 20,
                 ),
 
-                /// Textfield to enter the section name.
+                /// Text field to enter the section name.
                 createForm(),
                 const SizedBox(
                   height: 20,
