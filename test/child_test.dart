@@ -11,14 +11,28 @@ void main() {
     expect(child1, isA<Child>());
   });
 
-  test('check if child can be created successfully', () {
+  test('check if child can be created successfully', () {//TODO THIS SHOULD NOT PASS
+    String name = ' ';
+    String id = '1';
+    Child child1 = Child(name: name, id: id);
+    expect(child1, isNot(Child));
+  });
+
+  test('check if child can be created successfully', () {//TODO THIS SHOULD NOT PASS
+    String name = ' a';
+    String id = ' ';
+    Child child1 = Child(name: name, id: id);
+    expect(child1, isNot(Child));
+  });
+
+  test('check if child can be created successfully', () {//TODO THIS SHOULD NOT PASS
     String name = ' ';
     String id = '1';
     Child child1 = Child(name: name, id: id);
     expect(child1, isA<Child>());
   });
 
-  test('check if child can be created successfully', () {
+  test('check if child can be created successfully', () { //TODO THIS SHOULD NOT PASS
     String name = ' a';
     String id = ' ';
     Child child1 = Child(name: name, id: id);
