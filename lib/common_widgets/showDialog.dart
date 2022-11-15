@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
-/// Custom alertbox that shows all the available statuses.
+/// Custom alert dialog that shows the available status.
 /// Returns the status chosen.
 Future showAlertDialog(
   BuildContext context, {
   required String title,
   required String content,
-  required bool arriveEnabled,
-  required bool pickedEnabled,
-  required bool absentEnabled,
+
+  /// Disables buttons that are not necessary
+  bool arriveEnabled = true,
+  bool pickedEnabled = true,
+  bool absentEnabled = true,
 }) {
   return showDialog(
     context: context,

@@ -40,6 +40,42 @@ class _ChildrenPageState extends State<ChildrenPage> {
       appBar: AppBar(
         title: const Text("children"),
         actions: [
+          PopupMenuButton(
+              // add icon, by default "3 dot" icon
+              // icon: Icon(Icons.book)
+              itemBuilder: (context) {
+            return [
+              PopupMenuItem<int>(
+                value: 0,
+                child: Text("ARRIVED"),
+              ),
+              PopupMenuItem<int>(
+                value: 1,
+                child: Text("PICKED"),
+              ),
+              PopupMenuItem<int>(
+                value: 2,
+                child: Text("ABSENT"),
+              ),
+            ];
+          }, onSelected: (value) {
+            if (value == 0) {
+              Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                      builder: (context) =>
+              showSorted("ARRIVED", widget.section.id, database)));
+            } else if (value == 1) {
+              Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                      builder: (context) =>
+                          showSorted("PICKED", widget.section.id, database)));
+            } else if (value == 2) {
+              Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                      builder: (context) =>
+                          showSorted("ABSENT", widget.section.id, database)));
+            }
+          }),
           Padding(
             padding: const EdgeInsets.only(right: 30.0),
             child: GestureDetector(
@@ -110,16 +146,12 @@ class _ChildrenPageState extends State<ChildrenPage> {
                               title: "Status",
                               content: "Choose the status of the child",
                               arriveEnabled: false,
-                              absentEnabled: true,
-                              pickedEnabled: true,
                             );
                           } else if (snapshot.data![index].status == "PICKED") {
                             status = await showAlertDialog(
                               context,
                               title: "Status",
                               content: "Choose the status of the child",
-                              arriveEnabled: true,
-                              absentEnabled: true,
                               pickedEnabled: false,
                             );
                           } else if (snapshot.data![index].status == "ABSENT") {
@@ -127,18 +159,13 @@ class _ChildrenPageState extends State<ChildrenPage> {
                               context,
                               title: "Status",
                               content: "Choose the status of the child",
-                              arriveEnabled: true,
                               absentEnabled: false,
-                              pickedEnabled: true,
                             );
                           } else {
                             status = await showAlertDialog(
                               context,
                               title: "Status",
                               content: "Choose the status of the child",
-                              arriveEnabled: true,
-                              absentEnabled: true,
-                              pickedEnabled: true,
                             );
                           }
 
@@ -279,5 +306,54 @@ class _ChildrenPageState extends State<ChildrenPage> {
       await database.editChild(section, child);
       Navigator.pop(context);
     }
+  }
+
+  Widget showSorted(String status, String docId, FirebaseDatabase database) {
+    var backgroundColor = Colors.lightGreen;
+    if(status == "ARRIVED"){
+      backgroundColor = Colors.lightGreen;
+    }
+    else if(status == "PICKED"){
+      backgroundColor = Colors.brown;
+    }
+    else if(status == "ABSENT"){
+      backgroundColor = Colors.red;
+    }
+    return Scaffold(
+      appBar: AppBar(title: Text(status),
+      backgroundColor: backgroundColor),
+      body: StreamBuilder<List<Child>>(
+        stream: database.getSortedChildren(docId, status),
+        builder: (context, snapshot) {
+          if(snapshot.hasData){
+          return GridView.builder(
+            padding: const EdgeInsets.only(top: 50),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+            ),
+            itemCount: snapshot.data?.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Column(children: [
+                Image.asset(
+                  "assets/images/cartoon.jpeg",
+                  height: 75,
+                  width: 75,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  snapshot.data![index].name,
+                  style:
+                      const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                ),
+              ]);
+            },
+          );}
+          return const Center(child: Text("No child in this section!"));
+
+        },
+      ),
+    );
   }
 }

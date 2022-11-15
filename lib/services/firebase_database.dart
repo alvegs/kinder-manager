@@ -44,7 +44,7 @@ class FirebaseDatabase {
   }
 
   /// Returns a list of children as streams sorted after status
-  Stream<List<Child>> geSortedChildren(String docId, String status) {
+  Stream<List<Child>> getSortedChildren(String docId, String status) {
     return database
         .collection("sections/$docId/children")
         .snapshots()
