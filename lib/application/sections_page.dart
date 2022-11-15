@@ -8,6 +8,7 @@ import 'package:kindermanager/application/section_start_page.dart';
 import 'package:kindermanager/common_widgets/bottom_model_content_widget.dart';
 import 'package:kindermanager/common_widgets/custom_bottom_navigation_bar.dart';
 import 'package:kindermanager/common_widgets/section_display_widget.dart';
+import 'package:kindermanager/common_widgets/show_alert_dialog.dart';
 import 'package:kindermanager/services/firebase_database.dart';
 import 'package:provider/provider.dart';
 
@@ -109,12 +110,19 @@ class _SectionsPageState extends State<SectionsPage> {
         onAddImage: pickImage,
         onAddSection: _onAddSection,
         onItemTapped: _onItemTapped,
-        onLogOut: () {
+        onLogOut: () async {
           final auth = Provider.of<Auth>(
             context,
             listen: false,
           );
-          auth.signOut();
+          final result = await ShowAlertDialog(
+            context,
+            title: "Sign out",
+            content: "Are you sure ?",
+            leftButtonText: "Cancel",
+            rightButtonText: "Logout",
+          );
+          result ? auth.signOut() : null;
         },
         selectedIndex: _selectedIndex,
       ),
@@ -148,18 +156,18 @@ class _SectionsPageState extends State<SectionsPage> {
       imageUrl = await ref.getDownloadURL();
       final section = Section(imageFile: imageUrl, name: sectionName, id: '');
       await database.createSection(section);
-      Navigator.pop(context);
+      Navigator.of(context).pop();
     }
   }
 
   /// Edits a existing section and updates the new values
   void _sectionEdit(String docId, String imageUrl, FirebaseDatabase database) {
     showModalBottomSheet<void>(
-
       context: context,
       builder: (BuildContext context) {
         /// Moves bottom sheet along with the keyboard.
-        final  mediaQueryData = MediaQuery.of(context);
+        final mediaQueryData = MediaQuery.of(context);
+
         /// Using custom widget to build bottom sheet.
         return BottomModelContent(
           mediaQueryData: mediaQueryData,
@@ -186,7 +194,7 @@ class _SectionsPageState extends State<SectionsPage> {
     if (_validateAndSaveForm()) {
       if (newImageSelected == true) {
         final uniqueImageName =
-        DateTime.now().millisecondsSinceEpoch.toString();
+            DateTime.now().millisecondsSinceEpoch.toString();
         final ref = fireStore.child("images").child(uniqueImageName);
         await ref.putFile(image!);
         // todo check for null and display alert dialog box
@@ -194,7 +202,7 @@ class _SectionsPageState extends State<SectionsPage> {
         newImageSelected = !newImageSelected;
       }
       final section =
-      Section(name: sectionName, id: docId, imageFile: imageUrl);
+          Section(name: sectionName, id: docId, imageFile: imageUrl);
       await database.editSection(section);
       Navigator.pop(context);
     }

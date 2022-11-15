@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 /// Custom alert dialog that shows the available status.
 /// Returns the status chosen.
-Future showAlertDialog(
+Future CustomDialogBox(
   BuildContext context, {
   required String title,
   required String content,

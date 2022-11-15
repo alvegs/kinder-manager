@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:kindermanager/common_widgets/showDialog.dart';
+import 'package:kindermanager/common_widgets/custom_dialog_box.dart';
 import 'package:provider/provider.dart';
 
 import '../model/child.dart';
@@ -141,28 +141,28 @@ class _ChildrenPageState extends State<ChildrenPage> {
                       GestureDetector(
                         onTap: () async {
                           if (snapshot.data![index].status == "ARRIVED") {
-                            status = await showAlertDialog(
+                            status = await CustomDialogBox(
                               context,
                               title: "Status",
                               content: "Choose the status of the child",
                               arriveEnabled: false,
                             );
                           } else if (snapshot.data![index].status == "PICKED") {
-                            status = await showAlertDialog(
+                            status = await CustomDialogBox(
                               context,
                               title: "Status",
                               content: "Choose the status of the child",
                               pickedEnabled: false,
                             );
                           } else if (snapshot.data![index].status == "ABSENT") {
-                            status = await showAlertDialog(
+                            status = await CustomDialogBox(
                               context,
                               title: "Status",
                               content: "Choose the status of the child",
                               absentEnabled: false,
                             );
                           } else {
-                            status = await showAlertDialog(
+                            status = await CustomDialogBox(
                               context,
                               title: "Status",
                               content: "Choose the status of the child",
