@@ -155,10 +155,14 @@ class _SectionsPageState extends State<SectionsPage> {
   /// Edits a existing section and updates the new values
   void _sectionEdit(String docId, String imageUrl, FirebaseDatabase database) {
     showModalBottomSheet<void>(
+
       context: context,
       builder: (BuildContext context) {
+        /// Moves bottom sheet along with the keyboard.
+        final  mediaQueryData = MediaQuery.of(context);
         /// Using custom widget to build bottom sheet.
         return BottomModelContent(
+          mediaQueryData: mediaQueryData,
           titleText: "Manage section",
           createForm: createForm(),
           onChangeImage: () {

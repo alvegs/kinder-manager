@@ -37,9 +37,27 @@ class FirebaseDatabase {
                 return Child(
                   id: snapshot.id,
                   name: data["name"],
+                  status: data["status"],
                 );
               },
             ).toList());
+  }
+
+  /// Returns a list of children as streams sorted after status
+  Stream<List<Child>> geSortedChildren(String docId, String status) {
+    return database
+        .collection("sections/$docId/children")
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map(
+          (snapshot) {
+        final data = snapshot.data();
+        return Child(
+          id: snapshot.id,
+          name: data["name"],
+          status: data["status"],
+        );
+      },
+    ).where((element) => element.status == status).toList());
   }
 
   /// Creates a new section.

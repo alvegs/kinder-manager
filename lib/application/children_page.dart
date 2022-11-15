@@ -87,9 +87,6 @@ class _ChildrenPageState extends State<ChildrenPage> {
           stream: database.getChildren(widget.section.id),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              if (kDebugMode) {
-                print(snapshot.data);
-              }
               return GridView.builder(
                 padding: const EdgeInsets.only(top: 50),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

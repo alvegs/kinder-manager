@@ -22,29 +22,31 @@ class SectionDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container( //TODO: Avoid unnecessary containers!
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          InkWell(
-              onLongPress: onLongPressed,
-              onTap: onPressed,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        InkWell(
+            onLongPress: onLongPressed,
+            onTap: onPressed,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
               child: Image.network(
                 section.imageFile,
                 height: 110,
                 width: 110,
                 fit: BoxFit.fill,
-              )),
-          const SizedBox(
-            height: 5,
-          ),
-          Text(section.name,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-              )),
-        ],
-      ),
+
+              ),
+            )),
+        const SizedBox(
+          height: 10,
+        ),
+        Text(section.name,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            )),
+      ],
     );
   }
 }
