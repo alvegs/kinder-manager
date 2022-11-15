@@ -73,8 +73,8 @@ class FirebaseDatabase {
     _setData(data: section.toMap(), path: "sections/${section.id}/");
   }
 
-  /// Edits a existing section.
-  /// section : section to be edited.
+  /// Edits a existing child.
+  /// child : child to be edited.
   Future<void> editChild(Section section, Child child) async {
     _setData(
         data: child.toMap(),

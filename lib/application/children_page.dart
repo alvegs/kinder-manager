@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:kindermanager/common_widgets/showDialog.dart';
 import 'package:provider/provider.dart';
 
 import '../model/child.dart';
@@ -14,7 +16,10 @@ class ChildrenPage extends StatefulWidget {
 
   /// Creates an instance of Child
   /// section : section from which children will be displayed
-  const ChildrenPage({Key? key, required this.section}) : super(key: key);
+  const ChildrenPage({
+    Key? key,
+    required this.section,
+  }) : super(key: key);
 
   @override
   State<ChildrenPage> createState() => _ChildrenPageState();
@@ -23,6 +28,7 @@ class ChildrenPage extends StatefulWidget {
 class _ChildrenPageState extends State<ChildrenPage> {
   final formKey = GlobalKey<FormState>();
   String childName = " ";
+  String status = " ";
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +45,7 @@ class _ChildrenPageState extends State<ChildrenPage> {
             child: GestureDetector(
               onTap: () {
                 final database =
-                Provider.of<FirebaseDatabase>(context, listen: false);
+                    Provider.of<FirebaseDatabase>(context, listen: false);
 
                 /// Creating a bottom model sheet to add a new section
                 showModalBottomSheet<void>(
@@ -96,17 +102,58 @@ class _ChildrenPageState extends State<ChildrenPage> {
                 itemBuilder: (BuildContext context, int index) {
                   return Column(
                     children: [
-                      InkWell(
-                        splashColor: Colors.lightGreen[200],
-                        onTap: () {
-                          //todo implement managing by using status enum
+                      GestureDetector(
+                        onTap: () async {
+                          if (snapshot.data![index].status == "ARRIVED") {
+                            status = await showAlertDialog(
+                              context,
+                              title: "Status",
+                              content: "Choose the status of the child",
+                              arriveEnabled: false,
+                              absentEnabled: true,
+                              pickedEnabled: true,
+                            );
+                          } else if (snapshot.data![index].status == "PICKED") {
+                            status = await showAlertDialog(
+                              context,
+                              title: "Status",
+                              content: "Choose the status of the child",
+                              arriveEnabled: true,
+                              absentEnabled: true,
+                              pickedEnabled: false,
+                            );
+                          } else if (snapshot.data![index].status == "ABSENT") {
+                            status = await showAlertDialog(
+                              context,
+                              title: "Status",
+                              content: "Choose the status of the child",
+                              arriveEnabled: true,
+                              absentEnabled: false,
+                              pickedEnabled: true,
+                            );
+                          } else {
+                            status = await showAlertDialog(
+                              context,
+                              title: "Status",
+                              content: "Choose the status of the child",
+                              arriveEnabled: true,
+                              absentEnabled: true,
+                              pickedEnabled: true,
+                            );
+                          }
+
+                          final updateStatus = Child(
+                              name: snapshot.data![index].name,
+                              id: snapshot.data![index].id,
+                              status: status);
+                          database.editChild(widget.section, updateStatus);
                         },
-                        onLongPress: () =>
-                            _editChild(
-                              widget.section,
-                              snapshot.data![index].id,
-                              database,
-                            ),
+                        onLongPress: () => _editChild(
+                          widget.section,
+                          snapshot.data![index].id,
+                          snapshot.data![index].status,
+                          database,
+                        ),
                         child: Image.asset(
                           "assets/images/cartoon.jpeg",
                           height: 75,
@@ -169,7 +216,8 @@ class _ChildrenPageState extends State<ChildrenPage> {
     }
   }
 
-  void _editChild(Section section, String childDocId, FirebaseDatabase database) {
+  void _editChild(Section section, String childDocId, String childStatus,
+      FirebaseDatabase database) {
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
@@ -200,17 +248,14 @@ class _ChildrenPageState extends State<ChildrenPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                        child: const Text('Delete'),
-                        onPressed: () {
-
-                        }),
+                        child: const Text('Delete'), onPressed: () {}),
                     const SizedBox(
                       width: 20,
                     ),
                     ElevatedButton(
                         child: const Text('Edit'),
                         onPressed: () {
-                          _onEdit(database, section, childDocId);
+                          _onEdit(section, childDocId, childStatus, database);
                         }),
                   ],
                 )
@@ -223,10 +268,14 @@ class _ChildrenPageState extends State<ChildrenPage> {
   }
 
   /// Validating and editing a existing section.
-  Future<void> _onEdit(FirebaseDatabase database, Section section,
-      String childDocId,) async {
+  Future<void> _onEdit(
+    Section section,
+    String childDocId,
+    String childStatus,
+    FirebaseDatabase database,
+  ) async {
     if (_validateAndSaveForm()) {
-      final child = Child(id: childDocId, name: childName);
+      final child = Child(id: childDocId, name: childName, status: childStatus);
       await database.editChild(section, child);
       Navigator.pop(context);
     }
