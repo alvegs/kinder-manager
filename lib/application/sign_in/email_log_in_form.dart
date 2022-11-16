@@ -1,9 +1,11 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:kindermanager/application/sign_in/sign_in_page.dart';
+
+import 'package:kindermanager/application/sign_in/sign_up_page.dart';
 import 'package:kindermanager/common_widgets/custom_button.dart';
+import 'package:kindermanager/common_widgets/custom_dialog_box.dart';
 import 'package:provider/provider.dart';
 import '../../services/auth.dart';
+import '../landing_page.dart';
 
 class EmailLogInForm extends StatefulWidget {
   const EmailLogInForm({super.key});
@@ -17,22 +19,28 @@ class _EmailLogInFormState extends State<EmailLogInForm> {
   final TextEditingController _passwordController = TextEditingController();
 
   void _submit() async {
-    //ToDo: Print email and password
-    if (kDebugMode) {
-      print("email: ${_emailController.text} ");
-    }
-    if (kDebugMode) {
-      print("Password: ${_passwordController.text} ");
-    }
-
     final auth = Provider.of<Auth>(
       context,
       listen: false,
     );
-    await auth.signInWithEmail(
-      _emailController.text,
-      _passwordController.text,
-    );
+    try {
+      await auth.signInWithEmail(
+        _emailController.text,
+        _passwordController.text,
+      );
+      Navigator.of(context).push(MaterialPageRoute<void>(
+        builder: (context) => LandingPage(),
+      ));
+    } catch (e) {
+      CustomDialogBox(
+        context,
+        title: "Error",
+        content: e.toString(),
+        pickedEnabled: false,
+        absentEnabled: false,
+        arriveEnabled: false,
+      );
+    }
   }
 
   List<Widget> _buildChildren() {
@@ -77,7 +85,6 @@ class _EmailLogInFormState extends State<EmailLogInForm> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(

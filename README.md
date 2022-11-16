@@ -1,16 +1,15 @@
-# kindermanager
 
-KinderManager - A new way to manage and organize the chilldren in the kindergarden
 
-## Getting Started
+# KinderManager 
+A easy way to manage and organize the children in the kindergarten. 
+This mobile app is developed as a final project in IDATA2503 Mobile Applications 2022.
 
-This project is a starting point for a Flutter application.
+##Functions of the app
+An authorised user can register a child
+ - ARRIVED
+ - PICKED
+ - ABSENT
+using KinderManager. An admin can add, edit, delete and update a child and section
+in the kindergarten. 
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img src="assets/images/app_screenshot.png"/>

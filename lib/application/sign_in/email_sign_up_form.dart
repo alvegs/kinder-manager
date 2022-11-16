@@ -1,6 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:kindermanager/application/sign_in/log_in_page.dart';
+import 'package:kindermanager/application/sign_in/email_confirmation_page.dart';
 import 'package:kindermanager/common_widgets/custom_button.dart';
 import 'package:provider/provider.dart';
 
@@ -23,28 +22,18 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
 
   /// Creates a new user with given email and password.
   void _submit() async {
-    //ToDo: Print email and password
-    if (kDebugMode) {
-      print("email: ${_emailController.text} ");
-    }
-    if (kDebugMode) {
-      print("Password: ${_passwordController.text} ");
-    }
-    if (kDebugMode) {
-      print("Confirm Password: ${_confirmPasswordController.text} ");
-    }
-
     final auth = Provider.of<Auth>(
       context,
       listen: false,
     );
 
-    ///todo check whether both passwords are same.
-    ///todo implement email confirmation.
+    //todo check whether both passwords are same.
     await auth.createUserWithEmail(
         _emailController.text, _passwordController.text);
     auth.signOut();
-    Navigator.of(context).pop();
+    Navigator.of(context).push(MaterialPageRoute<void>(
+      builder: (context) => EmailConfirmationPage(),
+    ));
   }
 
   List<Widget> _buildChildren() {
@@ -90,7 +79,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute<void>(
-                builder: (context) => const LogInPage(),
+                builder: (context) => const EmailConfirmationPage(),
               ),
             );
           },

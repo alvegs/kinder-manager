@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kindermanager/application/sign_in/email_sign_in_form.dart';
+import 'package:kindermanager/application/sign_in/email_sign_up_form.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key});

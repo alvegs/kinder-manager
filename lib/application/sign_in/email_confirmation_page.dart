@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kindermanager/application/sign_in/log_in_page.dart';
 import 'package:kindermanager/common_widgets/custom_button.dart';
 
 /// This page is for confirming your email address after signing up
@@ -45,7 +46,11 @@ class EmailConfirmationPage extends StatelessWidget {
               backgroundColor: Colors.green,
               height: 52,
               child: const Text("Back to login"),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute<void>(
+                  builder: (context) => LogInPage(),
+                ));
+              },
             ),
             const SizedBox(
               height: 20,

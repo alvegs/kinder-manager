@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kindermanager/application/sections_page.dart';
+import 'package:kindermanager/application/sign_in/email_confirmation_page.dart';
 import 'package:kindermanager/application/sign_in/log_in_page.dart';
 import 'package:kindermanager/services/firebase_database.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +31,9 @@ class LandingPage extends StatelessWidget {
           }
           return Provider<FirebaseDatabase>(
             create: (_) => FirebaseDatabase(),
-            child: const SectionsPage(),
+            child: user.emailVerified
+                ? const SectionsPage()
+                : EmailConfirmationPage(),
           );
         });
   }

@@ -10,7 +10,14 @@ class Auth {
       email: email,
       password: password,
     );
-    return userCredential.user;
+    final newUser = userCredential.user;
+    if (newUser != null) {
+      if (!newUser.emailVerified) {
+        await newUser.sendEmailVerification();
+      }
+    }
+    await newUser?.reload();
+    return newUser;
   }
 
   /// Signs in the user with given credentials.
@@ -35,7 +42,8 @@ class Auth {
     return _firebaseAuth.authStateChanges();
   }
 
-  String? getUserId() {
-    return _firebaseAuth.currentUser?.email;
+  /// Returns the email verification state of the user.
+  Future<bool?> isEmailVerified() async {
+    return await _firebaseAuth.currentUser?.emailVerified;
   }
 }

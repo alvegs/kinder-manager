@@ -54,6 +54,7 @@ class _SectionsPageState extends State<SectionsPage> {
 
       /// Appbar with title and logout icon.
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text("Sections"),
         actions: [
           Padding(
