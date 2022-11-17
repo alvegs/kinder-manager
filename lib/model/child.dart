@@ -15,8 +15,11 @@ enum Status {
 
 /// Represents a child in kindergarten.
 class Child {
+  /// The name of the child.
   final String name;
+  /// The id of the child.
   final String id;
+  /// The status of the child.
  // final Status status; TODO: REMOVE THIS COMMENT WHEN STATUS IS WORKING PROPERLY!
   final String status; // TODO: REMOVE THIS LINE WHEN THE STATUS IS WORKING PROPERLY!
 
@@ -29,9 +32,9 @@ class Child {
     required this.id,
     // this.status = Status.START  TODO: REMOVE THIS COMMENT WHEN STATUS IS WORKING PROPERLY!
     this.status = 'Start' // TODO: REMOVE THIS LINE WHEN THE STATUS IS WORKING PROPERLY!
-  }) : assert(validNameValidator().isValid(name)),
-        assert(validIdValidator().isValid(id))
-       // assert(validStatusValidator().isValid(status)) TODO: REMOVE COMMENT WHEN THIS ACTUALLY WORKS
+  }) : assert(ValidNameValidator().isValid(name)),
+        assert(ValidIdValidator().isValid(id))
+       // assert(ValidStatusValidator().isValid(status)) TODO: REMOVE COMMENT WHEN THIS ACTUALLY WORKS
   ;
 
 

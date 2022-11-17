@@ -51,7 +51,7 @@ void main() {
 
   });
 
- /// NEGATIVE TEST - THIS TEST SHOULD NOT PASS!
+  /// NEGATIVE TEST - THIS TEST SHOULD NOT PASS WITHOUT AN EXCEPTION BEING THROWN!
   /// If an exception DO NOT GET THROWN, this test fails.
   /// If an exception is thrown, this test passes.
   test('Test creation of child with invalid name - empty name', () {
@@ -65,7 +65,7 @@ void main() {
     }
   });
 
-  /// NEGATIVE TEST - THIS TEST SHOULD NOT PASS!
+   /// NEGATIVE TEST - THIS TEST SHOULD NOT PASS WITHOUT AN EXCEPTION BEING THROWN!
   /// If an exception DO NOT GET THROWN, this test fails.
   /// If an exception is thrown, this test passes.
   test('Test creation of child with invalid name - empty name', () {
@@ -79,7 +79,7 @@ void main() {
     }
   });
 
-  /// NEGATIVE TEST - THIS TEST SHOULD NOT PASS!
+   /// NEGATIVE TEST - THIS TEST SHOULD NOT PASS WITHOUT AN EXCEPTION BEING THROWN!
   /// If an exception DO NOT GET THROWN, this test fails.
   /// If an exception is thrown, this test passes.
   test('Test creation of child with invalid name and id - too short name and missing id', () {
@@ -93,7 +93,7 @@ void main() {
     }
   });
 
-  /// NEGATIVE TEST - THIS TEST SHOULD NOT PASS!
+   /// NEGATIVE TEST - THIS TEST SHOULD NOT PASS WITHOUT AN EXCEPTION BEING THROWN!
   /// If an exception DO NOT GET THROWN, this test fails.
   /// If an exception is thrown, this test passes.
   test('Test creation of child with invalid parameters - empty params', () {
@@ -107,7 +107,7 @@ void main() {
     }
   });
 
-  /// NEGATIVE TEST - THIS TEST SHOULD NOT PASS!
+   /// NEGATIVE TEST - THIS TEST SHOULD NOT PASS WITHOUT AN EXCEPTION BEING THROWN!
   /// If an exception DO NOT GET THROWN, this test fails.
   /// If an exception is thrown, this test passes.
   test('Test creation of child with invalid id', () {
@@ -121,7 +121,7 @@ void main() {
     }
   });
 
-  /// NEGATIVE TEST - THIS TEST SHOULD NOT PASS!
+   /// NEGATIVE TEST - THIS TEST SHOULD NOT PASS WITHOUT AN EXCEPTION BEING THROWN!
   /// If an exception DO NOT GET THROWN, this test fails.
   /// If an exception is thrown, this test passes.
   test('Test creation of child with invalid id', () {
