@@ -50,7 +50,7 @@ class _SectionsPageState extends State<SectionsPage> {
   Widget build(BuildContext context) {
     final database = Provider.of<FirebaseDatabase>(context, listen: false);
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.lightGreen[50],
 
       /// Appbar with title and logout icon.
       appBar: AppBar(

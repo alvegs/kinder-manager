@@ -37,6 +37,7 @@ class _ChildrenPageState extends State<ChildrenPage> {
     }
     final database = Provider.of<FirebaseDatabase>(context, listen: false);
     return Scaffold(
+      backgroundColor: Colors.lightGreen[50],
       appBar: AppBar(
         title: const Text("children"),
         actions: [
@@ -60,67 +61,19 @@ class _ChildrenPageState extends State<ChildrenPage> {
             ];
           }, onSelected: (value) {
             if (value == 0) {
-              Navigator.of(context).push(
-                  MaterialPageRoute<void>(
-                      builder: (context) =>
-              showSorted("ARRIVED", widget.section.id, database)));
+              Navigator.of(context).push(MaterialPageRoute<void>(
+                  builder: (context) =>
+                      showSorted("ARRIVED", widget.section.id, database)));
             } else if (value == 1) {
-              Navigator.of(context).push(
-                  MaterialPageRoute<void>(
-                      builder: (context) =>
-                          showSorted("PICKED", widget.section.id, database)));
+              Navigator.of(context).push(MaterialPageRoute<void>(
+                  builder: (context) =>
+                      showSorted("PICKED", widget.section.id, database)));
             } else if (value == 2) {
-              Navigator.of(context).push(
-                  MaterialPageRoute<void>(
-                      builder: (context) =>
-                          showSorted("ABSENT", widget.section.id, database)));
+              Navigator.of(context).push(MaterialPageRoute<void>(
+                  builder: (context) =>
+                      showSorted("ABSENT", widget.section.id, database)));
             }
           }),
-          Padding(
-            padding: const EdgeInsets.only(right: 30.0),
-            child: GestureDetector(
-              onTap: () {
-                final database =
-                    Provider.of<FirebaseDatabase>(context, listen: false);
-
-                /// Creating a bottom model sheet to add a new section
-                showModalBottomSheet<void>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Container(
-                      height: 200,
-                      color: Colors.lightGreen[100],
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            const Text('Add new child'),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            createForm(),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            ElevatedButton(
-                                child: const Text('Add child'),
-                                onPressed: () {
-                                  _onSave(database);
-                                }),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
-              child: const Icon(
-                Icons.add_box,
-                size: 35.0,
-              ),
-            ),
-          ),
         ],
       ),
 
@@ -202,6 +155,50 @@ class _ChildrenPageState extends State<ChildrenPage> {
             }
             return const Center(child: Text("No child in this section!"));
           }),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(right: 30, bottom: 10),
+        child: FloatingActionButton(
+          tooltip: "Add a child",
+          backgroundColor: Colors.lightGreen,
+          onPressed: () {
+            final database =
+                Provider.of<FirebaseDatabase>(context, listen: false);
+
+            /// Creating a bottom model sheet to add a new section
+            showModalBottomSheet<void>(
+              context: context,
+              builder: (BuildContext context) {
+                return Container(
+                  height: 200,
+                  color: Colors.lightGreen[100],
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        const Text('Add new child'),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        createForm(),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        ElevatedButton(
+                            child: const Text('Add child'),
+                            onPressed: () {
+                              _onSave(database);
+                            }),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
+          },
+          child: Icon(Icons.add, size: 30),
+        ),
+      ),
     );
   }
 
@@ -310,48 +307,45 @@ class _ChildrenPageState extends State<ChildrenPage> {
 
   Widget showSorted(String status, String docId, FirebaseDatabase database) {
     var backgroundColor = Colors.lightGreen;
-    if(status == "ARRIVED"){
+    if (status == "ARRIVED") {
       backgroundColor = Colors.lightGreen;
-    }
-    else if(status == "PICKED"){
+    } else if (status == "PICKED") {
       backgroundColor = Colors.brown;
-    }
-    else if(status == "ABSENT"){
+    } else if (status == "ABSENT") {
       backgroundColor = Colors.red;
     }
     return Scaffold(
-      appBar: AppBar(title: Text(status),
-      backgroundColor: backgroundColor),
+      appBar: AppBar(title: Text(status), backgroundColor: backgroundColor),
       body: StreamBuilder<List<Child>>(
         stream: database.getSortedChildren(docId, status),
         builder: (context, snapshot) {
-          if(snapshot.hasData){
-          return GridView.builder(
-            padding: const EdgeInsets.only(top: 50),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-            ),
-            itemCount: snapshot.data?.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Column(children: [
-                Image.asset(
-                  "assets/images/cartoon.jpeg",
-                  height: 75,
-                  width: 75,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  snapshot.data![index].name,
-                  style:
-                      const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                ),
-              ]);
-            },
-          );}
+          if (snapshot.hasData) {
+            return GridView.builder(
+              padding: const EdgeInsets.only(top: 50),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+              ),
+              itemCount: snapshot.data?.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Column(children: [
+                  Image.asset(
+                    "assets/images/cartoon.jpeg",
+                    height: 75,
+                    width: 75,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    snapshot.data![index].name,
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
+                ]);
+              },
+            );
+          }
           return const Center(child: Text("No child in this section!"));
-
         },
       ),
     );

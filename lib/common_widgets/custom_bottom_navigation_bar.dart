@@ -26,15 +26,18 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      elevation: 10,
+      backgroundColor: Colors.lightGreen[100],
+      elevation: 50,
       items: <BottomNavigationBarItem>[
         /// Adding a new section icon to bottom navigation bar.
         BottomNavigationBarItem(
           icon: IconButton(
+            iconSize: 25,
             onPressed: createBottomSheet,
             icon: const Icon(Icons.add_box),
           ),
           label: 'New section',
+
         ),
 
         /// Adding Logout icon item to bottom navigation bar
