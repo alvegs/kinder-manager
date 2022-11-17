@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:kindermanager/model/child.dart';
 
 /// Abstract class that shall act like the skeleton for a validator class for string inputs.
 abstract class StringValidator {
@@ -88,26 +87,43 @@ class ValidNameValidator implements NameValidator {
 /// Returns False if the id is NOT valid.
 /// Returns True if the id is valid.
 class ValidIdValidator implements IdValidator {
-  int minimum = 1;       // The lowest id possible to set.
-  int maximum = 1000000; // The highest id possible to set.
-  int parsedID = 0;      // If the string id can be parsed into int, this var will hold the int value.
+  int minimum = 1; // The lowest id possible to set.
+  int maximum = 100000; // The highest id possible to set.
 
   @override
   bool isValid(String id) {
-    try {
-      parsedID = int.tryParse(id)!;
-    } catch (e) {
-      debugPrint(
-          'validValidator thrown an exception because of input ${id} cant be parsed into a int',
-          wrapWidth: 1024);
-    }
-    if (parsedID < minimum || parsedID > maximum) {
-      return false;
+    bool result = false; // Holds the result of the parsing.
+    int parsedID =
+        0; // If the string id can be parsed into int, this var will hold the int value.
+
+    // Checks that the string aint empty, too short or too long.
+    if (id.trim().isNotEmpty &&
+        id.trim().length >= minimum &&
+        id.trim().length <= maximum) {
+      try {
+        // Trying to parse the string into a int. If this is successfull, the string is actually an int.
+        parsedID = int.tryParse(id.trim())!;
+      } catch (e) {
+        // Exception gets caught if an exception gets thrown due to the string cant be parsed.
+        debugPrint(
+            'validValidator thrown an exception because of input ${id} cant be parsed into a int',
+            wrapWidth: 1024);
+      }
     } else {
-      return true;
+      // The string input is empty, or is either too short or too long. This is NOT a valid int.
+      return false;
     }
+
+    // Checks if the parsedID is actually changed and are actually valid.
+    if (parsedID >= minimum && parsedID <= maximum) {
+      result = true;
+    }
+
+    // Returns the result.
+    return result;
   }
 }
+
 
 /// Checks the status of the child.
 /// Returns False if the status is NOT valid.
@@ -115,13 +131,13 @@ class ValidIdValidator implements IdValidator {
 class ValidStatusValidator implements StatusValidator {
   @override
   bool isValid(String status) {
-    if (status == 'START' ||
-        status == 'ARRIVED' ||
-        status == 'PICKED' ||
-        status == 'ABSENT'
-    ) {
+    if (status == 'Start' ||
+        status == 'Arrived' ||
+        status == 'Picked' ||
+        status == 'Absent') {
       return true;
     } else {
+      // The status recieved is not one of the supported ones.
       return false;
     }
   }
@@ -133,12 +149,16 @@ class ValidStatusValidator implements StatusValidator {
 class ValidImageFileValidator implements ImageFileValidator {
   /// The minimum length of a image file.
   int minimum = 16;
+
   /// The maximum length of a image file.
   int maximum = 1000000;
 
   @override
   bool isValid(String value) {
-    if (value.isEmpty || value.trim().isEmpty || value.trim().length < minimum || value.trim().length > maximum) {
+    if (value.isEmpty ||
+        value.trim().isEmpty ||
+        value.trim().length < minimum ||
+        value.trim().length > maximum) {
       return false;
     } else {
       return value.isNotEmpty;
