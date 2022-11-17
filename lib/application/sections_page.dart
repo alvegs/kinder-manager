@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kindermanager/application/section_start_page.dart';
-import 'package:kindermanager/common_widgets/bottom_model_content_widget.dart';
-import 'package:kindermanager/common_widgets/custom_bottom_navigation_bar.dart';
-import 'package:kindermanager/common_widgets/section_display_widget.dart';
-import 'package:kindermanager/common_widgets/show_alert_dialog.dart';
+import 'package:kindermanager/custom_widgets/bottom_model_content_widget.dart';
+import 'package:kindermanager/custom_widgets/custom_bottom_navigation_bar.dart';
+import 'package:kindermanager/custom_widgets/section_display_widget.dart';
+import 'package:kindermanager/custom_widgets/show_alert_dialog.dart';
 import 'package:kindermanager/services/firebase_database.dart';
 import 'package:provider/provider.dart';
 

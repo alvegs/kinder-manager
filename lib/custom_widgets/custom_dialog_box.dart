@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 /// Returns the status chosen.
 Future CustomDialogBox(
   BuildContext context, {
-  required String title,
-  required String content,
 
   /// Disables buttons that are not necessary
   bool arriveEnabled = true,
@@ -16,8 +14,8 @@ Future CustomDialogBox(
     context: context,
     builder: (context) => AlertDialog(
       actionsPadding: EdgeInsets.all(10),
-      title: Text(title),
-      content: Text(content),
+      title: Text("Status"),
+      content: Text("Choose the status of the child"),
       actions: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

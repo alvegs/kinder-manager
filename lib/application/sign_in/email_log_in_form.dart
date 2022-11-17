@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:kindermanager/application/sign_in/sign_up_page.dart';
-import 'package:kindermanager/common_widgets/custom_button.dart';
-import 'package:kindermanager/common_widgets/custom_dialog_box.dart';
+import 'package:kindermanager/custom_widgets/custom_button.dart';
 import 'package:provider/provider.dart';
 import '../../services/auth.dart';
 import '../landing_page.dart';
@@ -32,14 +31,7 @@ class _EmailLogInFormState extends State<EmailLogInForm> {
         builder: (context) => LandingPage(),
       ));
     } catch (e) {
-      CustomDialogBox(
-        context,
-        title: "Error",
-        content: e.toString(),
-        pickedEnabled: false,
-        absentEnabled: false,
-        arriveEnabled: false,
-      );
+
     }
   }
 

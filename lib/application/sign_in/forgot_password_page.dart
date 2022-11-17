@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kindermanager/common_widgets/custom_button.dart';
+import 'package:kindermanager/custom_widgets/custom_button.dart';
 
 /// This page is to be displayed when the "forgot password" text is clicked
 /// on the "sign in"-page.
