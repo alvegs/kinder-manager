@@ -15,5 +15,8 @@ void main() {
     final button = find.byType(CustomRaisedButton);
     // expected to find 2 CustomRaisedButtons in EmailConf. widget
     expect(button, findsNWidgets(2));
+    expect(find.byType(TextButton), findsNothing);
+    expect(find.byType(Column), findsOneWidget);
+    expect(find.byType(Scaffold), findsOneWidget);
   });
 }
