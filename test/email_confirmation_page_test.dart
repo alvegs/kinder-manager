@@ -18,5 +18,9 @@ void main() {
     expect(find.byType(TextButton), findsNothing);
     expect(find.byType(Column), findsOneWidget);
     expect(find.byType(Scaffold), findsOneWidget);
+    // checks that these texts are in the widget 
+    expect(find.text("Please check your inbox for a confirmation email. Click the link in the email to confirm your email address."), findsOneWidget);
+    expect(find.text("Back to login"), findsOneWidget);
+    expect(find.text("Re-send confirmation email"), findsOneWidget);
   });
 }
