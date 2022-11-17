@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:kindermanager/common_widgets/custom_dialog_box.dart';
+import 'package:kindermanager/application/show_sorted_children_page.dart';
+import 'package:kindermanager/custom_widgets/custom_dialog_box.dart';
 import 'package:provider/provider.dart';
 
 import '../model/child.dart';
@@ -62,16 +62,25 @@ class _ChildrenPageState extends State<ChildrenPage> {
           }, onSelected: (value) {
             if (value == 0) {
               Navigator.of(context).push(MaterialPageRoute<void>(
-                  builder: (context) =>
-                      showSorted("ARRIVED", widget.section.id, database)));
+                  builder: (context) => ShowSortedChildren(
+                        status: "ARRIVED",
+                        sectionId: widget.section.id,
+                        database: database,
+                      )));
             } else if (value == 1) {
               Navigator.of(context).push(MaterialPageRoute<void>(
-                  builder: (context) =>
-                      showSorted("PICKED", widget.section.id, database)));
+                  builder: (context) => ShowSortedChildren(
+                        status: "PICKED",
+                        sectionId: widget.section.id,
+                        database: database,
+                      )));
             } else if (value == 2) {
               Navigator.of(context).push(MaterialPageRoute<void>(
-                  builder: (context) =>
-                      showSorted("ABSENT", widget.section.id, database)));
+                  builder: (context) => ShowSortedChildren(
+                        status: "ABSENT",
+                        sectionId: widget.section.id,
+                        database: database,
+                      )));
             }
           }),
         ],
@@ -93,41 +102,37 @@ class _ChildrenPageState extends State<ChildrenPage> {
                     children: [
                       GestureDetector(
                         onTap: () async {
+                          /// Displaying dialog box according to the status
                           if (snapshot.data![index].status == "ARRIVED") {
                             status = await CustomDialogBox(
                               context,
-                              title: "Status",
-                              content: "Choose the status of the child",
                               arriveEnabled: false,
                             );
                           } else if (snapshot.data![index].status == "PICKED") {
                             status = await CustomDialogBox(
                               context,
-                              title: "Status",
-                              content: "Choose the status of the child",
                               pickedEnabled: false,
                             );
                           } else if (snapshot.data![index].status == "ABSENT") {
                             status = await CustomDialogBox(
                               context,
-                              title: "Status",
-                              content: "Choose the status of the child",
                               absentEnabled: false,
                             );
                           } else {
                             status = await CustomDialogBox(
                               context,
-                              title: "Status",
-                              content: "Choose the status of the child",
                             );
                           }
 
+                          /// Updating the child according to the chosen status.
                           final updateStatus = Child(
                               name: snapshot.data![index].name,
                               id: snapshot.data![index].id,
                               status: status);
                           database.editChild(widget.section, updateStatus);
                         },
+
+                        /// Updating an existing child.
                         onLongPress: () => _editChild(
                           widget.section,
                           snapshot.data![index].id,
@@ -240,7 +245,7 @@ class _ChildrenPageState extends State<ChildrenPage> {
     }
   }
 
-  void _editChild(Section section, String childDocId, String childStatus,
+  void _editChild(Section section, String childId, String childStatus,
       FirebaseDatabase database) {
     showModalBottomSheet<void>(
       context: context,
@@ -279,7 +284,7 @@ class _ChildrenPageState extends State<ChildrenPage> {
                     ElevatedButton(
                         child: const Text('Edit'),
                         onPressed: () {
-                          _onEdit(section, childDocId, childStatus, database);
+                          _onEdit(section, childId, childStatus, database);
                         }),
                   ],
                 )
@@ -291,63 +296,17 @@ class _ChildrenPageState extends State<ChildrenPage> {
     );
   }
 
-  /// Validating and editing a existing section.
+  /// Validating and updating an existing child.
   Future<void> _onEdit(
     Section section,
-    String childDocId,
+    String childId,
     String childStatus,
     FirebaseDatabase database,
   ) async {
     if (_validateAndSaveForm()) {
-      final child = Child(id: childDocId, name: childName, status: childStatus);
+      final child = Child(id: childId, name: childName, status: childStatus);
       await database.editChild(section, child);
       Navigator.pop(context);
     }
-  }
-
-  Widget showSorted(String status, String docId, FirebaseDatabase database) {
-    var backgroundColor = Colors.lightGreen;
-    if (status == "ARRIVED") {
-      backgroundColor = Colors.lightGreen;
-    } else if (status == "PICKED") {
-      backgroundColor = Colors.brown;
-    } else if (status == "ABSENT") {
-      backgroundColor = Colors.red;
-    }
-    return Scaffold(
-      appBar: AppBar(title: Text(status), backgroundColor: backgroundColor),
-      body: StreamBuilder<List<Child>>(
-        stream: database.getSortedChildren(docId, status),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return GridView.builder(
-              padding: const EdgeInsets.only(top: 50),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-              ),
-              itemCount: snapshot.data?.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Column(children: [
-                  Image.asset(
-                    "assets/images/cartoon.jpeg",
-                    height: 75,
-                    width: 75,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    snapshot.data![index].name,
-                    style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.w500),
-                  ),
-                ]);
-              },
-            );
-          }
-          return const Center(child: Text("No child in this section!"));
-        },
-      ),
-    );
   }
 }

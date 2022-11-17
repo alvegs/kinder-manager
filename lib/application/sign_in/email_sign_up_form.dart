@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kindermanager/application/sign_in/email_confirmation_page.dart';
-import 'package:kindermanager/common_widgets/custom_button.dart';
+import 'package:kindermanager/custom_widgets/custom_button.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/auth.dart';
