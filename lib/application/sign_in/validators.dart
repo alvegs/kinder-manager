@@ -23,7 +23,12 @@ abstract class IdValidator {
 
 /// Abstract class that shall act like the skeleton for a validator class for status inputs.
 abstract class StatusValidator {
-  bool isValid(Status value);
+  bool isValid(String value);
+}
+
+/// Abstract class that shall act like the skeleton for a validator class for imagefile inputs.
+abstract class ImageFileValidator {
+  bool isValid(String value);
 }
 
 /// Class that verifies if the input entered is actually a valid string.
@@ -109,14 +114,34 @@ class ValidIdValidator implements IdValidator {
 /// Returns True if the status is valid.
 class ValidStatusValidator implements StatusValidator {
   @override
-  bool isValid(Status status) {
-    if (status == Status.START ||
-        status == Status.ARRIVED ||
-        status == Status.PICKED ||
-        status == Status.ABSENT) {
+  bool isValid(String status) {
+    if (status == 'START' ||
+        status == 'ARRIVED' ||
+        status == 'PICKED' ||
+        status == 'ABSENT'
+    ) {
       return true;
     } else {
       return false;
+    }
+  }
+}
+
+/// Class that verifies if the input entered is actually a valid imagefile string.
+/// Returns False if the string is NOT valid.
+/// Returns True if the string is valid.
+class ValidImageFileValidator implements ImageFileValidator {
+  /// The minimum length of a image file.
+  int minimum = 16;
+  /// The maximum length of a image file.
+  int maximum = 1000000;
+
+  @override
+  bool isValid(String value) {
+    if (value.isEmpty || value.trim().isEmpty || value.trim().length < minimum || value.trim().length > maximum) {
+      return false;
+    } else {
+      return value.isNotEmpty;
     }
   }
 }
@@ -127,6 +152,7 @@ class EmailAndPasswordValidators {
   final NameValidator nameValidator = ValidNameValidator();
   final StatusValidator statusValidator = ValidStatusValidator();
   final IdValidator idValidator = ValidIdValidator();
+  final ImageFileValidator imageFileValidator = ValidImageFileValidator();
 
   final String invalidEmailErrorText = 'Email is invalid!';
   final String emptyEmailErrorText = 'Email can\'t be empty';
@@ -135,6 +161,7 @@ class EmailAndPasswordValidators {
   final String emptyNameErrorText = 'Name can\'t be empty';
   final String invalidNameErrorText = 'Name is invalid!';
   final String invalidStatusErrorText = 'Status is invalid!';
+  final String invalidImageFileErrorText = 'ImageFile is invalid!';
 }
 
 //TODO: REMOVE THE LINES BELOW BEFORE SENDING IN THE EXAM!!!!!!!!!!!

@@ -221,7 +221,7 @@ void main() {
   /// POSITIVE TEST - THIS TEST SHALL PASS!
   /// This test will PASS if the validator says that the entered param is valid.
   test('check valid status', () {
-    Status status = Status.START;
+    String status = 'START';
     final validator = ValidStatusValidator();
     expect(validator.isValid(status), true);
   });
@@ -229,7 +229,7 @@ void main() {
   /// POSITIVE TEST - THIS TEST SHALL PASS!
   /// This test will PASS if the validator says that the entered param is valid.
   test('check valid status', () {
-    Status status = Status.ARRIVED;
+    String status = 'ARRIVED';
     final validator = ValidStatusValidator();
     expect(validator.isValid(status), true);
   });
@@ -237,7 +237,7 @@ void main() {
   /// POSITIVE TEST - THIS TEST SHALL PASS!
   /// This test will PASS if the validator says that the entered param is valid.
   test('check valid status', () {
-    Status status = Status.PICKED;
+    String status = 'PICKED';
     final validator = ValidStatusValidator();
     expect(validator.isValid(status), true);
   });
@@ -245,7 +245,7 @@ void main() {
   /// POSITIVE TEST - THIS TEST SHALL PASS!
   /// This test will PASS if the validator says that the entered param is valid.
   test('check valid status', () {
-    Status status = Status.ABSENT;
+    String status = 'ABSENT';
     final validator = ValidStatusValidator();
     expect(validator.isValid(status), true);
   });
