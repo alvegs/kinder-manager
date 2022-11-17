@@ -29,7 +29,7 @@ abstract class StatusValidator {
 /// Class that verifies if the input entered is actually a valid string.
 /// Returns False if the string is NOT valid.
 /// Returns True if the string is valid.
-class NonEmptyStringValidator implements StringValidator {
+class ValidStringValidator implements StringValidator {
   @override
   bool isValid(String value) {
     if (value.isEmpty || value.trim().isEmpty) {
@@ -43,7 +43,7 @@ class NonEmptyStringValidator implements StringValidator {
 /// Class that verifies if the input entered is actually a valid email.
 /// Returns False if the email is NOT valid.
 /// Returns True if the email is valid.
-class NonEmptyEmailValidator implements EmailValidator {
+class ValidEmailValidator implements EmailValidator {
   int minimum = 6;
 
   @override
@@ -65,7 +65,7 @@ class NonEmptyEmailValidator implements EmailValidator {
 /// Checks the name of the child.
 /// Returns False if the name is NOT valid.
 /// Returns True if the name is valid.
-class validNameValidator implements NameValidator {
+class ValidNameValidator implements NameValidator {
   @override
   bool isValid(String value) {
     if (value.isEmpty ||
@@ -82,9 +82,10 @@ class validNameValidator implements NameValidator {
 /// Checks the id of the child.
 /// Returns False if the id is NOT valid.
 /// Returns True if the id is valid.
-class validIdValidator implements IdValidator {
-  int minimum = 0;
-  int parsedID = 0;
+class ValidIdValidator implements IdValidator {
+  int minimum = 1;       // The lowest id possible to set.
+  int maximum = 1000000; // The highest id possible to set.
+  int parsedID = 0;      // If the string id can be parsed into int, this var will hold the int value.
 
   @override
   bool isValid(String id) {
@@ -95,7 +96,7 @@ class validIdValidator implements IdValidator {
           'validValidator thrown an exception because of input ${id} cant be parsed into a int',
           wrapWidth: 1024);
     }
-    if (parsedID < minimum && parsedID < 1000000) {
+    if (parsedID < minimum || parsedID > maximum) {
       return false;
     } else {
       return true;
@@ -106,7 +107,7 @@ class validIdValidator implements IdValidator {
 /// Checks the status of the child.
 /// Returns False if the status is NOT valid.
 /// Returns True if the status is valid.
-class validStatusValidator implements StatusValidator {
+class ValidStatusValidator implements StatusValidator {
   @override
   bool isValid(Status status) {
     if (status == Status.START ||
@@ -121,11 +122,11 @@ class validStatusValidator implements StatusValidator {
 }
 
 class EmailAndPasswordValidators {
-  final EmailValidator emailValidator = NonEmptyEmailValidator();
-  final StringValidator passwordValidator = NonEmptyStringValidator();
-  final NameValidator nameValidator = validNameValidator();
-  final StatusValidator statusValidator = validStatusValidator();
-  final IdValidator idValidator = validIdValidator();
+  final EmailValidator emailValidator = ValidEmailValidator();
+  final StringValidator passwordValidator = ValidStringValidator();
+  final NameValidator nameValidator = ValidNameValidator();
+  final StatusValidator statusValidator = ValidStatusValidator();
+  final IdValidator idValidator = ValidIdValidator();
 
   final String invalidEmailErrorText = 'Email is invalid!';
   final String emptyEmailErrorText = 'Email can\'t be empty';

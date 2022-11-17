@@ -2,7 +2,10 @@ import 'package:kindermanager/application/sign_in/validators.dart';
 
 /// Represents a child in kindergarten.
 class Child {
+  /// The name of the child.
   final String name;
+
+  /// The id of the child.
   final String id;
 
   /// Defining the status of the child.
@@ -16,9 +19,13 @@ class Child {
   /// name : name of the child
   /// id : document id from the firestore
   /// status : status of the child in kindergarten
-  Child({required this.name, required this.id, this.status = 'Start'})
-      : assert(validNameValidator().isValid(name)),
-        assert(validIdValidator().isValid(id));
+
+  Child({
+    required this.name,
+    required this.id,
+    this.status = 'Start',
+  })  : assert(ValidNameValidator().isValid(name)),
+        assert(ValidIdValidator().isValid(id));
 
   /// Returns a map of the child.
   Map<String, dynamic> toMap() {
