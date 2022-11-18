@@ -4,9 +4,12 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kindermanager/application/form_validator.dart';
 import 'package:kindermanager/application/section_start_page.dart';
+
 import 'package:kindermanager/custom_widgets/bottom_model_content_widget.dart';
 import 'package:kindermanager/custom_widgets/custom_bottom_navigation_bar.dart';
+
 import 'package:kindermanager/custom_widgets/section_display_widget.dart';
 import 'package:kindermanager/custom_widgets/show_alert_dialog.dart';
 import 'package:kindermanager/services/firebase_database.dart';
@@ -153,11 +156,20 @@ class _SectionsPageState extends State<SectionsPage> {
       final database = Provider.of<FirebaseDatabase>(context, listen: false);
       final uniqueImageName = DateTime.now().millisecondsSinceEpoch.toString();
       final ref = fireStore.child("images").child(uniqueImageName);
-      await ref.putFile(image!);
-      imageUrl = await ref.getDownloadURL();
-      final section = Section(imageFile: imageUrl, name: sectionName, id: '');
-      await database.createSection(section);
-      Navigator.of(context).pop();
+      //todo null still image verdi !
+      if (image == null) {
+        ShowAlertDialog(context,
+            title: "Error",
+            content: "Please choose a image for your section !",
+            leftButtonText: "",
+            rightButtonText: "Ok");
+      } else {
+        await ref.putFile(image!);
+        imageUrl = await ref.getDownloadURL();
+        final section = Section(imageFile: imageUrl, name: sectionName, id: '');
+        await database.createSection(section);
+        Navigator.of(context).pop();
+      }
     }
   }
 
@@ -211,8 +223,16 @@ class _SectionsPageState extends State<SectionsPage> {
 
   /// Deletes the selected section.
   Future<void> _onDelete(FirebaseDatabase database, String docId) async {
-    final section = Section(name: sectionName, id: docId, imageFile: imageUrl);
-    await database.deleteSection(section);
+    final result =  await ShowAlertDialog(context,
+        title: "Delete section",
+        content: "You are going to delete a section. Are you sure ?",
+        leftButtonText: "Cancel",
+        rightButtonText: "Delete");
+    if(result){
+      final section = Section(name: sectionName, id: docId, imageFile: imageUrl);
+      await database.deleteSection(section);
+    }
+    Navigator.pop(context);
   }
 
   /// Creating a form to display in bottom sheet model
@@ -223,7 +243,7 @@ class _SectionsPageState extends State<SectionsPage> {
         TextFormField(
           decoration: const InputDecoration(labelText: " New section name"),
           validator: (value) {
-            if (value!.isEmpty) {
+            if (!FormValidator.isNameValid(value)) {
               return "Please enter a valid section name";
             }
             return null;

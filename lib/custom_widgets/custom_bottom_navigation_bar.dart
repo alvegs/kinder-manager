@@ -37,7 +37,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             icon: const Icon(Icons.add_box),
           ),
           label: 'New section',
-
         ),
 
         /// Adding Logout icon item to bottom navigation bar
@@ -64,7 +63,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       context: context,
       builder: (BuildContext context) {
         /// Moves bottom sheet along with the keyboard.
-        final  mediaQueryData = MediaQuery.of(context);
+        final mediaQueryData = MediaQuery.of(context);
         return Padding(
           padding: mediaQueryData.viewInsets,
           child: Container(
@@ -96,7 +95,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                       ),
                       ElevatedButton(
                           onPressed: widget.onAddSection,
-                          child: const Text('Add section')),
+                          child: const Text('Save')),
                       const SizedBox(
                         height: 20,
                       ),
