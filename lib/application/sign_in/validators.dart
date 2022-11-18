@@ -104,10 +104,12 @@ class ValidIdValidator implements IdValidator {
         // Trying to parse the string into a int. If this is successfull, the string is actually an int.
         parsedID = int.tryParse(id.trim())!;
       } catch (e) {
+        // id can be date, and if date is passed it will throw exception
+        return true;
         // Exception gets caught if an exception gets thrown due to the string cant be parsed.
-        debugPrint(
-            'validValidator thrown an exception because of input ${id} cant be parsed into a int',
-            wrapWidth: 1024);
+     //   debugPrint(
+       //     'validValidator thrown an exception because of input ${id} cant be parsed into a int',
+        //    wrapWidth: 1024);
       }
     } else {
       // The string input is empty, or is either too short or too long. This is NOT a valid int.
