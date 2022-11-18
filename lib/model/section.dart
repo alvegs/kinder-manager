@@ -17,8 +17,8 @@ class Section {
     /// The image file of the section
     required this.imageFile,
   })  : assert(ValidNameValidator().isValid(name)),
-        assert(ValidIdValidator().isValid(id)),
         assert(ValidImageFileValidator().isValid(imageFile));
+  //assert(ValidIdValidator().isValid(id)),
 
   /* Section fromMap(Map<String, dynamic> data, String docId) {
     return Section(
