@@ -15,41 +15,43 @@ class SignInPage extends StatelessWidget {
     );
   }
 
-  Padding _buildContent() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const <Widget>[
-          Text(
-            "Sign up",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 32.0,
-              fontWeight: FontWeight.w600,
+  Widget _buildContent() {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const <Widget>[
+            Text(
+              "Sign up",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 32.0,
+                fontWeight: FontWeight.w600,
+              ),
             ),
-          ),
-          Text(
-            "Create an account",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.w600,
+            Text(
+              "Create an account",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.w600,
+              ),
             ),
-          ),
 
-          SizedBox(
-            height: 20.0,
-          ),
+            SizedBox(
+              height: 20.0,
+            ),
 
-          //ToDo: Implement sign up form...
-          EmailSignInForm(),
+            //ToDo: Implement sign up form...
+            EmailSignInForm(),
 
-          SizedBox(
-            height: 20.0,
-          ),
-        ],
+            SizedBox(
+              height: 20.0,
+            ),
+          ],
+        ),
       ),
     );
   }
