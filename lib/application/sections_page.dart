@@ -169,12 +169,14 @@ class _SectionsPageState extends State<SectionsPage> {
             content: "Please choose a image for your section !",
             rightButtonText: "Pick image",
             isDestructive: false);
-        if(result) await pickImage();
+        if (result) await pickImage();
       } else {
         await ref.putFile(image!);
         imageUrl = await ref.getDownloadURL();
         final section = Section(imageFile: imageUrl, name: sectionName, id: '');
         await database.createSection(section);
+
+        /// To avoid copying the last image picked from the gallery.
         image = null;
         Navigator.of(context).pop();
       }
@@ -291,5 +293,4 @@ class _SectionsPageState extends State<SectionsPage> {
           isDestructive: false);
     }
   }
-//todo remove last selected image from gallery to avoid duplicate images.
 }

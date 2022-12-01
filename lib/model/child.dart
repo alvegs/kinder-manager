@@ -8,6 +8,9 @@ class Child {
   /// The id of the child.
   final String id;
 
+  /// The image file of the child.
+  final String imageFile;
+
   /// Defining the status of the child.
   /// START is default status.
   /// ARRIVED is used to define that the child have arrived at the kindergarten.
@@ -23,16 +26,21 @@ class Child {
   Child({
     required this.name,
     required this.id,
+    required this.imageFile,
     this.status = 'Start',
-  });  /*: assert(ValidNameValidator().isValid(name)),
+  });
+
+  /*: assert(ValidNameValidator().isValid(name)),
         assert(ValidIdValidator().isValid(id)),
         assert(ValidStatusValidator().isValid(status));
 */
+
   /// Returns a map of the child.
   Map<String, dynamic> toMap() {
     return {
       "name": name,
       "status": status,
+      "image file": imageFile,
     };
   }
 }

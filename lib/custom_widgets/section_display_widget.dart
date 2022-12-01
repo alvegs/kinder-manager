@@ -17,7 +17,6 @@ class SectionDisplay extends StatelessWidget {
     required this.section,
     required this.onPressed,
     required this.onLongPressed,
-
   }) : super(key: key);
 
   @override
@@ -26,18 +25,18 @@ class SectionDisplay extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         InkWell(
-            onLongPress: onLongPressed,
-            onTap: onPressed,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                section.imageFile,
-                height: 110,
-                width: 110,
-                fit: BoxFit.fill,
-
-              ),
-            )),
+          onLongPress: onLongPressed,
+          onTap: onPressed,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.network(
+              section.imageFile,
+              height: 110,
+              width: 110,
+              fit: BoxFit.fill,
+            ),
+          ),
+        ),
         const SizedBox(
           height: 10,
         ),

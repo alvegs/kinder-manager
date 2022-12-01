@@ -1,9 +1,16 @@
-import 'package:flutter/foundation.dart';
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:kindermanager/application/show_sorted_children_page.dart';
+
 import 'package:kindermanager/custom_widgets/custom_dialog_box.dart';
 import 'package:provider/provider.dart';
 
+import '../custom_widgets/show_alert_dialog.dart';
 import '../model/child.dart';
 import '../model/section.dart';
 import '../services/firebase_database.dart';
@@ -29,60 +36,21 @@ class _ChildrenPageState extends State<ChildrenPage> {
   final formKey = GlobalKey<FormState>();
   String childName = " ";
   String status = " ";
+  final imagePicker = ImagePicker();
+  final fireStore = FirebaseStorage.instance.ref();
+  String imageUrl = " ";
+  File? image;
+  bool newImageSelected = false;
 
   @override
   Widget build(BuildContext context) {
-    if (kDebugMode) {
-      print(widget.section.id);
-    }
     final database = Provider.of<FirebaseDatabase>(context, listen: false);
     return Scaffold(
       backgroundColor: Colors.lightGreen[50],
       appBar: AppBar(
-        title: const Text("children"),
+        title: const Text("Children"),
         actions: [
-          PopupMenuButton(
-              // add icon, by default "3 dot" icon
-              // icon: Icon(Icons.book)
-              itemBuilder: (context) {
-            return [
-              PopupMenuItem<int>(
-                value: 0,
-                child: Text("ARRIVED"),
-              ),
-              PopupMenuItem<int>(
-                value: 1,
-                child: Text("PICKED"),
-              ),
-              PopupMenuItem<int>(
-                value: 2,
-                child: Text("ABSENT"),
-              ),
-            ];
-          }, onSelected: (value) {
-            if (value == 0) {
-              Navigator.of(context).push(MaterialPageRoute<void>(
-                  builder: (context) => ShowSortedChildren(
-                        status: "ARRIVED",
-                        sectionId: widget.section.id,
-                        database: database,
-                      )));
-            } else if (value == 1) {
-              Navigator.of(context).push(MaterialPageRoute<void>(
-                  builder: (context) => ShowSortedChildren(
-                        status: "PICKED",
-                        sectionId: widget.section.id,
-                        database: database,
-                      )));
-            } else if (value == 2) {
-              Navigator.of(context).push(MaterialPageRoute<void>(
-                  builder: (context) => ShowSortedChildren(
-                        status: "ABSENT",
-                        sectionId: widget.section.id,
-                        database: database,
-                      )));
-            }
-          }),
+          buildPopUpMenuContent(),
         ],
       ),
 
@@ -92,15 +60,16 @@ class _ChildrenPageState extends State<ChildrenPage> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return GridView.builder(
-                padding: const EdgeInsets.only(top: 50),
+                padding: const EdgeInsets.only(top: 40),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                 ),
                 itemCount: snapshot.data?.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      GestureDetector(
+                      InkWell(
                         onTap: () async {
                           /// Displaying dialog box according to the status
                           if (snapshot.data![index].status == "ARRIVED") {
@@ -124,10 +93,12 @@ class _ChildrenPageState extends State<ChildrenPage> {
                             );
                           }
 
-                          /// Updating the child according to the chosen status.
+                          /// Updating status of the child,
+                          /// according to the chosen status.
                           final updateStatus = Child(
                               name: snapshot.data![index].name,
                               id: snapshot.data![index].id,
+                              imageFile: snapshot.data![index].imageFile,
                               status: status);
                           database.editChild(widget.section, updateStatus);
                         },
@@ -137,12 +108,17 @@ class _ChildrenPageState extends State<ChildrenPage> {
                           widget.section,
                           snapshot.data![index].id,
                           snapshot.data![index].status,
+                          snapshot.data![index].imageFile,
                           database,
                         ),
-                        child: Image.asset(
-                          "assets/images/cartoon.jpeg",
-                          height: 75,
-                          width: 75,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.network(
+                            snapshot.data![index].imageFile,
+                            height: 110,
+                            width: 110,
+                            fit: BoxFit.fill,
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -157,8 +133,9 @@ class _ChildrenPageState extends State<ChildrenPage> {
                   );
                 },
               );
+            } else {
+              return const Center(child: Text("No child in this section!"));
             }
-            return const Center(child: Text("No child in this section!"));
           }),
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(right: 30, bottom: 10),
@@ -189,11 +166,21 @@ class _ChildrenPageState extends State<ChildrenPage> {
                         const SizedBox(
                           height: 20,
                         ),
-                        ElevatedButton(
-                            child: const Text('Add child'),
-                            onPressed: () {
-                              _onSave(database);
-                            }),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: pickImage,
+                              child: const Text("Add image"),
+                            ),
+                            SizedBox(width: 15),
+                            ElevatedButton(
+                                child: const Text('Add child'),
+                                onPressed: () {
+                                  _onSave(database);
+                                }),
+                          ],
+                        ),
                       ],
                     ),
                   ),
@@ -236,17 +223,32 @@ class _ChildrenPageState extends State<ChildrenPage> {
     return false;
   }
 
-  /// Validating and saving new section to the firestore.
+  /// Validating and adding new child.
   Future<void> _onSave(FirebaseDatabase database) async {
     if (_validateAndSaveForm()) {
-      final child = Child(name: childName, id: "");
-      await database.createChild(child, widget.section.id);
-      Navigator.pop(context);
+      final uniqueImageName = DateTime.now().millisecondsSinceEpoch.toString();
+      final ref = fireStore.child("images").child(uniqueImageName);
+      if (image == null) {
+        bool result = await ShowAlertDialog(context,
+            title: "Error",
+            content: "Please choose a image for child !",
+            rightButtonText: "Pick image",
+            isDestructive: false);
+        if (result) await pickImage();
+      } else {
+        await ref.putFile(image!);
+        final imageUrl = await ref.getDownloadURL();
+        final child = Child(name: childName, id: "", imageFile: imageUrl);
+        await database.createChild(child, widget.section.id);
+        image = null;
+        Navigator.of(context).pop();
+      }
     }
   }
 
+  // todo Refactor and fix image in status display
   void _editChild(Section section, String childId, String childStatus,
-      FirebaseDatabase database) {
+      String imageUrl, FirebaseDatabase database) {
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
@@ -259,7 +261,7 @@ class _ChildrenPageState extends State<ChildrenPage> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 const Text(
-                  'Edit section',
+                  'Manage child',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
                 const SizedBox(
@@ -277,14 +279,35 @@ class _ChildrenPageState extends State<ChildrenPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                        child: const Text('Delete'), onPressed: () {}),
+                      child: const Text('Delete'),
+                      onPressed: () {
+                        final child = Child(
+                          id: childId,
+                          name: childName,
+                          imageFile: imageUrl,
+                          status: status,
+                        );
+                        _onDelete(database, section, child);
+                      },
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        newImageSelected = true;
+                        pickImage();
+                      },
+                      child: const Text("Image"),
+                    ),
                     const SizedBox(
                       width: 20,
                     ),
                     ElevatedButton(
                         child: const Text('Edit'),
                         onPressed: () {
-                          _onEdit(section, childId, childStatus, database);
+                          _onEdit(section, childId, childStatus, imageUrl,
+                              database);
                         }),
                   ],
                 )
@@ -301,12 +324,104 @@ class _ChildrenPageState extends State<ChildrenPage> {
     Section section,
     String childId,
     String childStatus,
+    String imageUrl,
     FirebaseDatabase database,
   ) async {
     if (_validateAndSaveForm()) {
-      final child = Child(id: childId, name: childName, status: childStatus);
+      if (newImageSelected == true) {
+        final uniqueImageName =
+            DateTime.now().millisecondsSinceEpoch.toString();
+        final ref = fireStore.child("images").child(uniqueImageName);
+        await ref.putFile(image!);
+        // todo check for null and display alert dialog box
+        imageUrl = await ref.getDownloadURL();
+        newImageSelected = !newImageSelected;
+      }
+      final child = Child(
+          id: childId,
+          name: childName,
+          status: childStatus,
+          imageFile: imageUrl);
       await database.editChild(section, child);
       Navigator.pop(context);
     }
+  }
+
+  /// Picks image from the gallery.
+  Future<void> pickImage() async {
+    try {
+      final image = await imagePicker.pickImage(
+          source: ImageSource.gallery, imageQuality: 5);
+      if (image == null) return;
+      setState(() {
+        this.image = File(image.path);
+      });
+    } on PlatformException catch (e) {
+      ShowAlertDialog(context,
+          title: "Error",
+          content: e.toString(),
+          rightButtonText: "Ok",
+          isDestructive: false);
+    }
+  }
+
+  /// Deletes the selected section.
+  Future<void> _onDelete(
+      FirebaseDatabase database, Section section, Child child) async {
+    final result = await ShowAlertDialog(context,
+        title: "Delete section",
+        content: "You are going to remove a child. Are you sure ?",
+        leftButtonText: "Cancel",
+        rightButtonText: "Delete",
+        isDestructive: true);
+    if (result) {
+      //final child =
+      //Child(name: childName, id: docId, imageFile: imageUrl);
+      await database.deleteChild(section, child);
+    }
+    Navigator.pop(context);
+  }
+
+  Widget buildPopUpMenuContent() {
+    final database = Provider.of<FirebaseDatabase>(context, listen: false);
+    return PopupMenuButton(itemBuilder: (context) {
+      return [
+        PopupMenuItem<int>(
+          value: 0,
+          child: Text("ARRIVED"),
+        ),
+        PopupMenuItem<int>(
+          value: 1,
+          child: Text("PICKED"),
+        ),
+        PopupMenuItem<int>(
+          value: 2,
+          child: Text("ABSENT"),
+        ),
+      ];
+    }, onSelected: (value) {
+      if (value == 0) {
+        Navigator.of(context).push(MaterialPageRoute<void>(
+            builder: (context) => ShowSortedChildren(
+                  status: "ARRIVED",
+                  sectionId: widget.section.id,
+                  database: database,
+                )));
+      } else if (value == 1) {
+        Navigator.of(context).push(MaterialPageRoute<void>(
+            builder: (context) => ShowSortedChildren(
+                  status: "PICKED",
+                  sectionId: widget.section.id,
+                  database: database,
+                )));
+      } else if (value == 2) {
+        Navigator.of(context).push(MaterialPageRoute<void>(
+            builder: (context) => ShowSortedChildren(
+                  status: "ABSENT",
+                  sectionId: widget.section.id,
+                  database: database,
+                )));
+      }
+    });
   }
 }

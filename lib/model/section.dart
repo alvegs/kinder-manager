@@ -2,21 +2,23 @@ import '../application/sign_in/validators.dart';
 
 /// Represents a section in the kindergarten,
 class Section {
+  /// The id of the section.
   final String id;
+
+  /// The name of the section.
   final String name;
+
+  /// The image file of the section
   final String imageFile;
 
   /// Creates an instance of Section.
   Section({
-    /// The name of the section.
     required this.name,
-
-    /// The id of the section.
     required this.id,
-
-    /// The image file of the section
     required this.imageFile,
-  });  /*: assert(ValidNameValidator().isValid(name)),
+  });
+
+  /*: assert(ValidNameValidator().isValid(name)),
         assert(ValidImageFileValidator().isValid(imageFile));*/
   //assert(ValidIdValidator().isValid(id)),
 

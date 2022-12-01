@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 
 import '../model/child.dart';
 import '../model/section.dart';
@@ -38,6 +37,7 @@ class FirebaseDatabase {
                   id: snapshot.id,
                   name: data["name"],
                   status: data["status"],
+                  imageFile: data["image file"],
                 );
               },
             ).toList());
@@ -48,16 +48,20 @@ class FirebaseDatabase {
     return database
         .collection("sections/$docId/children")
         .snapshots()
-        .map((snapshot) => snapshot.docs.map(
-          (snapshot) {
-        final data = snapshot.data();
-        return Child(
-          id: snapshot.id,
-          name: data["name"],
-          status: data["status"],
-        );
-      },
-    ).where((element) => element.status == status).toList());
+        .map((snapshot) => snapshot.docs
+            .map(
+              (snapshot) {
+                final data = snapshot.data();
+                return Child(
+                  id: snapshot.id,
+                  name: data["name"],
+                  status: data["status"],
+                  imageFile: data["image file"],
+                );
+              },
+            )
+            .where((element) => element.status == status)
+            .toList());
   }
 
   /// Creates a new section.
@@ -94,9 +98,6 @@ class FirebaseDatabase {
   /// child : child to be added
   /// docId : id of the section
   Future<void> createChild(Child child, String docId) async {
-    if (kDebugMode) {
-      print(child.name);
-    }
     final String uniqueDocId = DateTime.now().toIso8601String();
     _setData(
         data: child.toMap(), path: "sections/$docId/children/$uniqueDocId");
