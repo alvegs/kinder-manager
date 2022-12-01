@@ -94,6 +94,8 @@ flutter:
       - assets/images/A-section.webp
       - assets/images/kindergarten.webp
       - assets/images/app_screenshot.png
+      - assets/images/KM_logo.png
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -155,13 +155,14 @@ class _SectionsPageState extends State<SectionsPage> {
     if (_validateAndSaveForm()) {
       final database = Provider.of<FirebaseDatabase>(context, listen: false);
       final uniqueImageName = DateTime.now().millisecondsSinceEpoch.toString();
+      ///Getting firestore reference to save the image in firestore.
       final ref = fireStore.child("images").child(uniqueImageName);
       //todo null still image verdi !
       if (image == null) {
         ShowAlertDialog(context,
             title: "Error",
             content: "Please choose a image for your section !",
-            leftButtonText: "",
+            leftButtonText: " ",
             rightButtonText: "Ok");
       } else {
         await ref.putFile(image!);
