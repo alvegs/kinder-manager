@@ -24,10 +24,10 @@ class Child {
     required this.name,
     required this.id,
     this.status = 'Start',
-  })  : assert(ValidNameValidator().isValid(name)),
+  });  /*: assert(ValidNameValidator().isValid(name)),
         assert(ValidIdValidator().isValid(id)),
         assert(ValidStatusValidator().isValid(status));
-
+*/
   /// Returns a map of the child.
   Map<String, dynamic> toMap() {
     return {

@@ -9,31 +9,35 @@ Future ShowAlertDialog(
   BuildContext context, {
   required String title,
   required String content,
-  required String leftButtonText,
+  String? leftButtonText,
   required String rightButtonText,
+      required bool isDestructive,
+
 }) {
-  if(Platform.isIOS ){
+  if (Platform.isIOS) {
     /// Displays IOS alert box
     return showCupertinoModalPopup(
-        context: context,
-        builder: (context) => CupertinoAlertDialog(
-          title: Text(title),
-          content: Text(content),
-          actions: [
-            CupertinoDialogAction(
-              child: Text(leftButtonText),
-              isDefaultAction: true,
-              onPressed: () => Navigator.of(context).pop(false),
-            ),
-            CupertinoDialogAction(
-              child: Text(rightButtonText),
-              isDestructiveAction: true,
-              onPressed: () => Navigator.of(context).pop(true),
-            ),
-          ],
-        ),
+      context: context,
+      builder: (context) => CupertinoAlertDialog(
+        title: Text(title),
+        content: Text(content),
+        actions: [
+          if(leftButtonText != null) // udemy course
+          CupertinoDialogAction(
+            child: Text(leftButtonText),
+
+            onPressed: () => Navigator.of(context).pop(false),
+          ),
+          CupertinoDialogAction(
+            child: Text(rightButtonText),
+            isDefaultAction: true,
+            isDestructiveAction: isDestructive,
+            onPressed: () => Navigator.of(context).pop(true),
+          ),
+        ],
+      ),
     );
-  }else{
+  } else {
     /// Displays default alert box
     return showDialog(
       context: context,
@@ -45,6 +49,7 @@ Future ShowAlertDialog(
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              if(leftButtonText != null)
               TextButton(
                 onPressed: () => Navigator.of(context).pop(false),
                 child: Text(leftButtonText),
@@ -52,16 +57,13 @@ Future ShowAlertDialog(
               SizedBox(width: 15),
               TextButton(
                 onPressed: () => Navigator.of(context).pop(true),
-                child: Text(rightButtonText, style: TextStyle(color: Colors.red)),
+                child:
+                    Text(rightButtonText, style: TextStyle(color: Colors.red)),
               ),
             ],
           )
         ],
       ),
     );
-
   }
-
-
-
 }

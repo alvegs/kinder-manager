@@ -96,9 +96,13 @@ class _SectionsPageState extends State<SectionsPage> {
                   /// Custom SectionDisplay widget to display sections.
                   return SectionDisplay(
                     section: snapshot.data![index],
+
+                    /// Moves to the selected section.
                     onPressed: () {
                       _onSectionPressed(snapshot.data![index]);
                     },
+
+                    /// Displays a bottom sheet to edit the selected section.
                     onLongPressed: () => _sectionEdit(snapshot.data![index].id,
                         snapshot.data![index].imageFile, database),
                   );
@@ -125,6 +129,7 @@ class _SectionsPageState extends State<SectionsPage> {
             content: "Are you sure ?",
             leftButtonText: "Cancel",
             rightButtonText: "Logout",
+            isDestructive: true,
           );
           result ? auth.signOut() : null;
         },
@@ -155,20 +160,22 @@ class _SectionsPageState extends State<SectionsPage> {
     if (_validateAndSaveForm()) {
       final database = Provider.of<FirebaseDatabase>(context, listen: false);
       final uniqueImageName = DateTime.now().millisecondsSinceEpoch.toString();
+
       ///Getting firestore reference to save the image in firestore.
       final ref = fireStore.child("images").child(uniqueImageName);
-      //todo null still image verdi !
       if (image == null) {
-        ShowAlertDialog(context,
+        bool result = await ShowAlertDialog(context,
             title: "Error",
             content: "Please choose a image for your section !",
-            leftButtonText: " ",
-            rightButtonText: "Ok");
+            rightButtonText: "Pick image",
+            isDestructive: false);
+        if(result) await pickImage();
       } else {
         await ref.putFile(image!);
         imageUrl = await ref.getDownloadURL();
         final section = Section(imageFile: imageUrl, name: sectionName, id: '');
         await database.createSection(section);
+        image = null;
         Navigator.of(context).pop();
       }
     }
@@ -224,13 +231,15 @@ class _SectionsPageState extends State<SectionsPage> {
 
   /// Deletes the selected section.
   Future<void> _onDelete(FirebaseDatabase database, String docId) async {
-    final result =  await ShowAlertDialog(context,
+    final result = await ShowAlertDialog(context,
         title: "Delete section",
         content: "You are going to delete a section. Are you sure ?",
         leftButtonText: "Cancel",
-        rightButtonText: "Delete");
-    if(result){
-      final section = Section(name: sectionName, id: docId, imageFile: imageUrl);
+        rightButtonText: "Delete",
+        isDestructive: true);
+    if (result) {
+      final section =
+          Section(name: sectionName, id: docId, imageFile: imageUrl);
       await database.deleteSection(section);
     }
     Navigator.pop(context);
@@ -275,7 +284,11 @@ class _SectionsPageState extends State<SectionsPage> {
         this.image = File(image.path);
       });
     } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
+      ShowAlertDialog(context,
+          title: "Error",
+          content: e.toString(),
+          rightButtonText: "Ok",
+          isDestructive: false);
     }
   }
 //todo remove last selected image from gallery to avoid duplicate images.
