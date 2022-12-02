@@ -52,6 +52,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   mockito: 5.3.2
+  network_image_mock: 2.1.1
 
 
 # this is used for changing the application icon as you see it in your phone
