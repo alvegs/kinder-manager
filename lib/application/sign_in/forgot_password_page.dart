@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kindermanager/custom_widgets/custom_button.dart';
+import 'package:kindermanager/design_theme.dart';
 
 /// This page is to be displayed when the "forgot password" text is clicked
 /// on the "sign in"-page.
@@ -28,18 +29,18 @@ class ForgotPasswordPage extends StatelessWidget {
             ),
             // enter email address text
             const SizedBox(
-              height: 20,
+              height: heightMedium,
             ),
             const Text(
               "Enter the email address associated with your account",
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 24,
+                fontSize: fontSizeLarge,
               ),
             ),
             // Text field entry for email address
             const SizedBox(
-              height: 20,
+              height: heightMedium,
             ),
             const TextField(
               decoration: InputDecoration(
@@ -49,7 +50,7 @@ class ForgotPasswordPage extends StatelessWidget {
             ),
             // Button
             const SizedBox(
-              height: 20,
+              height: heightMedium,
             ),
             CustomButton(
               onPressed: () {},
@@ -60,7 +61,7 @@ class ForgotPasswordPage extends StatelessWidget {
               ),
             ),
             const SizedBox(
-              height: 10,
+              height: heightSmall,
             ),
             const Text("Back to login",
             textAlign: TextAlign.center,),
