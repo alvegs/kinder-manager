@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:kindermanager/application/show_sorted_children_page.dart';
 
 import 'package:kindermanager/custom_widgets/custom_dialog_box.dart';
+import 'package:kindermanager/design_theme.dart';
 import 'package:provider/provider.dart';
 
 import '../custom_widgets/show_alert_dialog.dart';
@@ -122,12 +123,12 @@ class _ChildrenPageState extends State<ChildrenPage> {
                         ),
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: heightSmall,
                       ),
                       Text(
                         snapshot.data![index].name,
                         style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w500),
+                            fontSize: fontSizeMedium, fontWeight: fontWeightBold),
                       ),
                     ],
                   );
@@ -160,11 +161,11 @@ class _ChildrenPageState extends State<ChildrenPage> {
                       children: <Widget>[
                         const Text('Add new child'),
                         const SizedBox(
-                          height: 20,
+                          height: heightMedium,
                         ),
                         createForm(),
                         const SizedBox(
-                          height: 20,
+                          height: heightMedium,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -262,16 +263,16 @@ class _ChildrenPageState extends State<ChildrenPage> {
               children: <Widget>[
                 const Text(
                   'Manage child',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: fontSizeMedium),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: heightMedium,
                 ),
 
                 /// Text field to enter the section name.
                 createForm(),
                 const SizedBox(
-                  height: 20,
+                  height: heightMedium,
                 ),
 
                 /// Aligning buttons side by side.
@@ -294,7 +295,7 @@ class _ChildrenPageState extends State<ChildrenPage> {
                       },
                     ),
                     const SizedBox(
-                      width: 20,
+                      width: heightMedium,
                     ),
                     ElevatedButton(
                       onPressed: () {
@@ -304,7 +305,7 @@ class _ChildrenPageState extends State<ChildrenPage> {
                       child: const Text("Image"),
                     ),
                     const SizedBox(
-                      width: 20,
+                      width: heightMedium,
                     ),
                     ElevatedButton(
                         child: const Text('Save'),
