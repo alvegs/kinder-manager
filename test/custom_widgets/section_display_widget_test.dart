@@ -15,8 +15,8 @@ Widget makeTestableWidget() => MaterialApp(home: Image.network(''));
 void main() {
   testWidgets('test on pressed functions in Section Display Widget', (WidgetTester tester) async {
     final section = Section(
-        name: "test id",
-        id: "test name",
+        name: "test name",
+        id: "test id",
         imageFile: "assets/images/cartoon.jpeg");
     var pressed = false;
     var onLongPressed = false;
@@ -45,13 +45,11 @@ void main() {
       ),
     );
   final inkWell = find.byType(InkWell);
+
   expect(inkWell, findsOneWidget);
   await tester.tap(inkWell);
   expect(pressed, true);
   await tester.tap(inkWell);
   expect(pressed, false);
-
-
-
   });
 }

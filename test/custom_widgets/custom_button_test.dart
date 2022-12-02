@@ -43,6 +43,7 @@ void main() {
     );
     final button = tester.widget<CustomButton>(find.byType(CustomButton));
     expect(button.backgroundColor, equals(Colors.lightGreen[50]));
+    expect(find.text("tap me"), findsOneWidget);
   });
 
 }
