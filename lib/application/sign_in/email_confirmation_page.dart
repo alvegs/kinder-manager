@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kindermanager/application/sign_in/log_in_page.dart';
 import 'package:kindermanager/custom_widgets/custom_button.dart';
+import 'package:kindermanager/design_theme.dart';
 
 /// This page is for confirming your email address after signing up
 
@@ -28,14 +29,14 @@ class EmailConfirmationPage extends StatelessWidget {
             ),
             // for space between elements
             const SizedBox(
-              height: 20,
+              height: heightMedium,
             ),
             // information text
             const Text(
               "Please check your inbox for a confirmation email. Click the link in the email to confirm your email address.",
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 16,
+                fontSize: fontSizeSmaller,
               ),
             ),
             const SizedBox(
@@ -53,7 +54,7 @@ class EmailConfirmationPage extends StatelessWidget {
               },
             ),
             const SizedBox(
-              height: 20,
+              height: heightMedium,
             ),
             CustomButton(
               backgroundColor: Colors.lightGreen,

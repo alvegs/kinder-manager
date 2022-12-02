@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kindermanager/application/sign_in/email_sign_up_form.dart';
+import 'package:kindermanager/design_theme.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key});
@@ -35,20 +36,20 @@ class SignInPage extends StatelessWidget {
               "Create an account",
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 16.0,
+                fontSize: fontSizeSmaller,
                 fontWeight: FontWeight.w600,
               ),
             ),
 
             SizedBox(
-              height: 20.0,
+              height: heightMedium,
             ),
 
             //ToDo: Implement sign up form...
             EmailSignInForm(),
 
             SizedBox(
-              height: 20.0,
+              height: heightMedium,
             ),
           ],
         ),

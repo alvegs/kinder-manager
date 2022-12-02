@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../design_theme.dart';
+
 class CustomBottomNavigationBar extends StatefulWidget {
   const CustomBottomNavigationBar(
       {Key? key,
@@ -51,7 +53,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       currentIndex: widget.selectedIndex,
       selectedItemColor: Colors.lightGreen,
       onTap: widget.onItemTapped,
-      selectedFontSize: 16,
+      selectedFontSize: fontSizeSmaller,
       iconSize: 24,
     );
   }
@@ -76,13 +78,13 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                 children: <Widget>[
                   const Text('Add new section',
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: fontSizeMedium)),
                   const SizedBox(
-                    height: 20,
+                    height: heightMedium,
                   ),
                   widget.createForm,
                   const SizedBox(
-                    height: 20,
+                    height: heightMedium,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -91,13 +93,13 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                           onPressed: widget.onAddImage,
                           child: const Text('Add image')),
                       const SizedBox(
-                        width: 20,
+                        width: widthMedium,
                       ),
                       ElevatedButton(
                           onPressed: widget.onAddSection,
                           child: const Text('Save')),
                       const SizedBox(
-                        height: 20,
+                        height: heightMedium,
                       ),
                     ],
                   ),

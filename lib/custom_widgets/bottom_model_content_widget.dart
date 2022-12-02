@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kindermanager/design_theme.dart';
 
 /// Creates content to the bottom model sheet.
 class BottomModelContent extends StatelessWidget {
@@ -31,16 +32,16 @@ class BottomModelContent extends StatelessWidget {
             children: <Widget>[
               Text(
                 titleText,
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: fontSizeMedium),
               ),
               const SizedBox(
-                height: 20,
+                height: heightMedium,
               ),
 
               /// Form to give input.
               createForm,
               const SizedBox(
-                height: 20,
+                height: heightMedium,
               ),
 
               /// Aligning buttons side by side.
@@ -55,14 +56,14 @@ class BottomModelContent extends StatelessWidget {
                     child: const Text('Delete'),
                   ),
                   const SizedBox(
-                    width: 20,
+                    width: widthMedium,
                   ),
                   ElevatedButton(
                     onPressed: onChangeImage,
                     child: const Text('image'),
                   ),
                   const SizedBox(
-                    width: 20,
+                    width: widthMedium,
                   ),
                   ElevatedButton(
                     onPressed: onSaveSection,
