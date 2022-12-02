@@ -11,9 +11,10 @@ void main() {
     test('Test creation of child with valid parameters', () {
       String name = 'test';
       String id = '1';
+      String imageFile = "images/cartoon.jpeg";
 
       try {
-        Child child1 = Child(name: name, id: id);
+        Child child1 = Child(name: name, id: id, imageFile: imageFile);
         expect(child1, isA<Child>());
       } catch (e) {
         assert(false);
@@ -26,9 +27,10 @@ void main() {
     test('Test creation of child with valid parameters', () {
       String name = 'asd';
       String id = '1';
+      String imageFile = "images/cartoon.jpeg";
 
       try {
-        Child child1 = Child(name: name, id: id);
+        Child child1 = Child(name: name, id: id, imageFile: imageFile);
       } catch (e) {
         assert(false);
       }
@@ -40,9 +42,10 @@ void main() {
     test('Test creation of child with valid parameters', () {
       String name = 'tested';
       String id = '1';
+      String imageFile = "images/cartoon.jpeg";
 
       try {
-        Child child1 = Child(name: name, id: id);
+        Child child1 = Child(name: name, id: id, imageFile: imageFile);
         expect(child1, isA<Child>());
       } catch (e) {
         assert(false);
@@ -55,9 +58,10 @@ void main() {
     test('Test creation of child with invalid name - empty name', () {
       String name = ' ';
       String id = '1';
+      String imageFile = "images/cartoon.jpeg";
 
       try {
-        Child child1 = Child(name: name, id: id);
+        Child child1 = Child(name: name, id: id, imageFile: imageFile);
       } catch (e) {
         assert(true);
       }
@@ -69,9 +73,10 @@ void main() {
     test('Test creation of child with invalid name - empty name', () {
       String name = 'asd';
       String id = ' ';
+      String imageFile = "images/cartoon.jpeg";
 
       try {
-        Child child1 = Child(name: name, id: id);
+        Child child1 = Child(name: name, id: id, imageFile: imageFile);
       } catch (e) {
         assert(true);
       }
@@ -85,9 +90,10 @@ void main() {
         () {
       String name = ' a';
       String id = ' ';
+      String imageFile = "images/cartoon.jpeg";
 
       try {
-        Child child1 = Child(name: name, id: id);
+        Child child1 = Child(name: name, id: id, imageFile: imageFile);
       } catch (e) {
         assert(true);
       }
@@ -99,9 +105,10 @@ void main() {
     test('Test creation of child with invalid parameters - empty params', () {
       String name = ' ';
       String id = ' ';
+      String imageFile = "images/cartoon.jpeg";
 
       try {
-        Child child1 = Child(name: name, id: id);
+        Child child1 = Child(name: name, id: id, imageFile: imageFile);
       } catch (e) {
         assert(true);
       }
@@ -113,9 +120,10 @@ void main() {
     test('Test creation of child with invalid id', () {
       String name = 'Pål';
       String id = '-1';
+      String imageFile = "images/cartoon.jpeg";
 
       try {
-        Child child1 = Child(name: name, id: id);
+        Child child1 = Child(name: name, id: id, imageFile: imageFile);
       } catch (e) {
         assert(true);
       }
@@ -127,9 +135,10 @@ void main() {
     test('Test creation of child with invalid id', () {
       String name = 'Pål';
       String id = '0';
+      String imageFile = "images/cartoon.jpeg";
 
       try {
-        Child child1 = Child(name: name, id: id);
+        Child child1 = Child(name: name, id: id, imageFile: imageFile);
       } catch (e) {
         assert(true);
       }
