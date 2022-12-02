@@ -13,5 +13,5 @@ const fontSizeLarge  = 24.0;
 const fontWeightBold = FontWeight.w500;
 
 /** Commonly used heights in sized-boxes */
-const heightSmall  = 10;
-const heightMedium = 20;
+const heightSmall  = 10.0;
+const heightMedium = 20.0;
