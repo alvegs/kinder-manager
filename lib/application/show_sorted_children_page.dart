@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kindermanager/custom_widgets/custom_dialog_box.dart';
-import 'package:kindermanager/custom_widgets/show_alert_dialog.dart';
 
 import '../model/child.dart';
 import '../services/firebase_database.dart';
@@ -45,7 +43,7 @@ class _ShowSortedChildrenState extends State<ShowSortedChildren> {
         stream:
             widget.database.getSortedChildren(widget.sectionId, widget.status),
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
+          if (snapshot.data != null && snapshot.data!.isNotEmpty) {
             return GridView.builder(
               padding: const EdgeInsets.only(top: 50),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -54,37 +52,17 @@ class _ShowSortedChildrenState extends State<ShowSortedChildren> {
               itemCount: snapshot.data?.length,
               itemBuilder: (BuildContext context, int index) {
                 return Column(children: [
-                  InkWell(
-                    onTap: () async {
-                      final child = Child(
-                          name: snapshot.data![index].name,
-                          id: snapshot.data![index].id,
-                          imageFile: snapshot.data![index].imageFile,
-                          status: snapshot.data![index].status,
-                          isCounted: !snapshot.data![index].isCounted);
-                      widget.database.editChildWithId(widget.sectionId, child);
-                      print(await widget.database.getCounted(widget.sectionId));
-                      if (await widget.database.getCounted(widget.sectionId) ==
-                          0) {
-                        ShowAlertDialog(context,
-                            title: "Count success",
-                            content: "Successfully counted all the children",
-                            rightButtonText: "Ok",
-                            isDestructive: false);
-                      }
-                    },
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.network(
-                        snapshot.data![index].imageFile,
-                        height: 110,
-                        width: 110,
-                        fit: BoxFit.fill,
-                        color: snapshot.data![index].isCounted
-                            ? Colors.white.withOpacity(0.2)
-                            : Colors.white.withOpacity(1),
-                        colorBlendMode: BlendMode.modulate,
-                      ),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      snapshot.data![index].imageFile,
+                      height: 110,
+                      width: 110,
+                      fit: BoxFit.fill,
+                      color: snapshot.data![index].isCounted
+                          ? Colors.white.withOpacity(0.2)
+                          : Colors.white.withOpacity(1),
+                      colorBlendMode: BlendMode.modulate,
                     ),
                   ),
                   const SizedBox(

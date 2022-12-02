@@ -58,7 +58,7 @@ class _ChildrenPageState extends State<ChildrenPage> {
       body: StreamBuilder<List<Child>>(
           stream: database.getChildren(widget.section.id),
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
+            if (snapshot.data != null && snapshot.data!.isNotEmpty) {
               return GridView.builder(
                 padding: const EdgeInsets.only(top: 40),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -282,7 +282,9 @@ class _ChildrenPageState extends State<ChildrenPage> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.redAccent,
                       ),
-                      child: const Text('Delete',),
+                      child: const Text(
+                        'Delete',
+                      ),
                       onPressed: () {
                         final child = Child(
                           id: childId,
@@ -335,7 +337,7 @@ class _ChildrenPageState extends State<ChildrenPage> {
         final uniqueImageName =
             DateTime.now().millisecondsSinceEpoch.toString();
         final ref = fireStore.child("images").child(uniqueImageName);
-        if(image == null) return;
+        if (image == null) return;
         await ref.putFile(image!);
 
         imageUrl = await ref.getDownloadURL();
