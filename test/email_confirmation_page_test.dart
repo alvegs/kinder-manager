@@ -12,7 +12,7 @@ void main() {
     // for building and rendering the widget
     await tester.pumpWidget(MaterialApp(home: const EmailConfirmationPage()),
     );
-    final button = find.byType(CustomRaisedButton);
+    final button = find.byType(CustomButton);
     // expected to find 2 CustomRaisedButtons in EmailConf. widget
     expect(button, findsNWidgets(2));
     expect(find.byType(TextButton), findsNothing);

@@ -11,7 +11,7 @@ void main() {
     await tester.pumpWidget(MaterialApp(home: SignInPage()),
     );
     // check that we find one button (sign up)
-    final button = find.byType(CustomRaisedButton);
+    final button = find.byType(CustomButton);
     expect(button, findsOneWidget);
     // check one clickable text is found
     expect(find.byType(TextButton), findsOneWidget);

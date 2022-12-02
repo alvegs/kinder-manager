@@ -51,7 +51,7 @@ class ForgotPasswordPage extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            CustomRaisedButton(
+            CustomButton(
               onPressed: () {},
               height: 52,
               backgroundColor: Colors.green,

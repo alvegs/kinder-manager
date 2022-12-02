@@ -9,7 +9,7 @@ void main() {
     var pressed = false;
     await tester.pumpWidget(
         MaterialApp(
-          home: CustomRaisedButton(
+          home: CustomButton(
             child: Text("tap me"),
             backgroundColor: Colors.lightGreen[50],
             height: 10,
@@ -34,14 +34,14 @@ void main() {
   testWidgets('test background color on button', (WidgetTester tester) async {
     await tester.pumpWidget(
       MaterialApp(
-        home: CustomRaisedButton(
+        home: CustomButton(
           child: Text("tap me"),
           backgroundColor: Colors.lightGreen[50],
           height: 10,
         ),
       ),
     );
-    final button = tester.widget<CustomRaisedButton>(find.byType(CustomRaisedButton));
+    final button = tester.widget<CustomButton>(find.byType(CustomButton));
     expect(button.backgroundColor, equals(Colors.lightGreen[50]));
   });
 

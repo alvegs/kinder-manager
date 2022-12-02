@@ -46,7 +46,7 @@ class _ChildrenPageState extends State<ChildrenPage> {
   Widget build(BuildContext context) {
     final database = Provider.of<FirebaseDatabase>(context, listen: false);
     return Scaffold(
-      backgroundColor: Colors.lightGreen[50],
+      backgroundColor: Colors.lightGreen[100],
       appBar: AppBar(
         title: const Text("Children"),
         actions: [
@@ -246,7 +246,7 @@ class _ChildrenPageState extends State<ChildrenPage> {
     }
   }
 
-  // todo Refactor and fix image in status display
+  // todo Refactor
   void _editChild(Section section, String childId, String childStatus,
       String imageUrl, FirebaseDatabase database) {
     showModalBottomSheet<void>(
@@ -279,7 +279,10 @@ class _ChildrenPageState extends State<ChildrenPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                      child: const Text('Delete'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.redAccent,
+                      ),
+                      child: const Text('Delete',),
                       onPressed: () {
                         final child = Child(
                           id: childId,
@@ -304,7 +307,7 @@ class _ChildrenPageState extends State<ChildrenPage> {
                       width: 20,
                     ),
                     ElevatedButton(
-                        child: const Text('Edit'),
+                        child: const Text('Save'),
                         onPressed: () {
                           _onEdit(section, childId, childStatus, imageUrl,
                               database);
@@ -332,10 +335,12 @@ class _ChildrenPageState extends State<ChildrenPage> {
         final uniqueImageName =
             DateTime.now().millisecondsSinceEpoch.toString();
         final ref = fireStore.child("images").child(uniqueImageName);
+        if(image == null) return;
         await ref.putFile(image!);
-        // todo check for null and display alert dialog box
+
         imageUrl = await ref.getDownloadURL();
         newImageSelected = !newImageSelected;
+        image = null;
       }
       final child = Child(
           id: childId,
