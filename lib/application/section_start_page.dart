@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../custom_widgets/custom_button.dart';
 
 import '../model/section.dart';
+import 'count_page.dart';
 
 /// Displays a page with count and overview options.
 class SectionStartPage extends StatefulWidget {
@@ -37,7 +38,17 @@ class _SectionStartPageState extends State<SectionStartPage> {
           CustomButton(
             height: 100,
             backgroundColor: Colors.lightGreen[300],
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (context) => Provider<FirebaseDatabase>(
+                      create: (_) => FirebaseDatabase(),
+                      child: CountPage(
+                        section: widget.section,
+                      )),
+                ),
+              );
+            },
             child: const Text(
               "Count",
               style: TextStyle(fontSize: 24),

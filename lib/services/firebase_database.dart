@@ -57,6 +57,7 @@ class FirebaseDatabase {
                   name: data["name"],
                   status: data["status"],
                   imageFile: data["image file"],
+                  isCounted: data["isCounted"],
                 );
               },
             )
@@ -83,6 +84,11 @@ class FirebaseDatabase {
     _setData(
         data: child.toMap(),
         path: "sections/${section.id}/children/${child.id}/");
+  }
+
+  Future<void> editChildWithId(String sectionId, Child child) async {
+    _setData(
+        data: child.toMap(), path: "sections/$sectionId/children/${child.id}/");
   }
 
   /// Adds given data to the firebase cloud.
@@ -117,5 +123,18 @@ class FirebaseDatabase {
     final documentRef = FirebaseFirestore.instance
         .doc("sections/${section.id}/children/${child.id}");
     await documentRef.delete();
+  }
+
+  /// Returns number of children with status set to ARRIVED,
+  /// and isCounted is set to TRUE.
+  Future<int> getCounted(String docId) {
+    return database
+        .collection("sections/$docId/children")
+        .where("status", isEqualTo: "ARRIVED")
+        .where("isCounted", isEqualTo: false)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      return querySnapshot.size;
+    });
   }
 }

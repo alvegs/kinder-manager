@@ -11,6 +11,8 @@ class Child {
   /// The image file of the child.
   final String imageFile;
 
+  bool isCounted;
+
   /// Defining the status of the child.
   /// START is default status.
   /// ARRIVED is used to define that the child have arrived at the kindergarten.
@@ -23,11 +25,12 @@ class Child {
   /// id : document id from the firestore
   /// status : status of the child in kindergarten
 
-  Child({
+  Child( {
     required this.name,
     required this.id,
     required this.imageFile,
     this.status = 'Start',
+    this.isCounted = false,
   });
 
   /*: assert(ValidNameValidator().isValid(name)),
@@ -41,6 +44,7 @@ class Child {
       "name": name,
       "status": status,
       "image file": imageFile,
+      "isCounted" : isCounted,
     };
   }
 }
