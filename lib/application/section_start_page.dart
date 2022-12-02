@@ -34,7 +34,7 @@ class _SectionStartPageState extends State<SectionStartPage> {
           ),
 
           /// Using custom button widget
-          CustomRaisedButton(
+          CustomButton(
             height: 100,
             backgroundColor: Colors.lightGreen[300],
             onPressed: () {},
@@ -50,7 +50,7 @@ class _SectionStartPageState extends State<SectionStartPage> {
           ),
 
           /// Using custom button widget
-          CustomRaisedButton(
+          CustomButton(
             height: 100,
             backgroundColor: Colors.lightGreen[300],
             onPressed: () {

@@ -10,7 +10,7 @@ void main() {
     var buttonColor =
     await tester.pumpWidget(
         MaterialApp(
-          home: CustomRaisedButton(
+          home: CustomButton(
             child: Text("tap me"),
             backgroundColor: Colors.lightGreen[50],
             height: 10,

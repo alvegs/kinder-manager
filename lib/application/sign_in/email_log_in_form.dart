@@ -54,7 +54,7 @@ class _EmailLogInFormState extends State<EmailLogInForm> {
       const SizedBox(
         height: 64.0,
       ),
-      CustomRaisedButton(
+      CustomButton(
         onPressed: _submit,
         height: 52.0,
         backgroundColor: Colors.green,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// Default button to use in the app.
-class CustomRaisedButton extends StatelessWidget {
+class CustomButton extends StatelessWidget {
   final Widget child;
   final Color? backgroundColor;
   final double borderRadius;
@@ -10,7 +10,7 @@ class CustomRaisedButton extends StatelessWidget {
 
   /// Creates an instance of button with predefined
   /// border radius.
-  const CustomRaisedButton({
+  const CustomButton({
     Key? key,
     required this.child,
     required this.backgroundColor,

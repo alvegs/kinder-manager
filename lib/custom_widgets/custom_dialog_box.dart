@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kindermanager/custom_widgets/custom_elevated_button.dart';
 
 /// Custom alert dialog that shows the available status.
 /// Returns the status chosen.
@@ -10,6 +14,41 @@ Future CustomDialogBox(
   bool pickedEnabled = true,
   bool absentEnabled = true,
 }) {
+  /// Dialog box when platform is IOS
+  if (Platform.isIOS) {
+    return showCupertinoModalPopup(
+      context: context,
+      builder: (context) => CupertinoAlertDialog(
+        insetAnimationCurve: Curves.easeInCirc,
+        title: Text("Status"),
+        content: Text("Choose the status of the child"),
+        actions: [
+          Column(
+            children: [
+              SizedBox(height: 10),
+              arriveEnabled
+                  ? CustomElevatedButton(
+                      status: "ARRIVED", color: Colors.lightGreen[400])
+                  : Container(),
+              SizedBox(height: 10),
+              pickedEnabled
+                  ? CustomElevatedButton(
+                      status: "PICKED", color: Colors.yellow[400])
+                  : Container(),
+              SizedBox(height: 10),
+              absentEnabled
+                  ? CustomElevatedButton(
+                      status: "ABSENT", color: Colors.redAccent[200])
+                  : Container(),
+              SizedBox(height: 15),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  /// Dialog box to other platforms
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(
@@ -20,36 +59,21 @@ Future CustomDialogBox(
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            SizedBox(height: 10),
             arriveEnabled
-                ? ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.lightGreen)),
-                    onPressed: () => Navigator.of(context).pop("ARRIVED"),
-                    child: Text("ARRIVED"),
-                  )
+                ? CustomElevatedButton(
+                    status: "ARRIVED", color: Colors.lightGreen[400])
                 : Container(),
+            SizedBox(height: 10),
             pickedEnabled
-                ? ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.brown)),
-                    onPressed: () => Navigator.of(context).pop("PICKED"),
-                    child: Text("PICKED"),
-                  )
+                ? CustomElevatedButton(
+                    status: "PICKED", color: Colors.yellow[400])
                 : Container(),
+            SizedBox(height: 10),
             absentEnabled
-                ? ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.redAccent)),
-                    onPressed: () => Navigator.of(context).pop("ABSENT"),
-                    child: Text("ABSENT"),
-                  )
+                ? CustomElevatedButton(
+                    status: "ABSENT", color: Colors.redAccent[200])
                 : Container(),
-            SizedBox(
-              height: 10,
-            ),
           ],
         )
       ],

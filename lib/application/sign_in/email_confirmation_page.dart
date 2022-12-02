@@ -42,7 +42,7 @@ class EmailConfirmationPage extends StatelessWidget {
               height: 60,
             ),
             // back to login button
-            CustomRaisedButton(
+            CustomButton(
               backgroundColor: Colors.green,
               height: 52,
               child: const Text("Back to login"),
@@ -55,7 +55,7 @@ class EmailConfirmationPage extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            CustomRaisedButton(
+            CustomButton(
               backgroundColor: Colors.lightGreen,
               height: 52,
               onPressed: () {},

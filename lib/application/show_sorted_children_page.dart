@@ -44,10 +44,11 @@ class ShowSortedChildren extends StatelessWidget {
               itemCount: snapshot.data?.length,
               itemBuilder: (BuildContext context, int index) {
                 return Column(children: [
-                  Image.asset(
-                    "assets/images/cartoon.jpeg",
-                    height: 75,
-                    width: 75,
+                  Image.network(
+                    snapshot.data![index].imageFile,
+                    height: 110,
+                    width: 110,
+                    fit: BoxFit.fill,
                   ),
                   const SizedBox(
                     height: 10,
