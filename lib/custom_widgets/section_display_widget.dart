@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kindermanager/design_theme.dart';
 
 //import 'package:image_picker/image_picker.dart';
 
@@ -38,11 +39,11 @@ class SectionDisplay extends StatelessWidget {
           ),
         ),
         const SizedBox(
-          height: 10,
+          height: heightSmall,
         ),
         Text(section.name,
             style: const TextStyle(
-              fontSize: 20,
+              fontSize: fontSizeLarger,
               fontWeight: FontWeight.w600,
             )),
       ],
