@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kindermanager/application/children_page.dart';
+import 'package:kindermanager/design_theme.dart';
 import 'package:kindermanager/services/firebase_database.dart';
 import 'package:provider/provider.dart';
 
@@ -40,13 +41,13 @@ class _SectionStartPageState extends State<SectionStartPage> {
             onPressed: () {},
             child: const Text(
               "Count",
-              style: TextStyle(fontSize: 24),
+              style: TextStyle(fontSize: fontSizeLarge),
             ),
           ),
 
           /// Vertical spacing
           const SizedBox(
-            height: 10,
+            height: heightSmall,
           ),
 
           /// Using custom button widget
@@ -66,7 +67,7 @@ class _SectionStartPageState extends State<SectionStartPage> {
             },
             child: const Text(
               "Overview",
-              style: TextStyle(fontSize: 24),
+              style: TextStyle(fontSize: fontSizeLarge),
             ),
           ),
         ],
