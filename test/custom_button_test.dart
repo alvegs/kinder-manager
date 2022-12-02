@@ -5,9 +5,8 @@ import 'package:kindermanager/custom_widgets/custom_button.dart';
 /// Testing the custom button class
 
 void main() {
-  testWidgets('Test custom raised button onpressed action', (WidgetTester tester) async {
+  testWidgets('Test custom raised button "on pressed" action', (WidgetTester tester) async {
     var pressed = false;
-    var buttonColor =
     await tester.pumpWidget(
         MaterialApp(
           home: CustomRaisedButton(
@@ -31,4 +30,19 @@ void main() {
     await tester.tap(button);
     expect(pressed, false);
   });
+
+  testWidgets('test background color on button', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: CustomRaisedButton(
+          child: Text("tap me"),
+          backgroundColor: Colors.lightGreen[50],
+          height: 10,
+        ),
+      ),
+    );
+    final button = tester.widget<CustomRaisedButton>(find.byType(CustomRaisedButton));
+    expect(button.backgroundColor, equals(Colors.lightGreen[50]));
+  });
+
 }
