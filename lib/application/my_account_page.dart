@@ -2,6 +2,7 @@
 /// that is logged into the app.
 
 import 'package:flutter/material.dart';
+import 'package:kindermanager/design_theme.dart';
 
 class MyAccountPage extends StatelessWidget {
   const MyAccountPage({Key? key}) : super(key: key);
@@ -32,11 +33,11 @@ class MyAccountPage extends StatelessWidget {
               width: 90,
             ),
             const SizedBox(
-              height: 10,
+              height: heightSmall,
             ),
             const Text("name: username"),
             const SizedBox(
-              height: 10,
+              height: heightSmall,
             ),
             const Text("Department: department"),
 
