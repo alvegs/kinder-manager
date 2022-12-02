@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kindermanager/custom_widgets/custom_elevated_button.dart';
+import 'package:kindermanager/design_theme.dart';
 
 /// Custom alert dialog that shows the available status.
 /// Returns the status chosen.
@@ -25,17 +26,17 @@ Future CustomDialogBox(
         actions: [
           Column(
             children: [
-              SizedBox(height: 10),
+              SizedBox(height: heightSmall),
               arriveEnabled
                   ? CustomElevatedButton(
                       status: "ARRIVED", color: Colors.lightGreen[400])
                   : Container(),
-              SizedBox(height: 10),
+              SizedBox(height: heightSmall),
               pickedEnabled
                   ? CustomElevatedButton(
                       status: "PICKED", color: Colors.yellow[400])
                   : Container(),
-              SizedBox(height: 10),
+              SizedBox(height: heightSmall),
               absentEnabled
                   ? CustomElevatedButton(
                       status: "ABSENT", color: Colors.redAccent[200])
@@ -59,17 +60,17 @@ Future CustomDialogBox(
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(height: 10),
+            SizedBox(height: heightSmall),
             arriveEnabled
                 ? CustomElevatedButton(
                     status: "ARRIVED", color: Colors.lightGreen[400])
                 : Container(),
-            SizedBox(height: 10),
+            SizedBox(height: heightSmall),
             pickedEnabled
                 ? CustomElevatedButton(
                     status: "PICKED", color: Colors.yellow[400])
                 : Container(),
-            SizedBox(height: 10),
+            SizedBox(height: heightSmall),
             absentEnabled
                 ? CustomElevatedButton(
                     status: "ABSENT", color: Colors.redAccent[200])
