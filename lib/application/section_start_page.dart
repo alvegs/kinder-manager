@@ -20,7 +20,6 @@ class SectionStartPage extends StatefulWidget {
 }
 
 class _SectionStartPageState extends State<SectionStartPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,7 +84,6 @@ class _SectionStartPageState extends State<SectionStartPage> {
       ),
 
       ///Bottom navigation bar with home and logout icons.
-
     );
   }
 }
