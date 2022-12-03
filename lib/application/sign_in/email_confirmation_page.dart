@@ -11,6 +11,7 @@ class EmailConfirmationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.lightGreen[50],
       body: Padding(
         padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
         child: Column(
@@ -36,7 +37,7 @@ class EmailConfirmationPage extends StatelessWidget {
               "Please check your inbox for a confirmation email. Click the link in the email to confirm your email address.",
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: fontSizeSmaller,
+                fontSize: fontSizeSmall,
               ),
             ),
             const SizedBox(

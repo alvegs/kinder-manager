@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:kindermanager/application/children_page.dart';
 import 'package:kindermanager/design_theme.dart';
@@ -82,11 +84,25 @@ class _SectionStartPageState extends State<SectionStartPage> {
             ),
           ),
           SizedBox(height: 20),
-          Image.asset("assets/images/status_info.png"),
+          Image.asset(imageToShow()),
         ],
       ),
 
       ///Bottom navigation bar with home and logout icons.
     );
+  }
+
+    /// Returns a random image from the list
+    String imageToShow() {
+    final listImages = [
+      "assets/images/KM_logo.png",
+      "assets/images/status_info.png",
+      "assets/images/press.png",
+      "assets/images/longpress.png",
+      "assets/images/gallery.png",
+    ];
+    final _random = Random();
+    final imageToShow = listImages[_random.nextInt(listImages.length)];
+    return imageToShow.toString();
   }
 }

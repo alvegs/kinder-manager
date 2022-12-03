@@ -7,11 +7,8 @@ class SignInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Sign up page"),
-      ),
+      backgroundColor: Colors.lightGreen[50],
       body: _buildContent(),
     );
   }
@@ -22,35 +19,23 @@ class SignInPage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
+          children: [
+            SizedBox(height: heightLarge),
+            Image.asset(
+              "assets/images/KM_logo.png",
+              height: 200,
+            ),
+            SizedBox(height: heightMedium),
             Text(
               "Sign up",
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 32.0,
+                fontSize: fontSizeLarger,
                 fontWeight: FontWeight.w600,
               ),
             ),
-            Text(
-              "Create an account",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: fontSizeSmaller,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-
-            SizedBox(
-              height: heightMedium,
-            ),
-
-            //ToDo: Implement sign up form...
-            EmailSignInForm(),
-
-            SizedBox(
-              height: heightMedium,
-            ),
+            SizedBox(height: heightMedium),
+            EmailSignUpForm(),
           ],
         ),
       ),

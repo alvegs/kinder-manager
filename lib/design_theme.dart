@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
  * used constant values are defined in this file. */
 
 /** Commonly used font sizes */
-const fontSizeSmaller = 16.0;
+const fontSizeSmall = 16.0;
 const fontSizeMedium = 18.0;
-const fontSizeLarger = 20.0;
 const fontSizeLarge  = 24.0;
+const fontSizeLarger = 36.0;
+
 
 /** Commonly used font weights */
 const fontWeightBold = FontWeight.w500;
@@ -15,6 +16,7 @@ const fontWeightBold = FontWeight.w500;
 /** Commonly used heights and widths in sized-boxes */
 const heightSmall  = 10.0;
 const heightMedium = 20.0;
+const heightLarge = 40.0;
 
 const widthSmall = 10.0;
 const widthMedium = 20.0;

@@ -64,6 +64,7 @@ class FirebaseDatabase {
                 );
               },
             )
+
             /// Sorts according to the status
             .where((element) => element.status == status)
             .toList());
@@ -131,7 +132,7 @@ class FirebaseDatabase {
   }
 
   /// Returns number of children with status set to ARRIVED,
-  /// and isCounted is set to TRUE.
+
   /// sectionId : id of the section
   Future<int> getCounted(String sectionId) {
     return database

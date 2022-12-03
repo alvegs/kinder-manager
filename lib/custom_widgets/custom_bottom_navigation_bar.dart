@@ -53,7 +53,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       currentIndex: widget.selectedIndex,
       selectedItemColor: Colors.lightGreen,
       onTap: widget.onItemTapped,
-      selectedFontSize: fontSizeSmaller,
+      selectedFontSize: fontSizeSmall,
       iconSize: 24,
     );
   }
