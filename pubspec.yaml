@@ -98,6 +98,7 @@ flutter:
       - assets/images/app_screenshot.png
       - assets/images/KM_logo.png
       - assets/images/empty.png
+      - assets/images/status_info.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

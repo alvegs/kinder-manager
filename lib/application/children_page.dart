@@ -42,6 +42,7 @@ class _ChildrenPageState extends State<ChildrenPage> {
   String imageUrl = " ";
   File? image;
   bool newImageSelected = false;
+  Color color = Colors.transparent;
 
   @override
   Widget build(BuildContext context) {
@@ -112,13 +113,22 @@ class _ChildrenPageState extends State<ChildrenPage> {
                           snapshot.data![index].imageFile,
                           database,
                         ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.network(
-                            snapshot.data![index].imageFile,
-                            height: 110,
-                            width: 110,
-                            fit: BoxFit.fill,
+                        child: Container(
+                          padding: EdgeInsets.all(5.0),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color:
+                                      chooseColor(snapshot.data![index].status),
+                                  width: 5),
+                              borderRadius: BorderRadius.circular(10.0)),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10.0),
+                            child: Image.network(
+                              snapshot.data![index].imageFile,
+                              height: 110,
+                              width: 110,
+                              fit: BoxFit.fill,
+                            ),
                           ),
                         ),
                       ),
@@ -128,7 +138,8 @@ class _ChildrenPageState extends State<ChildrenPage> {
                       Text(
                         snapshot.data![index].name,
                         style: const TextStyle(
-                            fontSize: fontSizeMedium, fontWeight: fontWeightBold),
+                            fontSize: fontSizeMedium,
+                            fontWeight: fontWeightBold),
                       ),
                     ],
                   );
@@ -263,7 +274,8 @@ class _ChildrenPageState extends State<ChildrenPage> {
               children: <Widget>[
                 const Text(
                   'Manage child',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: fontSizeMedium),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: fontSizeMedium),
                 ),
                 const SizedBox(
                   height: heightMedium,
@@ -431,5 +443,15 @@ class _ChildrenPageState extends State<ChildrenPage> {
                 )));
       }
     });
+  }
+
+  /// Returns border color of the child image,
+  /// according to the status.
+  /// status : status of the child.
+  Color chooseColor(String status) {
+    if (status == "ARRIVED") color = Colors.green;
+    if (status == "PICKED") color = Colors.blue;
+    if (status == "ABSENT") color = Colors.red;
+    return color;
   }
 }

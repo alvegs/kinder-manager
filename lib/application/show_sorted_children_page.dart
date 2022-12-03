@@ -30,7 +30,7 @@ class _ShowSortedChildrenState extends State<ShowSortedChildren> {
     if (widget.status == "ARRIVED") {
       backgroundColor = Colors.lightGreen;
     } else if (widget.status == "PICKED") {
-      backgroundColor = Colors.yellow;
+      backgroundColor = Colors.blue;
     } else if (widget.status == "ABSENT") {
       backgroundColor = Colors.red;
     }

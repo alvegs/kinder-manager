@@ -34,7 +34,7 @@ Future CustomDialogBox(
               SizedBox(height: heightSmall),
               pickedEnabled
                   ? CustomElevatedButton(
-                      status: "PICKED", color: Colors.yellow[400])
+                      status: "PICKED", color: Colors.blueAccent[200])
                   : Container(),
               SizedBox(height: heightSmall),
               absentEnabled

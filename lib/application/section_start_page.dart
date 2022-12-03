@@ -23,6 +23,7 @@ class _SectionStartPageState extends State<SectionStartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.lightGreen[50],
       appBar: AppBar(
         title: Text(widget.section.name),
       ),
@@ -80,6 +81,8 @@ class _SectionStartPageState extends State<SectionStartPage> {
               style: TextStyle(fontSize: fontSizeLarge),
             ),
           ),
+          SizedBox(height: 20),
+          Image.asset("assets/images/status_info.png"),
         ],
       ),
 
