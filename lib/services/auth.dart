@@ -42,8 +42,20 @@ class Auth {
     return _firebaseAuth.authStateChanges();
   }
 
-  /// Returns the email verification state of the user.
-  Future<bool?> isEmailVerified() async {
-    return await _firebaseAuth.currentUser?.emailVerified;
+  /// Returns the current user.
+  Future<User?> currentUser() async {
+    return _firebaseAuth.currentUser;
+  }
+
+  /// Returns whether the user email is verified.
+  Future<bool?> isEmailVerified(String email, String password) async {
+    return await _firebaseAuth
+        .signInWithCredential(
+          EmailAuthProvider.credential(
+            email: email,
+            password: password,
+          ),
+        )
+        .then((value) => value.user?.emailVerified);
   }
 }

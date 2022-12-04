@@ -18,7 +18,7 @@ class Child {
   /// ARRIVED is used to define that the child have arrived at the kindergarten.
   /// PICKED is used to define that the child have been picked up.
   /// ABSENT is used to define that the child is not in the kindergarten.
-  String status = 'Start';
+  String status;
 
   /// Creates a instance of Child class.
   /// name : name of the child
@@ -29,7 +29,7 @@ class Child {
     required this.name,
     required this.id,
     required this.imageFile,
-    this.status = 'Start',
+    this.status = 'START',
     this.isCounted = false,
   });
 

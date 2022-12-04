@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../../custom_widgets/show_alert_dialog.dart';
 import '../../services/auth.dart';
 import '../landing_page.dart';
+import 'email_confirmation_page.dart';
 
 class EmailLogInForm extends StatefulWidget {
   const EmailLogInForm({super.key});
@@ -45,10 +46,9 @@ class _EmailLogInFormState extends State<EmailLogInForm> {
     }
 
     try {
-      await auth.signInWithEmail(
-        _emailController.text,
-        _passwordController.text,
-      );
+      final isVerified = await auth.isEmailVerified(
+          _emailController.text, _passwordController.text);
+
       Navigator.of(context).push(MaterialPageRoute<void>(
         builder: (context) => LandingPage(),
       ));
@@ -87,7 +87,10 @@ class _EmailLogInFormState extends State<EmailLogInForm> {
         onPressed: _submit,
         height: 52.0,
         backgroundColor: Colors.green,
-        child: const Text('Log in', style: TextStyle(fontSize: fontSizeMedium),),
+        child: const Text(
+          'Log in',
+          style: TextStyle(fontSize: fontSizeMedium),
+        ),
       ),
       const SizedBox(
         height: 16.0,
