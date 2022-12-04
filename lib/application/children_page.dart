@@ -149,20 +149,22 @@ class _ChildrenPageState extends State<ChildrenPage> {
               return const Center(child: Text("No child in this section!"));
             }
           }),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(right: 30, bottom: 10),
-        child: FloatingActionButton(
-          tooltip: "Add a child",
-          backgroundColor: Colors.lightGreen,
-          onPressed: () {
-            final database =
-                Provider.of<FirebaseDatabase>(context, listen: false);
+      floatingActionButton: FloatingActionButton(
+        tooltip: "Add a child",
+        backgroundColor: Colors.lightGreen,
+        onPressed: () {
+          final database =
+              Provider.of<FirebaseDatabase>(context, listen: false);
 
-            /// Creating a bottom model sheet to add a new section
-            showModalBottomSheet<void>(
-              context: context,
-              builder: (BuildContext context) {
-                return Container(
+          /// Creating a bottom model sheet to add a new section
+          showModalBottomSheet<void>(
+            context: context,
+            builder: (BuildContext context) {
+              /// Moves bottom sheet along with the keyboard.
+              final mediaQueryData = MediaQuery.of(context);
+              return Padding(
+                padding: mediaQueryData.viewInsets,
+                child: Container(
                   height: 200,
                   color: Colors.lightGreen[100],
                   child: Center(
@@ -196,12 +198,12 @@ class _ChildrenPageState extends State<ChildrenPage> {
                       ],
                     ),
                   ),
-                );
-              },
-            );
-          },
-          child: Icon(Icons.add, size: 30),
-        ),
+                ),
+              );
+            },
+          );
+        },
+        child: Icon(Icons.add, size: 30),
       ),
     );
   }
@@ -264,72 +266,77 @@ class _ChildrenPageState extends State<ChildrenPage> {
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
-        return Container(
-          height: 200,
-          color: Colors.lime,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                const Text(
-                  'Manage child',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: fontSizeMedium),
-                ),
-                const SizedBox(
-                  height: heightMedium,
-                ),
+        /// Moves bottom sheet along with the keyboard.
+        final mediaQueryData = MediaQuery.of(context);
+        return Padding(
+          padding: mediaQueryData.viewInsets,
+          child: Container(
+            height: 200,
+            color: Colors.lightGreen[100],
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  const Text(
+                    'Manage child',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: fontSizeMedium),
+                  ),
+                  const SizedBox(
+                    height: heightMedium,
+                  ),
 
-                /// Text field to enter the section name.
-                createForm(),
-                const SizedBox(
-                  height: heightMedium,
-                ),
+                  /// Text field to enter the section name.
+                  createForm(),
+                  const SizedBox(
+                    height: heightMedium,
+                  ),
 
-                /// Aligning buttons side by side.
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.redAccent,
-                      ),
-                      child: const Text(
-                        'Delete',
-                      ),
-                      onPressed: () {
-                        final child = Child(
-                          id: childId,
-                          name: childName,
-                          imageFile: imageUrl,
-                          status: status,
-                        );
-                        _onDelete(database, section, child);
-                      },
-                    ),
-                    const SizedBox(
-                      width: heightMedium,
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        newImageSelected = true;
-                        pickImage();
-                      },
-                      child: const Text("Image"),
-                    ),
-                    const SizedBox(
-                      width: heightMedium,
-                    ),
-                    ElevatedButton(
-                        child: const Text('Save'),
+                  /// Aligning buttons side by side.
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.redAccent,
+                        ),
+                        child: const Text(
+                          'Delete',
+                        ),
                         onPressed: () {
-                          _onEdit(section, childId, childStatus, imageUrl,
-                              database);
-                        }),
-                  ],
-                )
-              ],
+                          final child = Child(
+                            id: childId,
+                            name: childName,
+                            imageFile: imageUrl,
+                            status: status,
+                          );
+                          _onDelete(database, section, child);
+                        },
+                      ),
+                      const SizedBox(
+                        width: heightMedium,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          newImageSelected = true;
+                          pickImage();
+                        },
+                        child: const Text("Image"),
+                      ),
+                      const SizedBox(
+                        width: heightMedium,
+                      ),
+                      ElevatedButton(
+                          child: const Text('Save'),
+                          onPressed: () {
+                            _onEdit(section, childId, childStatus, imageUrl,
+                                database);
+                          }),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         );

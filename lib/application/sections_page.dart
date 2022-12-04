@@ -17,6 +17,7 @@ import 'package:provider/provider.dart';
 
 import '../model/section.dart';
 import '../services/auth.dart';
+import 'my_account_page.dart';
 
 /// Homepage will be displayed after successful login,
 /// user will have options to select a section, create a new section,
@@ -64,7 +65,10 @@ class _SectionsPageState extends State<SectionsPage> {
             padding: const EdgeInsets.only(right: 30.0),
             child: GestureDetector(
               onTap: () {
-                // todo make simple account info page.
+                Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (context) => MyAccountPage()),
+                    );
               },
               child: const Icon(
                 Icons.account_box_rounded,

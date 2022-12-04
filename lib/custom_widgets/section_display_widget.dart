@@ -43,7 +43,7 @@ class SectionDisplay extends StatelessWidget {
         ),
         Text(section.name,
             style: const TextStyle(
-              fontSize: fontSizeLarger,
+              fontSize: fontSizeMedium,
               fontWeight: FontWeight.w600,
             )),
       ],
