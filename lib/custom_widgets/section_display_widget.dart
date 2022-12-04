@@ -34,7 +34,7 @@ class SectionDisplay extends StatelessWidget {
               section.imageFile,
               height: 110,
               width: 110,
-              fit: BoxFit.fill,
+              fit: BoxFit.cover,
             ),
           ),
         ),

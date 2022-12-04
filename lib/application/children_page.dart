@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kindermanager/application/form_validator.dart';
 import 'package:kindermanager/application/show_sorted_children_page.dart';
 
 import 'package:kindermanager/custom_widgets/custom_dialog_box.dart';
@@ -106,19 +107,20 @@ class _ChildrenPageState extends State<ChildrenPage> {
                         },
 
                         /// Updating an existing child.
-                        onLongPress: () => _editChild(
-                          widget.section,
-                          snapshot.data![index].id,
-                          snapshot.data![index].status,
-                          snapshot.data![index].imageFile,
-                          database,
-                        ),
+                        onLongPress: () =>
+                            _editChild(
+                              widget.section,
+                              snapshot.data![index].id,
+                              snapshot.data![index].status,
+                              snapshot.data![index].imageFile,
+                              database,
+                            ),
                         child: Container(
                           padding: EdgeInsets.all(5.0),
                           decoration: BoxDecoration(
                               border: Border.all(
                                   color:
-                                      chooseColor(snapshot.data![index].status),
+                                  chooseColor(snapshot.data![index].status),
                                   width: 5),
                               borderRadius: BorderRadius.circular(10.0)),
                           child: ClipRRect(
@@ -127,7 +129,7 @@ class _ChildrenPageState extends State<ChildrenPage> {
                               snapshot.data![index].imageFile,
                               height: 110,
                               width: 110,
-                              fit: BoxFit.fill,
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
@@ -154,7 +156,7 @@ class _ChildrenPageState extends State<ChildrenPage> {
         backgroundColor: Colors.lightGreen,
         onPressed: () {
           final database =
-              Provider.of<FirebaseDatabase>(context, listen: false);
+          Provider.of<FirebaseDatabase>(context, listen: false);
 
           /// Creating a bottom model sheet to add a new section
           showModalBottomSheet<void>(
@@ -216,7 +218,7 @@ class _ChildrenPageState extends State<ChildrenPage> {
         TextFormField(
           decoration: const InputDecoration(labelText: "Child name"),
           validator: (value) {
-            if (value!.isEmpty) {
+            if (!FormValidator.isNameValid(value)) {
               return "Please enter a valid child name";
             }
             return null;
@@ -240,7 +242,10 @@ class _ChildrenPageState extends State<ChildrenPage> {
   /// Validating and adding new child.
   Future<void> _onSave(FirebaseDatabase database) async {
     if (_validateAndSaveForm()) {
-      final uniqueImageName = DateTime.now().millisecondsSinceEpoch.toString();
+      final uniqueImageName = DateTime
+          .now()
+          .millisecondsSinceEpoch
+          .toString();
       final ref = fireStore.child("images").child(uniqueImageName);
       if (image == null) {
         bool result = await ShowAlertDialog(context,
@@ -345,17 +350,18 @@ class _ChildrenPageState extends State<ChildrenPage> {
   }
 
   /// Validating and updating an existing child.
-  Future<void> _onEdit(
-    Section section,
-    String childId,
-    String childStatus,
-    String imageUrl,
-    FirebaseDatabase database,
-  ) async {
+  Future<void> _onEdit(Section section,
+      String childId,
+      String childStatus,
+      String imageUrl,
+      FirebaseDatabase database,) async {
     if (_validateAndSaveForm()) {
       if (newImageSelected == true) {
         final uniqueImageName =
-            DateTime.now().millisecondsSinceEpoch.toString();
+        DateTime
+            .now()
+            .millisecondsSinceEpoch
+            .toString();
         final ref = fireStore.child("images").child(uniqueImageName);
         if (image == null) return;
         await ref.putFile(image!);
@@ -393,8 +399,8 @@ class _ChildrenPageState extends State<ChildrenPage> {
   }
 
   /// Deletes the selected section.
-  Future<void> _onDelete(
-      FirebaseDatabase database, Section section, Child child) async {
+  Future<void> _onDelete(FirebaseDatabase database, Section section,
+      Child child) async {
     final result = await ShowAlertDialog(context,
         title: "Delete section",
         content: "You are going to remove a child. Are you sure ?",
@@ -402,8 +408,6 @@ class _ChildrenPageState extends State<ChildrenPage> {
         rightButtonText: "Delete",
         isDestructive: true);
     if (result) {
-      //final child =
-      //Child(name: childName, id: docId, imageFile: imageUrl);
       await database.deleteChild(section, child);
     }
     Navigator.pop(context);
@@ -415,39 +419,55 @@ class _ChildrenPageState extends State<ChildrenPage> {
       return [
         PopupMenuItem<int>(
           value: 0,
-          child: Text("ARRIVED"),
+          child: Text("ARRIVED", style: TextStyle(color: Colors.green)),
         ),
         PopupMenuItem<int>(
           value: 1,
-          child: Text("PICKED"),
+          child: Text("PICKED", style: TextStyle(color: Colors.blue)),
         ),
         PopupMenuItem<int>(
           value: 2,
-          child: Text("ABSENT"),
+          child: Text("ABSENT", style: TextStyle(color: Colors.red)),
+        ),
+        PopupMenuItem<int>(
+          value: 3,
+          child: Text("RESET", style: TextStyle(fontStyle: FontStyle.italic)),
         ),
       ];
-    }, onSelected: (value) {
+    }, onSelected: (value) async {
       if (value == 0) {
         Navigator.of(context).push(MaterialPageRoute<void>(
-            builder: (context) => ShowSortedChildren(
+            builder: (context) =>
+                ShowSortedChildren(
                   status: "ARRIVED",
                   sectionId: widget.section.id,
                   database: database,
                 )));
       } else if (value == 1) {
         Navigator.of(context).push(MaterialPageRoute<void>(
-            builder: (context) => ShowSortedChildren(
+            builder: (context) =>
+                ShowSortedChildren(
                   status: "PICKED",
                   sectionId: widget.section.id,
                   database: database,
                 )));
       } else if (value == 2) {
         Navigator.of(context).push(MaterialPageRoute<void>(
-            builder: (context) => ShowSortedChildren(
+            builder: (context) =>
+                ShowSortedChildren(
                   status: "ABSENT",
                   sectionId: widget.section.id,
                   database: database,
                 )));
+      }
+      else if (value == 3) {
+        final result = await ShowAlertDialog(context, title: "Resetting status",
+            content: "You are going to reset the status of all children in the "
+                "section, are you sure ?",
+            leftButtonText: "Cancel",
+            rightButtonText: "Reset",
+            isDestructive: true);
+        if(result) database.resetStatus(widget.section.id);
       }
     });
   }
@@ -456,9 +476,11 @@ class _ChildrenPageState extends State<ChildrenPage> {
   /// according to the status.
   /// status : status of the child.
   Color chooseColor(String status) {
+    if (status == "START") color = Colors.transparent;
     if (status == "ARRIVED") color = Colors.green;
     if (status == "PICKED") color = Colors.blue;
     if (status == "ABSENT") color = Colors.red;
     return color;
   }
+
 }

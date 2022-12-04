@@ -163,4 +163,22 @@ class FirebaseDatabase {
       }
     });
   }
+
+  /// Updates status to START,
+  /// sectionId : id of the section
+  void resetStatus(String sectionId) {
+    database
+        .collection("sections/$sectionId/children")
+        .where("status", isNotEqualTo: "START")
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      /// iterates and updates isCounted field to false
+      for (var doc in querySnapshot.docs) {
+        doc.reference.update({
+          'status': "START",
+        });
+      }
+    });
+  }
+
 }
