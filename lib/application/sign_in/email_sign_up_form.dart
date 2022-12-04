@@ -74,8 +74,8 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
       ));
     } catch (e) {
       ShowAlertDialog(context,
-          title: "Sign up",
-          content: "Sign up failed, check your credentials again!",
+          title: "Sign up failed",
+          content: "Please check your credentials and try again!",
           rightButtonText: "Ok",
           isDestructive: false);
       _emailController.clear();

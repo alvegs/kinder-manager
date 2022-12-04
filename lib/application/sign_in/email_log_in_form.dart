@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:kindermanager/application/form_validator.dart';
 
 import 'package:kindermanager/application/sign_in/sign_up_page.dart';
 import 'package:kindermanager/custom_widgets/custom_button.dart';
+import 'package:kindermanager/design_theme.dart';
 import 'package:provider/provider.dart';
+import '../../custom_widgets/show_alert_dialog.dart';
 import '../../services/auth.dart';
 import '../landing_page.dart';
 
@@ -22,6 +25,25 @@ class _EmailLogInFormState extends State<EmailLogInForm> {
       context,
       listen: false,
     );
+    if (!FormValidator.isEmailValid(_emailController.text)) {
+      ShowAlertDialog(context,
+          title: "Email failed",
+          content: "Please check your email format and try again!",
+          rightButtonText: "Ok",
+          isDestructive: false);
+      _emailController.clear();
+      return;
+    }
+    if (!FormValidator.isEmailValid(_emailController.text)) {
+      ShowAlertDialog(context,
+          title: "Password failed",
+          content: "Please check your password and try again!",
+          rightButtonText: "Ok",
+          isDestructive: false);
+      _passwordController.clear();
+      return;
+    }
+
     try {
       await auth.signInWithEmail(
         _emailController.text,
@@ -31,7 +53,14 @@ class _EmailLogInFormState extends State<EmailLogInForm> {
         builder: (context) => LandingPage(),
       ));
     } catch (e) {
-
+      ShowAlertDialog(context,
+          title: "Sign in failed",
+          content: "Please check your credentials and try again!",
+          rightButtonText: "Ok",
+          isDestructive: false);
+      _emailController.clear();
+      _passwordController.clear();
+      return;
     }
   }
 
@@ -39,8 +68,8 @@ class _EmailLogInFormState extends State<EmailLogInForm> {
     return [
       TextField(
         controller: _emailController,
-        decoration: const InputDecoration(
-            labelText: "Email", hintText: "Test@test.com"),
+        decoration:
+            const InputDecoration(labelText: "Email", hintText: "Enter email"),
       ),
       const SizedBox(
         height: 50.0,
@@ -58,7 +87,7 @@ class _EmailLogInFormState extends State<EmailLogInForm> {
         onPressed: _submit,
         height: 52.0,
         backgroundColor: Colors.green,
-        child: const Text('Log in'),
+        child: const Text('Log in', style: TextStyle(fontSize: fontSizeMedium),),
       ),
       const SizedBox(
         height: 16.0,
@@ -71,7 +100,10 @@ class _EmailLogInFormState extends State<EmailLogInForm> {
               ),
             );
           },
-          child: const Text("Don't have an account? Sign up!")),
+          child: const Text(
+            "Don't have an account? Sign up!",
+            style: TextStyle(fontSize: fontSizeMedium),
+          )),
     ];
   }
 

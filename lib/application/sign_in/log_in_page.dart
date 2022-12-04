@@ -12,15 +12,17 @@ class LogInPage extends StatelessWidget {
     );
   }
 
-  Padding _buildContent() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Image.asset("assets/images/KM_logo.png"),
-          EmailLogInForm(),
-        ],
+  Widget _buildContent() {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Image.asset("assets/images/KM_logo.png"),
+            EmailLogInForm(),
+          ],
+        ),
       ),
     );
   }
