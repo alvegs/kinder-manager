@@ -67,6 +67,7 @@ class _EmailLogInFormState extends State<EmailLogInForm> {
   List<Widget> _buildChildren() {
     return [
       TextField(
+        key: Key("emailInputTextField"),
         controller: _emailController,
         decoration:
             const InputDecoration(labelText: "Email", hintText: "Enter email"),
@@ -75,6 +76,7 @@ class _EmailLogInFormState extends State<EmailLogInForm> {
         height: 50.0,
       ),
       TextField(
+        key: Key("passwordInputTextField"),
         controller: _passwordController,
         decoration: const InputDecoration(
             labelText: "Password", hintText: "Enter password"),
@@ -84,6 +86,7 @@ class _EmailLogInFormState extends State<EmailLogInForm> {
         height: 64.0,
       ),
       CustomButton(
+        key: Key("loginSubmitButton"),
         onPressed: _submit,
         height: 52.0,
         backgroundColor: Colors.green,
