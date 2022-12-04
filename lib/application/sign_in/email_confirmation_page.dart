@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kindermanager/application/sign_in/log_in_page.dart';
 import 'package:kindermanager/custom_widgets/custom_button.dart';
+import 'package:kindermanager/custom_widgets/show_alert_dialog.dart';
 import 'package:kindermanager/design_theme.dart';
+import 'package:provider/provider.dart';
+
+import '../../services/auth.dart';
 
 /// This page is for confirming your email address after signing up
 
@@ -10,6 +14,10 @@ class EmailConfirmationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final auth = Provider.of<Auth>(
+      context,
+      listen: false,
+    );
     return Scaffold(
       backgroundColor: Colors.lightGreen[50],
       body: Padding(
@@ -34,7 +42,9 @@ class EmailConfirmationPage extends StatelessWidget {
             ),
             // information text
             const Text(
-              "Please check your inbox for a confirmation email. Click the link in the email to confirm your email address.",
+              "Please check your inbox for a confirmation email. Click the link "
+                  "to confirm your email address. "
+                  "Remember to check your spam folder !",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: fontSizeSmall,
@@ -58,12 +68,20 @@ class EmailConfirmationPage extends StatelessWidget {
               height: heightMedium,
             ),
             CustomButton(
-              backgroundColor: Colors.lightGreen,
+              backgroundColor: Colors.green[100],
               height: 52,
-              onPressed: () {},
-              child: const Text(
-                "Re-send confirmation email",
-              ),
+              child: const Text("Resend mail"),
+              onPressed: () async {
+                final user = await auth.currentUser();
+                if (user != null && !user.emailVerified) {
+                  await user.sendEmailVerification();
+                  ShowAlertDialog(context,
+                    title: "Email" ,
+                    content: "We have sent a new verification mail to your email.",
+                    rightButtonText: "Ok",
+                    isDestructive: false,);
+                }
+              },
             ),
           ],
         ),
