@@ -32,7 +32,6 @@ void main() {
       backgroundColor: color,
       height: buttonHeight,
       onPressed: () {
-        //TODO Replace this with mock observer
         if (pressed == true) {
           pressed = false;
         } else {
