@@ -46,7 +46,7 @@ Future<void> main() async {
       app.main();
       // Changes the test window size
       tester.binding.window.physicalSizeTestValue = const Size(400, 943.9);
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(const Duration(seconds: 4));
 
       // We expect the login page to contain a
       // email input field,
@@ -71,7 +71,7 @@ Future<void> main() async {
       // enters the password address to the email input field.
       await tester.enterText(passwordInput, _password);
       // Rebuild widgets that need to be rebuilt and are called until no new frames are scheduled.
-      await tester.pumpAndSettle(const Duration(seconds: 2));
+      await tester.pumpAndSettle(const Duration(seconds: 1));
 
       // Checks that there is a login button and clicks on it.
       var loginButton = find.byKey(const Key('loginSubmitButton'));
@@ -85,7 +85,7 @@ Future<void> main() async {
       // Taps the login button.
       await tester.tap(loginButton, warnIfMissed: false);
       // Rebuild widgets that need to be rebuilt and are called until no new frames are scheduled.
-      await tester.pumpAndSettle(const Duration(seconds: 3));
+      await tester.pumpAndSettle(const Duration(seconds: 1));
 
       // Rebuild widgets that need to be rebuilt and are called until no new frames are scheduled.
       await tester.pump(const Duration(seconds: 4));
