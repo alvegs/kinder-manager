@@ -20,7 +20,6 @@ Future CustomDialogBox(
     return showCupertinoModalPopup(
       context: context,
       builder: (context) => CupertinoAlertDialog(
-        insetAnimationCurve: Curves.easeInCirc,
         title: Text("Status"),
         content: Text("Choose the status of the child"),
         actions: [
@@ -63,17 +62,23 @@ Future CustomDialogBox(
             SizedBox(height: heightSmall),
             arriveEnabled
                 ? CustomElevatedButton(
-                    status: "ARRIVED", color: Colors.lightGreen[400])
+                    status: "ARRIVED",
+                    color: Colors.lightGreen[400],
+                  )
                 : Container(),
             SizedBox(height: heightSmall),
             pickedEnabled
                 ? CustomElevatedButton(
-                    status: "PICKED", color: Colors.yellow[400])
+                    status: "PICKED",
+                    color: Colors.yellow[400],
+                  )
                 : Container(),
             SizedBox(height: heightSmall),
             absentEnabled
                 ? CustomElevatedButton(
-                    status: "ABSENT", color: Colors.redAccent[200])
+                    status: "ABSENT",
+                    color: Colors.redAccent[200],
+                  )
                 : Container(),
           ],
         )

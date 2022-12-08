@@ -1,5 +1,3 @@
-import 'package:kindermanager/application/sign_in/validators.dart';
-
 /// Represents a child in kindergarten.
 class Child {
   /// The name of the child.
@@ -11,6 +9,7 @@ class Child {
   /// The image file of the child.
   final String imageFile;
 
+  /// Returns whether the child is counted
   bool isCounted;
 
   /// Defining the status of the child.
@@ -24,8 +23,8 @@ class Child {
   /// name : name of the child
   /// id : document id from the firestore
   /// status : status of the child in kindergarten
-
-  Child( {
+  /// isCounted : count status
+  Child({
     required this.name,
     required this.id,
     required this.imageFile,
@@ -33,18 +32,12 @@ class Child {
     this.isCounted = false,
   });
 
-  /*: assert(ValidNameValidator().isValid(name)),
-        assert(ValidIdValidator().isValid(id)),
-        assert(ValidStatusValidator().isValid(status));
-*/
-
-  /// Returns a map of the child.
   Map<String, dynamic> toMap() {
     return {
       "name": name,
       "status": status,
       "image file": imageFile,
-      "isCounted" : isCounted,
+      "isCounted": isCounted,
     };
   }
 }

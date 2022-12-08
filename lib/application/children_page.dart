@@ -76,6 +76,7 @@ class _ChildrenPageState extends State<ChildrenPage> {
                         onTap: () async {
                           /// Displaying dialog box according to the status
                           if (snapshot.data![index].status == "ARRIVED") {
+                            /// Get the status chosen by the user.
                             status = await CustomDialogBox(
                               context,
                               arriveEnabled: false,
@@ -107,20 +108,19 @@ class _ChildrenPageState extends State<ChildrenPage> {
                         },
 
                         /// Updating an existing child.
-                        onLongPress: () =>
-                            _editChild(
-                              widget.section,
-                              snapshot.data![index].id,
-                              snapshot.data![index].status,
-                              snapshot.data![index].imageFile,
-                              database,
-                            ),
+                        onLongPress: () => _editChild(
+                          widget.section,
+                          snapshot.data![index].id,
+                          snapshot.data![index].status,
+                          snapshot.data![index].imageFile,
+                          database,
+                        ),
                         child: Container(
                           padding: EdgeInsets.all(5.0),
                           decoration: BoxDecoration(
                               border: Border.all(
                                   color:
-                                  chooseColor(snapshot.data![index].status),
+                                      chooseColor(snapshot.data![index].status),
                                   width: 5),
                               borderRadius: BorderRadius.circular(10.0)),
                           child: ClipRRect(
@@ -156,7 +156,7 @@ class _ChildrenPageState extends State<ChildrenPage> {
         backgroundColor: Colors.lightGreen,
         onPressed: () {
           final database =
-          Provider.of<FirebaseDatabase>(context, listen: false);
+              Provider.of<FirebaseDatabase>(context, listen: false);
 
           /// Creating a bottom model sheet to add a new section
           showModalBottomSheet<void>(
@@ -242,10 +242,7 @@ class _ChildrenPageState extends State<ChildrenPage> {
   /// Validating and adding new child.
   Future<void> _onSave(FirebaseDatabase database) async {
     if (_validateAndSaveForm()) {
-      final uniqueImageName = DateTime
-          .now()
-          .millisecondsSinceEpoch
-          .toString();
+      final uniqueImageName = DateTime.now().millisecondsSinceEpoch.toString();
       final ref = fireStore.child("images").child(uniqueImageName);
       if (image == null) {
         bool result = await ShowAlertDialog(context,
@@ -265,7 +262,7 @@ class _ChildrenPageState extends State<ChildrenPage> {
     }
   }
 
-  // todo Refactor
+  /// Edits an existing child
   void _editChild(Section section, String childId, String childStatus,
       String imageUrl, FirebaseDatabase database) {
     showModalBottomSheet<void>(
@@ -350,22 +347,20 @@ class _ChildrenPageState extends State<ChildrenPage> {
   }
 
   /// Validating and updating an existing child.
-  Future<void> _onEdit(Section section,
-      String childId,
-      String childStatus,
-      String imageUrl,
-      FirebaseDatabase database,) async {
+  Future<void> _onEdit(
+    Section section,
+    String childId,
+    String childStatus,
+    String imageUrl,
+    FirebaseDatabase database,
+  ) async {
     if (_validateAndSaveForm()) {
       if (newImageSelected == true) {
         final uniqueImageName =
-        DateTime
-            .now()
-            .millisecondsSinceEpoch
-            .toString();
+            DateTime.now().millisecondsSinceEpoch.toString();
         final ref = fireStore.child("images").child(uniqueImageName);
         if (image == null) return;
         await ref.putFile(image!);
-
         imageUrl = await ref.getDownloadURL();
         newImageSelected = !newImageSelected;
         image = null;
@@ -399,8 +394,8 @@ class _ChildrenPageState extends State<ChildrenPage> {
   }
 
   /// Deletes the selected section.
-  Future<void> _onDelete(FirebaseDatabase database, Section section,
-      Child child) async {
+  Future<void> _onDelete(
+      FirebaseDatabase database, Section section, Child child) async {
     final result = await ShowAlertDialog(context,
         title: "Delete section",
         content: "You are going to remove a child. Are you sure ?",
@@ -413,6 +408,7 @@ class _ChildrenPageState extends State<ChildrenPage> {
     Navigator.pop(context);
   }
 
+  /// Builds pop-up menu with status
   Widget buildPopUpMenuContent() {
     final database = Provider.of<FirebaseDatabase>(context, listen: false);
     return PopupMenuButton(itemBuilder: (context) {
@@ -437,37 +433,34 @@ class _ChildrenPageState extends State<ChildrenPage> {
     }, onSelected: (value) async {
       if (value == 0) {
         Navigator.of(context).push(MaterialPageRoute<void>(
-            builder: (context) =>
-                ShowSortedChildren(
+            builder: (context) => ShowSortedChildren(
                   status: "ARRIVED",
                   sectionId: widget.section.id,
                   database: database,
                 )));
       } else if (value == 1) {
         Navigator.of(context).push(MaterialPageRoute<void>(
-            builder: (context) =>
-                ShowSortedChildren(
+            builder: (context) => ShowSortedChildren(
                   status: "PICKED",
                   sectionId: widget.section.id,
                   database: database,
                 )));
       } else if (value == 2) {
         Navigator.of(context).push(MaterialPageRoute<void>(
-            builder: (context) =>
-                ShowSortedChildren(
+            builder: (context) => ShowSortedChildren(
                   status: "ABSENT",
                   sectionId: widget.section.id,
                   database: database,
                 )));
-      }
-      else if (value == 3) {
-        final result = await ShowAlertDialog(context, title: "Resetting status",
+      } else if (value == 3) {
+        final result = await ShowAlertDialog(context,
+            title: "Resetting status",
             content: "You are going to reset the status of all children in the "
                 "section, are you sure ?",
             leftButtonText: "Cancel",
             rightButtonText: "Reset",
             isDestructive: true);
-        if(result) database.resetStatus(widget.section.id);
+        if (result) database.resetStatus(widget.section.id);
       }
     });
   }
@@ -482,5 +475,4 @@ class _ChildrenPageState extends State<ChildrenPage> {
     if (status == "ABSENT") color = Colors.red;
     return color;
   }
-
 }

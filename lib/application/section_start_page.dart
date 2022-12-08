@@ -84,6 +84,8 @@ class _SectionStartPageState extends State<SectionStartPage> {
             ),
           ),
           SizedBox(height: 20),
+
+          /// Displays a random image with tips to the user.
           Image.asset(imageToShow()),
         ],
       ),
@@ -92,8 +94,8 @@ class _SectionStartPageState extends State<SectionStartPage> {
     );
   }
 
-    /// Returns a random image from the list
-    String imageToShow() {
+  /// Returns a random image from the list
+  String imageToShow() {
     final listImages = [
       "assets/images/KM_logo.png",
       "assets/images/status_info.png",

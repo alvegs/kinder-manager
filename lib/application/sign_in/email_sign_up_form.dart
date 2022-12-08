@@ -90,6 +90,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
         controller: _emailController,
         decoration:
             const InputDecoration(labelText: "Email", hintText: "Enter email"),
+        keyboardType: TextInputType.emailAddress,
       ),
       const SizedBox(
         height: 50.0,

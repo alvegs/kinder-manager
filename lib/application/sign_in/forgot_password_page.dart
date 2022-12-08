@@ -4,7 +4,6 @@ import 'package:kindermanager/design_theme.dart';
 
 /// This page is to be displayed when the "forgot password" text is clicked
 /// on the "sign in"-page.
-
 class ForgotPasswordPage extends StatelessWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
 

@@ -17,7 +17,6 @@ import 'package:provider/provider.dart';
 
 import '../model/section.dart';
 import '../services/auth.dart';
-import 'my_account_page.dart';
 
 /// Homepage will be displayed after successful login,
 /// user will have options to select a section, create a new section,
@@ -45,7 +44,9 @@ class _SectionsPageState extends State<SectionsPage> {
 
   /// Default image to display.
   String imageUrl =
-      "https://firebasestorage.googleapis.com/v0/b/kinder-manager.appspot.com/o/images%2Fjames%20webb%201.sep.jpeg?alt=media&token=e3c495af-e2a0-4165-ab46-2154014c6ad6";
+      "https://firebasestorage.googleapis.com/v0/b/kinder-manager.appspot.com/o/"
+      "images%2Fjames%20webb%201.sep.jpeg?alt="
+      "media&token=e3c495af-e2a0-4165-ab46-2154014c6ad6";
 
   bool newImageSelected = false;
 
@@ -60,23 +61,6 @@ class _SectionsPageState extends State<SectionsPage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const Text("Sections"),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 30.0),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute<void>(
-                      builder: (context) => MyAccountPage()),
-                    );
-              },
-              child: const Icon(
-                Icons.account_box_rounded,
-                size: 35.0,
-              ),
-            ),
-          ),
-        ],
       ),
 
       /// Main the content of the page - sections.
@@ -284,7 +268,7 @@ class _SectionsPageState extends State<SectionsPage> {
   Future<void> pickImage() async {
     try {
       final image = await imagePicker.pickImage(
-          source: ImageSource.gallery, imageQuality: 5);
+          source: ImageSource.camera, imageQuality: 5);
       if (image == null) return;
       setState(() {
         this.image = File(image.path);

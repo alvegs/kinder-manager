@@ -22,7 +22,6 @@ const widthSmall = 10.0;
 const widthMedium = 20.0;
 
 /** Commonly used background colours */
-//ToDo: Name the variables better before putting them into the code
 final lightGreen50  = Colors.lightGreen[50];
 final lightGreen100 = Colors.lightGreen[100];
 final lightGreen300 = Colors.lightGreen[300];

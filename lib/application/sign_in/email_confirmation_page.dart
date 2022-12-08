@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import '../../services/auth.dart';
 
 /// This page is for confirming your email address after signing up
-
 class EmailConfirmationPage extends StatelessWidget {
   const EmailConfirmationPage({Key? key}) : super(key: key);
 

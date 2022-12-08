@@ -58,7 +58,7 @@ class _ShowSortedChildrenState extends State<ShowSortedChildren> {
                       snapshot.data![index].imageFile,
                       height: 110,
                       width: 110,
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                       color: snapshot.data![index].isCounted
                           ? Colors.white.withOpacity(0.2)
                           : Colors.white.withOpacity(1),
@@ -77,7 +77,7 @@ class _ShowSortedChildrenState extends State<ShowSortedChildren> {
               },
             );
           }
-          return const Center(child: Text("No child in this section!"));
+          return const Center(child: Text("No child with this status!"));
         },
       ),
     );

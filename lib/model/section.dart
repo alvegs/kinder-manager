@@ -18,15 +18,6 @@ class Section {
     required this.imageFile,
   });
 
-  /*: assert(ValidNameValidator().isValid(name)),
-        assert(ValidImageFileValidator().isValid(imageFile));*/
-  //assert(ValidIdValidator().isValid(id)),
-
-  /* Section fromMap(Map<String, dynamic> data, String docId) {
-    return Section(
-        id: docId, name: data["section name"], imageFile: data["image file"]);
-  }*/
-
   Map<String, dynamic> toMap() {
     return {
       "section name": name,

@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import '../../custom_widgets/show_alert_dialog.dart';
 import '../../services/auth.dart';
 import '../landing_page.dart';
-import 'email_confirmation_page.dart';
 
 class EmailLogInForm extends StatefulWidget {
   const EmailLogInForm({super.key});
@@ -64,12 +63,25 @@ class _EmailLogInFormState extends State<EmailLogInForm> {
     }
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: _buildChildren(),
+      ),
+    );
+  }
+
   List<Widget> _buildChildren() {
     return [
       TextField(
         controller: _emailController,
         decoration:
             const InputDecoration(labelText: "Email", hintText: "Enter email"),
+        keyboardType: TextInputType.emailAddress,
       ),
       const SizedBox(
         height: 50.0,
@@ -108,17 +120,5 @@ class _EmailLogInFormState extends State<EmailLogInForm> {
             style: TextStyle(fontSize: fontSizeMedium),
           )),
     ];
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: _buildChildren(),
-      ),
-    );
   }
 }

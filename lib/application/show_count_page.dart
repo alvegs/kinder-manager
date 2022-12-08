@@ -78,7 +78,7 @@ class ShowCountPage extends StatelessWidget {
                             snapshot.data![index].imageFile,
                             height: 110,
                             width: 110,
-                            fit: BoxFit.fill,
+                            fit: BoxFit.cover,
                             color: snapshot.data![index].isCounted
                                 ? Colors.white.withOpacity(0.2)
                                 : Colors.white.withOpacity(1),
