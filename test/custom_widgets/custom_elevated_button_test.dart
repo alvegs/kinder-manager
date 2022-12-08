@@ -35,6 +35,4 @@ void main() {
       expect(button.color, equals(Colors.indigo));
     });
   });
-
-
 }

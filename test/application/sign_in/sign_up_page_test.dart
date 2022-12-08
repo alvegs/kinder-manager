@@ -20,6 +20,4 @@ void main() {
     expect(find.text("Create an account"), findsOneWidget);
   });
 
-  //TODO: implement test logic in this class
-
 }

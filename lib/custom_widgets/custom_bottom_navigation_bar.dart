@@ -44,6 +44,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         /// Adding Logout icon item to bottom navigation bar
         BottomNavigationBarItem(
           icon: IconButton(
+            key: const Key("logoutButton"),
             onPressed: widget.onLogOut,
             icon: const Icon(Icons.settings_applications_sharp),
           ),
