@@ -19,7 +19,7 @@ class PasswordResetConfirmationPage extends StatelessWidget {
           children: <Widget>[
             // confirm your email text
             const Text(
-              "Reset your password",
+              "Link is sent",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 56,

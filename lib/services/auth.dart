@@ -69,7 +69,14 @@ class Auth {
   }
 
   /// Sends an email with a link to reset password.
-  Future<void> onResetPassword(String email) async {
-    _firebaseAuth.sendPasswordResetEmail(email: email);
+  Future<bool> onResetPassword(String email) async {
+    bool result = false;
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+      result = true;
+    } catch (e) {
+      return result;
+    }
+    return result;
   }
 }

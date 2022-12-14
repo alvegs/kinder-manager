@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kindermanager/application/form_validator.dart';
+import 'package:kindermanager/application/sign_in/forgot_password_page.dart';
 
 import 'package:kindermanager/application/sign_in/sign_up_page.dart';
 import 'package:kindermanager/custom_widgets/custom_button.dart';
@@ -110,6 +111,18 @@ class _EmailLogInFormState extends State<EmailLogInForm> {
       const SizedBox(
         height: 16.0,
       ),
+      TextButton(
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (context) => const ForgotPasswordPage(),
+              ),
+            );
+          },
+          child: const Text(
+            "Forget password ?",
+            style: TextStyle(fontSize: fontSizeMedium),
+          )),
       TextButton(
           onPressed: () {
             Navigator.of(context).push(
