@@ -268,7 +268,7 @@ class _SectionsPageState extends State<SectionsPage> {
   Future<void> pickImage() async {
     try {
       final image = await imagePicker.pickImage(
-          source: ImageSource.camera, imageQuality: 5);
+          source: ImageSource.gallery, imageQuality: 5);
       if (image == null) return;
       setState(() {
         this.image = File(image.path);
