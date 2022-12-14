@@ -74,7 +74,9 @@ class _SectionsPageState extends State<SectionsPage> {
                 onTap: () async {
                   final userName = await auth.currentUserEmail();
                   Navigator.of(context).push(MaterialPageRoute<void>(
-                    builder: (context) => MyAccountPage(userName: userName!,),
+                    builder: (context) => MyAccountPage(
+                      userName: userName!,
+                    ),
                   ));
                 }),
           )
@@ -125,10 +127,6 @@ class _SectionsPageState extends State<SectionsPage> {
         onAddSection: _onAddSection,
         onItemTapped: _onItemTapped,
         onLogOut: () async {
-          final auth = Provider.of<Auth>(
-            context,
-            listen: false,
-          );
           final result = await ShowAlertDialog(
             context,
             title: "Sign out",

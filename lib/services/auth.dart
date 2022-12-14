@@ -63,4 +63,13 @@ class Auth {
         )
         .then((value) => value.user?.emailVerified);
   }
+
+  Future<void> onChangePassword(String newPassword) async {
+    _firebaseAuth.currentUser?.updatePassword(newPassword);
+  }
+
+  /// Sends an email with a link to reset password.
+  Future<void> onResetPassword(String email) async {
+    _firebaseAuth.sendPasswordResetEmail(email: email);
+  }
 }
