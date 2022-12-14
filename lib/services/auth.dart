@@ -47,6 +47,11 @@ class Auth {
     return _firebaseAuth.currentUser;
   }
 
+  /// Returns the current user´s email.
+  Future<String?> currentUserEmail() async {
+    return _firebaseAuth.currentUser?.email;
+  }
+
   /// Returns whether the user email is verified.
   Future<bool?> isEmailVerified(String email, String password) async {
     return await _firebaseAuth

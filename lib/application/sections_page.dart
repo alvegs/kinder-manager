@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kindermanager/application/form_validator.dart';
+import 'package:kindermanager/application/my_account_page.dart';
 import 'package:kindermanager/application/section_start_page.dart';
 
 import 'package:kindermanager/custom_widgets/bottom_model_content_widget.dart';
@@ -12,6 +13,7 @@ import 'package:kindermanager/custom_widgets/custom_bottom_navigation_bar.dart';
 
 import 'package:kindermanager/custom_widgets/section_display_widget.dart';
 import 'package:kindermanager/custom_widgets/show_alert_dialog.dart';
+import 'package:kindermanager/design_theme.dart';
 import 'package:kindermanager/services/firebase_database.dart';
 import 'package:provider/provider.dart';
 
@@ -54,6 +56,7 @@ class _SectionsPageState extends State<SectionsPage> {
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<FirebaseDatabase>(context, listen: false);
+    final auth = Provider.of<Auth>(context, listen: false);
     return Scaffold(
       backgroundColor: Colors.lightGreen[50],
 
@@ -61,6 +64,21 @@ class _SectionsPageState extends State<SectionsPage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const Text("Sections"),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: widthMedium),
+            child: InkWell(
+                child: Icon(
+                  Icons.account_box_rounded,
+                ),
+                onTap: () async {
+                  final userName = await auth.currentUserEmail();
+                  Navigator.of(context).push(MaterialPageRoute<void>(
+                    builder: (context) => MyAccountPage(userName: userName!,),
+                  ));
+                }),
+          )
+        ],
       ),
 
       /// Main the content of the page - sections.
